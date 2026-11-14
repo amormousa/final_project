@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plant Green — Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* يتم تعبئتها من PROJECT.theme.colors عبر applyTheme() */
+  --lime:#CFFF74;--olive:#2F3A1D;--gray:#8B9183;--bg:#F3F4EF;
+  --surface:#fff;--border:#E1E4D8;--border2:#CBD0BE;--ink:#1D2412;--ink2:#4B5340;--ink3:#8B9183;
+  --lime-soft:rgba(207,255,116,.35);
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--nav-h:64px;
+  --font:'IBM Plex Sans Arabic','Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;line-height:1.6}
+button{font-family:inherit}
+
+/* TOPBAR */
+.topbar{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:100;background:var(--olive);display:flex;align-items:center;gap:12px;padding:0 20px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;flex-shrink:0}
+.brand-ico{width:36px;height:36px;border-radius:10px;background:var(--lime);display:flex;align-items:center;justify-content:center;font-size:18px}
+.brand-name{font-weight:700;font-size:16px;line-height:1.2}
+.brand-sub{font-size:10px;color:var(--lime);letter-spacing:.6px;text-transform:uppercase}
+.nav{flex:1;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:4px}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{background:transparent;border:0;color:rgba(255,255,255,.7);font-size:13px;font-weight:500;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;white-space:nowrap;display:flex;gap:6px;align-items:center;transition:.15s}
+.nav-btn i{font-style:normal;font-size:10px;font-weight:700;font-family:var(--mono);background:rgba(207,255,116,.18);color:var(--lime);padding:1px 6px;border-radius:5px}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-btn.on{background:var(--lime);color:var(--olive)}
+.nav-btn.on i{background:rgba(47,58,29,.15);color:var(--olive)}
+.burger{display:none;background:rgba(255,255,255,.1);border:0;color:#fff;font-size:20px;border-radius:8px;padding:6px 11px;cursor:pointer}
+.mnav{display:none;position:fixed;inset:var(--nav-h) 0 0 0;z-index:99;background:var(--olive);padding:16px;flex-direction:column;gap:6px;overflow-y:auto}
+.mnav.open{display:flex}
+.mnav .nav-btn{padding:14px 16px;font-size:15px;background:rgba(255,255,255,.06)}
+
+.app{padding-top:var(--nav-h)}
+.page{display:none;animation:fade .3s ease}
+.page.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.wrap{max-width:1360px;margin:0 auto;padding:48px 28px}
+
+/* TYPE */
+.h2{font-size:26px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.h2::after{content:'';flex:1;height:1px;background:var(--border)}
+.lead{color:var(--ink2);font-size:15px;max-width:680px;margin-bottom:28px}
+.h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.p{font-size:14px;color:var(--ink2);line-height:1.75}
+.mono{font-family:var(--mono)}
+
+/* HERO */
+.hero{background:var(--olive);color:#fff;border-radius:0 0 32px 32px;padding:84px 28px 72px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(207,255,116,.22),transparent 65%);top:-200px;inset-inline-start:-120px}
+.hero::after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(207,255,116,.12),transparent 65%);bottom:-200px;inset-inline-end:-100px}
+.kicker{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);margin-bottom:18px;position:relative}
+.hero h1{font-size:clamp(34px,5vw,60px);font-weight:700;line-height:1.15;margin-bottom:16px;position:relative}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero p{max-width:640px;margin:0 auto 30px;color:rgba(255,255,255,.78);font-size:17px;position:relative}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:34px;position:relative}
+.btn{border:0;cursor:pointer;font-weight:600;font-size:14px;padding:12px 26px;border-radius:var(--r-md);transition:.15s}
+.btn-lime{background:var(--lime);color:var(--olive)}
+.btn-lime:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(207,255,116,.35)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn-ghost:hover{background:rgba(255,255,255,.18)}
+.btn-olive{background:var(--olive);color:var(--lime)}
+.btn-olive:hover{opacity:.9}
+.btn-line{background:var(--surface);color:var(--ink);border:1px solid var(--border2)}
+
+/* CARDS */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;transition:.2s}
+.card:hover{border-color:var(--border2);box-shadow:0 10px 30px rgba(47,58,29,.08);transform:translateY(-2px)}
+.card.flat:hover{transform:none;box-shadow:none}
+.cico{width:44px;height:44px;border-radius:12px;background:var(--lime-soft);display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 11px;border-radius:99px;background:var(--lime-soft);color:var(--olive);white-space:nowrap}
+.badge.dark{background:var(--olive);color:var(--lime)}
+.badge.gray{background:#E9ECE1;color:var(--ink2)}
+.badge.line{background:transparent;border:1px solid var(--border2);color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.sect{margin-bottom:48px}
+
+/* TABS */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:26px}
+.tab{background:var(--surface);border:1px solid var(--border);color:var(--ink2);font-size:13px;font-weight:600;padding:9px 18px;border-radius:99px;cursor:pointer;transition:.15s;white-space:nowrap}
+.tab:hover{border-color:var(--border2);color:var(--ink)}
+.tab.on{background:var(--olive);color:var(--lime);border-color:var(--olive)}
+.panel{display:none}.panel.on{display:block}
+
+/* TOKENS */
+.tok{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:28px}
+.tok-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px}
+.tok-sw{height:56px;border-radius:8px;border:1px solid rgba(0,0,0,.06);margin-bottom:10px}
+.tok-l{font-size:11px;color:var(--ink3)}
+.tok-v{font-size:12px;font-weight:600;font-family:var(--mono)}
+.trow{display:flex;gap:20px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--border)}
+.trow:last-child{border:0}
+.trow small{min-width:150px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.kv div{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 14px}
+.kv small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3)}
+.kv b{font-size:13px;font-family:var(--mono)}
+
+/* LISTS */
+.ux{list-style:none}
+.ux li{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+.ux li:last-child{border:0}
+.num{width:30px;height:30px;border-radius:50%;background:var(--olive);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.ux b{display:block;font-size:14px}
+.ux span{font-size:13px;color:var(--ink2)}
+.code{font-family:var(--mono);font-size:12.5px;background:var(--olive);color:#DDE8C6;border-radius:var(--r-md);padding:18px 22px;line-height:1.9;white-space:pre;overflow-x:auto;direction:ltr;text-align:left}
+.promptbox{font-family:var(--mono);font-size:12px;background:#F7F8F2;border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;line-height:1.8;white-space:pre-wrap;word-break:break-word;direction:ltr;text-align:left;max-height:460px;overflow:auto;color:var(--ink2)}
+.callout{background:var(--lime-soft);border-radius:var(--r-md);padding:14px 18px;font-size:13.5px;color:var(--olive);margin-bottom:12px}
+
+/* SCREENS PAGE */
+.sc-layout{display:grid;grid-template-columns:280px 1fr;gap:22px;align-items:start}
+.sc-side{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;position:sticky;top:calc(var(--nav-h) + 16px);max-height:calc(100vh - var(--nav-h) - 40px);overflow-y:auto}
+.sc-g{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:12px 10px 4px}
+.sc-item{display:flex;gap:10px;align-items:center;width:100%;text-align:start;background:transparent;border:0;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--ink2);cursor:pointer}
+.sc-item:hover{background:#F3F4EF}
+.sc-item.on{background:var(--olive);color:var(--lime);font-weight:600}
+.sc-item i{font-style:normal;font-family:var(--mono);font-size:10px;opacity:.6;min-width:20px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+
+/* BROWSER MOCK */
+.bw{background:var(--surface);border:1px solid var(--border2);border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(47,58,29,.12);direction:rtl}
+.bw-bar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#ECEEE4;border-bottom:1px solid var(--border)}
+.bw-bar b{width:9px;height:9px;border-radius:50%;background:#C9CDBD}
+.bw-url{flex:1;margin:0 10px;background:#fff;border-radius:6px;padding:2px 10px;font-size:10px;font-family:var(--mono);color:var(--ink3);direction:ltr;text-align:left}
+.bw-body{display:grid;grid-template-columns:150px 1fr;min-height:420px;font-size:11px}
+.bw-body.noside{grid-template-columns:1fr}
+.m-side{background:var(--olive);padding:12px 10px;display:flex;flex-direction:column;gap:3px}
+.m-logo{color:#fff;font-weight:700;font-size:12px;margin-bottom:10px;display:flex;gap:6px;align-items:center}
+.m-logo s{width:16px;height:16px;border-radius:5px;background:var(--lime);display:block}
+.m-nav{padding:6px 8px;border-radius:6px;color:rgba(255,255,255,.65);font-size:10px}
+.m-nav.on{background:var(--lime);color:var(--olive);font-weight:700}
+.m-main{padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:10px;min-width:0}
+.m-top{display:flex;justify-content:space-between;align-items:center}
+.m-title{font-weight:700;font-size:14px}
+.m-pill{background:#fff;border:1px solid var(--border);border-radius:99px;padding:2px 10px;font-size:9px;color:var(--ink2)}
+.m-box{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px}
+.m-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.m-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.m-grid2{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.m-k{font-size:9px;color:var(--ink3)}
+.m-v{font-size:17px;font-weight:700;color:var(--ink)}
+.m-bar{height:4px;background:#E9ECE1;border-radius:3px;margin-top:6px;overflow:hidden}
+.m-bar u{display:block;height:100%;background:var(--olive);border-radius:3px}
+.m-line{height:7px;background:#E9ECE1;border-radius:4px;margin:5px 0}
+.m-btn{display:inline-block;background:var(--lime);color:var(--olive);font-weight:700;font-size:10px;padding:5px 12px;border-radius:7px;text-align:center}
+.m-btn.out{background:#fff;border:1px solid var(--border2);color:var(--ink2)}
+.m-bars{display:flex;gap:5px;align-items:flex-end;height:90px}
+.m-bars u{flex:1;background:var(--olive);border-radius:3px 3px 0 0;opacity:.85}
+.m-bars u:nth-child(odd){background:var(--lime);border:1px solid var(--olive)}
+.m-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:10px}
+.m-row:last-child{border:0}
+.m-st{font-size:9px;padding:1px 8px;border-radius:99px;background:var(--lime-soft);color:var(--olive);font-weight:600;white-space:nowrap}
+.m-st.g{background:#E9ECE1;color:var(--ink2)}
+.m-map{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,34px);gap:4px}
+.m-map u{border-radius:6px;background:#E3E8D5;border:1px dashed var(--border2)}
+.m-map u.a{background:var(--lime-soft);border:1px solid var(--olive)}
+.m-map u.b{background:var(--olive)}
+.m-field{margin-bottom:7px}
+.m-field s{display:block;font-size:9px;color:var(--ink3);text-decoration:none;margin-bottom:2px}
+.m-field u{display:block;height:22px;border:1px solid var(--border2);border-radius:6px;background:#fff}
+.m-steps{display:flex;align-items:center;gap:6px}
+.m-steps u{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;text-decoration:none}
+.m-steps u.d{background:var(--olive);color:var(--lime);border-color:var(--olive)}
+.m-steps s{flex:1;height:2px;background:var(--border2)}
+.m-chat-a{background:#fff;border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:6px 9px;max-width:75%;font-size:10px}
+.m-chat-u{background:var(--olive);color:var(--lime);border-radius:10px 10px 10px 0;padding:6px 9px;max-width:65%;margin-inline-start:auto;font-size:10px}
+.m-center{margin:auto;width:min(300px,90%)}
+.m-state{display:flex;gap:4px;flex-wrap:wrap}
+
+/* PROMPT GENERATOR */
+.pg-ctrl{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:22px}
+.pg-grp small{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:6px}
+.pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-bottom:22px}
+.pg-sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;text-align:start;cursor:pointer;transition:.15s}
+.pg-sc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.pg-sc.on{border-color:var(--olive);background:var(--lime-soft)}
+.pg-sc small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.pg-sc b{display:block;font-size:12.5px;line-height:1.4}
+.pg-out{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px}
+.pg-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+
+/* FLOWS */
+.flow-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.step{display:flex;gap:14px;padding:14px 0;position:relative}
+.step:not(:last-child)::before{content:'';position:absolute;inset-inline-start:14px;top:44px;bottom:-4px;width:2px;background:var(--border2)}
+.step .num{z-index:1}
+.step b{font-size:14px;display:block;margin-top:3px}
+
+/* STACK / API / DB */
+.stack-grp{margin-bottom:14px}
+.stack-grp small{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.pill{display:inline-flex;align-items:center;font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 12px;color:var(--ink2);margin:0 0 6px 6px;direction:ltr}
+.pill:hover{border-color:var(--olive);color:var(--olive)}
+.callout.note{background:#F7F8F2;border:1px dashed var(--border2);color:var(--ink2)}
+.api-grp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 24px;margin-bottom:16px}
+.api-grp-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap}
+.api{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.api:last-child{border:0}
+.mt{font-family:var(--mono);font-size:10px;font-weight:700;min-width:58px;text-align:center;padding:3px 8px;border-radius:6px;flex-shrink:0;margin-top:2px;direction:ltr}
+.mt-GET{background:#E3F1D2;color:#3C5A14}
+.mt-POST{background:var(--olive);color:var(--lime)}
+.mt-PUT,.mt-PATCH{background:#FFF1CC;color:#7A5B00}
+.mt-DELETE{background:#FBE0D6;color:#9B3A14}
+.ep{font-family:var(--mono);font-size:13px;color:var(--ink);direction:ltr;text-align:left;word-break:break-all}
+.ep-d{font-size:12px;color:var(--ink3)}
+.api-who{margin-inline-start:auto;flex-shrink:0}
+.db{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.db-h{background:#F1F4E6;padding:12px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.db-h b{font-family:var(--mono);font-size:14px}
+.db-d{font-size:12px;color:var(--ink3);padding:8px 18px 0}
+.db-t{overflow-x:auto}
+.db table{width:100%;border-collapse:collapse;font-size:12px;direction:ltr}
+.db td{padding:6px 18px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:top}
+.db tr:last-child td{border:0}
+.db td:first-child{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.db td.ty{font-family:var(--mono);font-size:11px;color:var(--ink3);overflow-wrap:anywhere;word-break:break-word;min-width:110px}
+.db td:first-child{overflow-wrap:anywhere;word-break:break-word}
+.db td.kc{white-space:nowrap}
+.db td.nt{font-family:var(--font);font-size:11px;color:var(--ink3);overflow-wrap:anywhere}
+.db{min-width:0}
+.db-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:18px;align-items:start}
+.grid>*,.sc-layout>*{min-width:0}
+.k{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 7px;border-radius:5px;margin-inline-end:4px}
+.k.pk{background:var(--olive);color:var(--lime)}
+.k.fk{background:var(--lime);color:var(--olive)}
+.cmp{width:100%;border-collapse:collapse;font-size:13px}
+.cmp th{background:#F1F4E6;text-align:start;padding:11px 16px;font-size:12px;font-weight:700}
+.cmp td{padding:10px 16px;border-top:1px solid var(--border);color:var(--ink2);vertical-align:top}
+.cmp td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+/* AI / DASH / ROADMAP / MATRIX */
+.bar{height:9px;background:#E9ECE1;border-radius:6px;overflow:hidden;margin-top:6px}
+.bar u{display:block;height:100%;background:linear-gradient(to left,var(--olive),#7FA02E);border-radius:6px}
+.ai-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 26px;margin-bottom:16px}
+.ai-card:hover{border-color:var(--border2);box-shadow:0 10px 30px rgba(47,58,29,.08)}
+.ai-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.ai-top h3{font-size:18px;font-weight:700}
+.io{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+.io>div{background:#F7F8F2;border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;min-width:0}
+.io small{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.io p{font-size:12.5px;color:var(--ink2);line-height:1.7}
+.tgt{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2)}
+.tgt b{color:var(--ink)}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;inset-inline:0;bottom:0;height:3px;background:linear-gradient(to left,var(--olive),var(--lime))}
+.stat .sv{font-size:34px;font-weight:700;line-height:1.1;margin:8px 0 2px}
+.stat .sl{font-size:13px;color:var(--ink2)}
+.stat .ss{font-size:11px;color:var(--ink3)}
+.cb{display:flex;gap:7px;align-items:flex-end;height:130px;margin-top:12px;direction:ltr}
+.cb div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-size:10px;color:var(--ink3)}
+.cb u{width:100%;background:var(--olive);border-radius:5px 5px 0 0;display:block}
+.cb div:nth-child(even) u{background:var(--lime);border:1px solid var(--olive)}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.row2:last-child{border:0}
+.row2 small{color:var(--ink3);font-size:11px}
+.phase{background:var(--surface);border:1px solid var(--border);border-inline-start:6px solid var(--c,var(--olive));border-radius:var(--r-lg);padding:22px 26px;margin-bottom:16px}
+.phase-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:17px;font-weight:700}
+.tl{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--border)}
+.wk{min-width:92px;font-family:var(--mono);font-size:11px;font-weight:700;text-align:center;padding:4px 10px;border-radius:8px;background:#F1F4E6;color:var(--olive);flex-shrink:0}
+.tl span.t{font-size:13.5px;color:var(--ink2)}
+.exit{margin-top:10px;font-size:12.5px;background:var(--lime-soft);color:var(--olive);padding:8px 14px;border-radius:var(--r-md)}
+.mx td,.mx th{text-align:center}
+.mx td:first-child,.mx th:first-child{text-align:start}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle}
+.dot.f{background:var(--olive)}
+.dot.l{background:var(--lime);border:2px solid var(--olive)}
+.dot.n{width:10px;height:2px;border-radius:2px;background:var(--border2)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-bottom:12px;align-items:center}
+.track{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 14px}
+.track .arr{color:var(--ink3);font-size:13px}
+.sev-High{background:#FBE0D6;color:#9B3A14}.sev-Medium{background:#FFF1CC;color:#7A5B00}.sev-Low{background:#E3F1D2;color:#3C5A14}
+.footer{border-top:1px solid var(--border);margin-top:40px;padding:28px;text-align:center;font-size:12px;color:var(--ink3)}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+@media(max-width:900px){
+  .sc-layout{grid-template-columns:1fr}
+  .sc-side{position:static;max-height:260px}
+  .bw-body{grid-template-columns:1fr}.m-side{display:none}
+}
+@media(max-width:768px){
+  .db-grid{grid-template-columns:1fr}
+  .db td{padding:6px 12px}
+  .nav{display:none}.burger{display:block;margin-inline-start:auto}
+  .wrap{padding:32px 16px}.hero{padding:56px 16px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .m-grid4{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#" id="brand-link"><div class="brand-ico" id="brand-ico"></div><div><div class="brand-name" id="brand-name"></div><div class="brand-sub" id="brand-sub"></div></div></a>
+  <nav class="nav" id="nav"></nav>
+  <button class="burger" id="burger" aria-label="menu">☰</button>
+</header>
+<div class="mnav" id="mnav"></div>
+<main class="app" id="app"></main>
+<footer class="footer" id="footer"></footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   1) PROJECT CONFIG  —  المشروع الجديد = تغيير الـ object ده بس
+   ═══════════════════════════════════════════════════════════════ */
+const PROJECT = {
+  brand:{ name:'Plant Green', sub:'Smart Agriculture Platform', icon:'🌿', kicker:'Smart Agriculture & Farm Management', footer:'Plant Green © 2026 — Project Blueprint' },
+  langs:['ar','en'],
+  theme:{
+    colors:[
+      {key:'lime',  label:'Warm Lime',   v:'#CFFF74', role:'Primary actions / active'},
+      {key:'olive', label:'Olive Ink',   v:'#2F3A1D', role:'Sidebar / text / dark surface'},
+      {key:'gray',  label:'Gray',        v:'#8B9183', role:'Muted text / icons'},
+      {key:'bg',    label:'Light Background', v:'#F3F4EF', role:'Page background'},
+      {key:'surface',label:'Surface',    v:'#FFFFFF', role:'Cards'},
+      {key:'border',label:'Border',      v:'#E1E4D8', role:'Subtle borders'},
+    ],
+    fonts:{ ar:'"IBM Plex Sans Arabic", sans-serif', en:'Inter / Manrope, sans-serif', mono:'"IBM Plex Mono", monospace' },
+    type:[
+      ['Display / 32 · 700','Plant Green','font-size:28px;font-weight:700'],
+      ['H1 / 24 · 700','لوحة التحكم الرئيسية','font-size:22px;font-weight:700'],
+      ['H2 / 18 · 600','Farm Performance','font-size:17px;font-weight:600'],
+      ['Body / 14 · 400','مستوى رطوبة التربة في المنطقة الشمالية','font-size:14px'],
+      ['Caption / 12 · 400','آخر تحديث منذ دقيقتين','font-size:12px;color:var(--ink3)'],
+      ['Label / 11 · 600 caps','SOIL MOISTURE','font-size:11px;font-weight:600;letter-spacing:.08em;font-family:var(--mono)'],
+    ],
+    radius:[['radius-sm','8px'],['radius-md','12px'],['radius-lg','18px'],['radius-pill','999px'],['spacing base','4px'],['page margin','24px']],
+    states:[['Hover','surface shift'],['Active','scale(.98)'],['Focus ring','2px lime + 2px offset'],['Transition','150ms ease'],['Skeleton','opacity pulse 1.4s'],['Page enter','translateY 8→0']],
+    dark:{bg:'#12170B',surface:'#1B2210',border:'#2C3620',ink:'#EEF3E0',ink2:'#B9C2A6',accent:'#CFFF74'}
+  },
+
+  vision:{
+    kicker:'Egypt · Smart Agriculture',
+    title:['إدارة مزرعتك','<em>بذكاء</em> من مكان واحد'],
+    sub:'منصة ويب موحدة تجمع مراقبة المزرعة بالـ IoT، الري والـ Canopy الأوتوماتيك، سوق المعدات، الخدمات الزراعية، التأمين، وتوصيات الذكاء الاصطناعي.',
+    ctas:['استعرض الشاشات','شوف الـ User Flows'],
+    tags:['IoT Monitoring','Equipment Marketplace','AI Recommendations','Odoo + Tasleem Integration','RBAC'],
+    problem:{ico:'⚡',title:'المشكلة',text:'المزارع والشركات الزراعية بيستخدموا أنظمة منفصلة: واحد للمراقبة والري، وتاني لشراء المعدات، وتالت لتتبع الشحن والمرتجعات، ومفيش رؤية موحدة للتكلفة والأداء.'},
+    solution:{ico:'🚀',title:'الحل',text:'Dashboard مركزي بصلاحيات حسب الدور (RBAC) يجمع إدارة المزرعة، السوق، الخدمات، التأمين، والـ AI، مع تكامل خارجي مع Odoo للمخزون وTasleem لتتبع المرتجعات.'},
+    market:{ico:'🎯',title:'المستخدمين المستهدفين',text:'مالك المزرعة، الشركات الزراعية متعددة المزارع، الموردين، ومسؤول المنصة (وفي المستقبل Insurance Officer).'},
+    props:[
+      ['📡','Smart Monitoring','قراءات رطوبة التربة والحرارة والطقس لحظياً لكل Zone مع تنبيهات الرطوبة المنخفضة.'],
+      ['💧','Automated Irrigation & Canopy','تحكم يدوي أو تلقائي في الري والـ Canopy بناءً على الطقس واكتشاف المطر.'],
+      ['🛒','Equipment Marketplace','متجر معدات ري وحساسات وطلمبات مع سلة وشحن وتتبع الطلبات والمرتجعات.'],
+      ['🔗','External Integrations','Odoo لمزامنة المنتجات والمخزون، وTasleem لشحنات المرتجعات وتتبعها.'],
+      ['🛡️','Insurance & Subscriptions','خطط اشتراك قابلة للتخصيص ونظام داخلي لطلبات التأمين والـ Policies والـ Claims.'],
+      ['🤖','AI Intelligence','مساعد زراعي، توصيات ري ذكية، Seasonal Planner، وتقارير وتوقعات.'],
+    ],
+    roles:[['Farm Owner','يدير مزرعة أو أكتر'],['Agricultural Business','مزارع متعددة وفريق عمل'],['Supplier','منتجات ومبيعات وشحنات'],['Platform Admin','إدارة كاملة للمنصة'],['Insurance Officer','دور مستقبلي']]
+  },
+
+  sidebar:[
+    {g:'Overview',items:['Dashboard']},
+    {g:'Farm Management',items:['My Farms','Farm Zones','Soil Monitoring','Irrigation','Canopy Control','Devices & Sensors','Weather']},
+    {g:'Plant Green Services',items:['Cost Calculator','Maintenance','Expert Consultation','Performance Score']},
+    {g:'Equipment Marketplace',items:['Store','Cart','My Orders','Returns']},
+    {g:'Financial Services',items:['Subscriptions','Insurance','Billing']},
+    {g:'AI Intelligence',items:['AI Assistant','Irrigation Recs','Seasonal Planner','Insights & Reports']},
+    {g:'Profile & Settings',items:['Profile','Digital Farm Profile','Team','Settings']},
+  ],
+
+  /* group → أي عنصر في الـ sidebar يتلوّن في الـ mockup */
+  screens:(function(){
+    const S=(id,g,en,ar,roles,nav,blocks,desc,content)=>({id,g,name:{en,ar},roles,nav,blocks,desc,content});
+    const ALL='Owner · Business', 
+          O='Farm Owner, Agricultural Business';
+    return [
+      S('01','Auth & Onboarding','Welcome','الترحيب','Guest',-1,['hero'],'شاشة ترحيب بزرارين: تسجيل ودخول، مع تبديل اللغة AR/EN.','Split layout: left = brand statement + short value points, right = Sign in / Create account buttons. Language switcher AR | EN top corner.'),
+      S('02','Auth & Onboarding','Register & Account Type','التسجيل ونوع الحساب','Guest',-1,['steps','form','accounttype'],'نموذج تسجيل مع اختيار نوع الحساب (Farm Owner / Business / Supplier).','Centered card with 4-step progress (Register → Account type → Profile → Setup). Fields: name, email/phone, password. Account type as 3 selectable cards.'),
+      S('03','Auth & Onboarding','Verification','التحقق','Guest',-1,['otp'],'تحقق من الحساب (OTP أو رابط) مع عداد إعادة الإرسال.','Centered card, 6 code boxes, resend timer, success state, back link.'),
+      S('04','Auth & Onboarding','Farm / Supplier Setup','إعداد المزرعة أو المورد','Owner, Business, Supplier',-1,['steps','form','map'],'خطوات إعداد أول مزرعة (الموقع، المساحة، نوع التربة) أو ملف المورد.','Wizard: farm name, location picker on map, total area, soil type, crop types. Supplier variant: company info, categories, documents upload.'),
+      S('05','Overview','Main Dashboard','لوحة التحكم الرئيسية',O,0,['kpi','chart','cards','list'],'ملخص سريع: Farm Overview، Smart Agriculture، Performance، Seasonal Planner، Maintenance، آخر الأنشطة.','KPI row (farms, area, active zones, sensors, devices). Smart agriculture strip (soil moisture, irrigation status, water use, weather, rain, canopy). Cards: Performance Score, Seasonal Planner, Maintenance Requests. Right column: AI recommendations, notifications, quick actions, recent orders, subscription status.'),
+      S('06','Farm Management','My Farms','مزارعي',O,1,['filters','cards'],'قائمة المزارع مع الحالة والمساحة وإضافة مزرعة.','Farm cards: image, name, location, area, status badge. Add farm CTA. Search + status filter.'),
+      S('07','Farm Management','Farm Details','تفاصيل المزرعة',O,1,['kpi','map','list'],'تفاصيل المزرعة، الموقع، الصور، والـ Zones.','Header with farm name + status + edit. KPI row. Map with zones. Tabs: Overview, Zones, Devices, Images.'),
+      S('08','Farm Management','Farm Zones (Interactive Map)','خريطة الـ Zones',O,2,['map','list'],'خريطة تفاعلية لتقسيم المزرعة لـ Zones مع المحصول ونوع التربة والحساسات.','Large interactive map with drawable zones. Side drawer for selected zone: ID, area, crop, soil, sensors, status, performance. Create/Edit zone modal. Note: irrigation follows valve network, not per-m² pumps.'),
+      S('09','Farm Management','Soil Monitoring','مراقبة التربة',O,3,['kpi','chart','table'],'قراءات رطوبة وحرارة التربة الحية والتاريخية مع تنبيهات.','Live moisture gauge per zone, history line chart with range picker, sensor readings table, low-moisture alert banner.'),
+      S('10','Farm Management','Irrigation Management','إدارة الري',O,4,['kpi','schedule','table'],'تحكم يدوي/أوتوماتيك، جدولة، سجل الري واستهلاك المياه.','Zone selector. Mode toggle Manual / Auto. Start/Stop control with confirmation modal. Schedule editor, history table, water consumption chart, alerts.'),
+      S('11','Farm Management','Canopy Control','التحكم في الـ Canopy',O,5,['kpi','toggle','list'],'فتح/إغلاق يدوي أو أوتوماتيك حسب الطقس واكتشاف المطر.','Canopy status card, Open/Close buttons, Auto mode toggle with rules (rain, wind, temperature), activity history list.'),
+      S('12','Farm Management','Devices & Sensors','الأجهزة والحساسات',O,6,['filters','table'],'قائمة الأجهزة، الحالة، الصحة، المعايرة، التنبيهات.','Table: device, type, zone, connection status, health, last seen, calibration. Detail drawer. Offline state highlighted.'),
+      S('13','Farm Management','Weather Overview','نظرة على الطقس',O,7,['kpi','chart','cards'],'الطقس الحالي والتوقعات وحالة المطر.','Current conditions, 7-day forecast cards, rain detection status, impact on irrigation/canopy.'),
+      S('14','Plant Green Services','Farm Cost Calculator','حاسبة تكاليف المزرعة',O,0,['form','chart','table'],'تقدير مصاريف المياه والكهرباء والمعدات والعمالة والصيانة.','Input form by cost category, monthly budget output, breakdown donut/bars, comparison vs previous month.'),
+      S('15','Plant Green Services','Maintenance Center','مركز الصيانة',O,1,['kpi','table'],'طلبات الصيانة وحالتها (Submitted → Resolved).','KPI: open / in progress / resolved. Requests table with status badges and filters. Create request CTA.'),
+      S('16','Plant Green Services','New Maintenance Request','طلب صيانة جديد',O,1,['steps','form','upload'],'اختيار الجهاز، وصف المشكلة، رفع صور.','Stepper: Select device → Describe → Photos → Review. Photo uploader with previews.'),
+      S('17','Plant Green Services','Experts Directory','دليل الخبراء',O,2,['filters','cards'],'قائمة الخبراء حسب التخصص (تربة، ري، أمراض نباتات…).','Expert cards: photo, name, specialization, rating, next available slot. Filters by specialization.'),
+      S('18','Plant Green Services','Book Consultation','حجز استشارة',O,2,['calendar','form'],'اختيار موعد متاح وحجز جلسة.','Expert profile summary, calendar with available slots, booking summary, confirm button, My Appointments tab.'),
+      S('19','Plant Green Services','Farm Performance Score','تقييم أداء المزرعة',O,3,['kpi','chart','list'],'السكور الكلي وكفاءة المياه وصحة التربة ومقارنة الـ Zones.','Large overall score, sub-scores (water, soil, irrigation, sensors), history, zone comparison, improvement suggestions, report export.'),
+      S('20','Equipment Marketplace','Store','المتجر',O,0,['filters','cards'],'تصفح المنتجات حسب التصنيف مع بحث وفلاتر وفرز.','Category chips, search, filters sidebar, product grid with price + availability + add to cart.'),
+      S('21','Equipment Marketplace','Product Details','تفاصيل المنتج',O,0,['product'],'صور ومواصفات وسعر وتوفر وإضافة للسلة والمفضلة.','Gallery, title, price, stock status (from Odoo), specs table, Add to cart, Wishlist, Compare.'),
+      S('22','Equipment Marketplace','Cart & Checkout','السلة والدفع',O,1,['steps','list','summary'],'السلة، عنوان الشحن، خيارات التوصيل، الدفع، تأكيد الطلب.','Stepper: Cart → Address → Delivery → Payment → Confirmation. Order summary sticky panel.'),
+      S('23','Equipment Marketplace','My Orders & Tracking','طلباتي وتتبع الشحن',O,2,['filters','table','timeline'],'قائمة الطلبات وتفاصيل الطلب وتتبع الشحنة.','Orders table with status, detail drawer with shipment timeline and delivery history.'),
+      S('24','Equipment Marketplace','Returns','المرتجعات',O,3,['steps','timeline','list'],'طلب مرتجع وتتبع شحنته عبر Tasleem وحالة الاسترداد أو الاستبدال.','Return form (reason, details). Two separate trackers: logistics status (Pickup → In transit → Delivered) and refund/replacement status. Tracking number + external reference.'),
+      S('25','Financial Services','Subscriptions','الاشتراكات','Owner, Business',0,['plans','table'],'خطط Free/Basic/Pro مع المقارنة والترقية وسجل الفواتير.','3 plan cards with feature list (configurable by Admin), comparison table, current plan card, billing history, payment methods.'),
+      S('26','Financial Services','Insurance Overview & Apply','التأمين والتقديم','Owner, Business',1,['plans','steps','form'],'خطط التأمين، الحاسبة، طلب التأمين وتقييم المزرعة.','Plans, calculator, application wizard (plan → farm info → assessment → submit). Legal note: coverage provided by licensed partner.'),
+      S('27','Financial Services','Policies & Claims','الوثائق والمطالبات','Owner, Business',1,['table','timeline'],'وثائقي، تقديم مطالبة، وتتبعها.','Policies list, policy detail with documents, Claims Center, submit claim form, claim status timeline.'),
+      S('28','AI Intelligence','AI Agriculture Assistant','المساعد الزراعي الذكي',O,0,['chat'],'محادثة بسياق المزرعة (تربة، ري، محاصيل).','Chat with farm-context chip (selected farm/zone), suggested questions, inline data cards.'),
+      S('29','AI Intelligence','Smart Irrigation Recommendations','توصيات الري الذكية',O,1,['kpi','list','chart'],'تحليل الرطوبة والطقس واقتراح مواعيد الري.','Per-zone recommendation cards with reason, suggested time, estimated water saving, Apply / Dismiss.'),
+      S('30','AI Intelligence','Seasonal Planner','مخطط الموسم',O,2,['calendar','list'],'تقويم المحاصيل وجداول الزراعة والري والتسميد.','Season selector, crop calendar, task list with reminders, progress bar, seasonal report.'),
+      S('31','AI Intelligence','Insights & Reports','الرؤى والتقارير',O,3,['kpi','chart','list'],'توقعات الري، تحسين التكلفة، تحليلات المياه، تقارير AI.','Insight cards, water usage analytics chart, cost optimization suggestions, reports library.'),
+      S('32','Profile & Settings','Digital Farm Profile','الملف الرقمي للمزرعة',O,2,['form','cards'],'بيانات المزرعة الأساسية والوثائق والصور.','Read-only summary + edit; documents list; images grid; connected devices count.'),
+      S('33','Profile & Settings','Team Management','إدارة الفريق','Business',3,['table','form'],'دعوة أعضاء وتعيين الأدوار والصلاحيات.','Members table, invite modal, role selector, permissions matrix.'),
+      S('34','Profile & Settings','Settings','الإعدادات','All',3,['form','toggle'],'اللغة والإشعارات والخصوصية والأمان.','Settings sidebar: Profile, Security, Notifications, Language & Preferences, Privacy.'),
+      S('35','Supplier','Supplier Dashboard','لوحة المورد','Supplier',0,['kpi','chart','table'],'المبيعات والطلبات الجديدة والشحنات والمراجعات.','KPI: sales, orders, shipments, rating. Sales chart, new orders table, low stock alerts (from Odoo).'),
+      S('36','Supplier','Product Management','إدارة المنتجات','Supplier',1,['filters','table','form'],'إضافة وتعديل المنتجات والأسعار ونشرها.','Products table with sync status. Add/Edit drawer: info, price, SKU, images, publish toggle.'),
+      S('37','Admin','Admin Dashboard','لوحة الإدارة','Platform Admin',0,['kpi','chart','table'],'مستخدمين، موردين، طلبات، اشتراكات، تأمين، دعم.','Platform KPIs, growth chart, pending approvals (suppliers, insurance), support requests.'),
+      S('38','Admin','Integration Monitoring','مراقبة التكاملات','Platform Admin',1,['kpi','table','list'],'حالة مزامنة Odoo وTasleem والـ Logs والأخطاء.','Two integration status cards (Odoo, Tasleem): last sync, success rate, failed events. Logs table with retry action, duplicate-event flag, external reference IDs.'),
+    ];
+  })(),
+
+  flows:[
+    ['Registration & Onboarding',['Welcome','Register','Select Account Type','Complete Profile','Farm Setup or Supplier Setup','Verification','Dashboard']],
+    ['Farm Monitoring & Irrigation',['Dashboard','My Farms','Farm Details','Interactive Farm Map','Select Zone','Sensor Details','View Readings','Irrigation Recommendation','Control Irrigation','Irrigation History']],
+    ['Marketplace Purchase',['Categories','Product Listing','Product Details','Add to Cart','Cart','Checkout','Shipping Address','Payment','Order Confirmation','Track Order']],
+    ['Inventory Sync (Odoo)',['Odoo: Product & Stock Data','Plant Green Integration','Marketplace Availability','Customer Order','Odoo Inventory Workflow','Updated Stock Information']],
+    ['Returns (Tasleem)',['My Orders','Order Details','Submit Return Request','Review & Approval','Tasleem Return Shipment','Tracking Updates','Return Delivery','Inspection','Refund or Replacement','Close Return']],
+    ['Subscription',['Plans & Pricing','Compare Plans','Select Plan','Review','Payment','Activation','Manage Plan']],
+    ['Insurance',['Insurance Overview','Select Coverage','Farm Information','Risk Assessment','Submit Application','Admin Review','Approval Process','Policy Documentation','Claims Center']],
+    ['Maintenance',['Dashboard','Maintenance Requests','Create Request','Select Device','Describe Problem','Submit','Track Request','Resolution']],
+    ['Expert Consultation',['Services','Experts Directory','Expert Profile','Select Session','Book Consultation','My Appointments']],
+    ['AI & Seasonal Planning',['AI Intelligence','Seasonal Planner','Select Crops & Season','Review Suggested Schedule','Manage Tasks','Track Progress']],
+    ['Supplier Workflow',['Supplier Dashboard','Add Product','Product Information','Set Price','Inventory Sync','Publish','Receive Order','Process Order','Shipment','Sales Analytics']],
+    ['Admin Workflow',['Admin Dashboard','User Management','Supplier Management','Product Management','Order Management','Integration Monitoring','Shipping & Returns','Subscriptions','Insurance','Reports']],
+  ],
+
+  navigation:[
+    ['Primary','Sidebar بـ 7 مجموعات (Overview → Profile & Settings) والعناصر بتظهر حسب الدور (RBAC).'],
+    ['Topbar','Search + Farm switcher + Notifications + Language (AR/EN) + Profile menu.'],
+    ['Contextual','Farm → Zone → Sensor/Device، وOrder → Return → Tracking.'],
+    ['Role-based','Supplier Workspace وAdmin Console بـ layouts منفصلة على نفس الـ auth.'],
+  ],
+  routes:`/ (Root)
+├── /auth
+│   ├── /welcome
+│   ├── /register
+│   ├── /verify
+│   └── /setup            (farm | supplier)
+├── /app                  (Protected · RBAC)
+│   ├── /dashboard
+│   ├── /farms
+│   │   ├── /:farmId
+│   │   ├── /:farmId/zones
+│   │   ├── /:farmId/soil
+│   │   ├── /:farmId/irrigation
+│   │   ├── /:farmId/canopy
+│   │   ├── /devices
+│   │   └── /weather
+│   ├── /services
+│   │   ├── /cost-calculator
+│   │   ├── /maintenance      (+ /new, /:id)
+│   │   ├── /experts          (+ /:id, /appointments)
+│   │   └── /performance
+│   ├── /marketplace
+│   │   ├── /store            (+ /categories/:id, /products/:id)
+│   │   ├── /cart  /checkout
+│   │   ├── /orders           (+ /:id, /:id/tracking)
+│   │   └── /returns          (+ /new, /:id)
+│   ├── /finance
+│   │   ├── /subscriptions    (+ /billing)
+│   │   └── /insurance        (+ /apply, /policies/:id, /claims)
+│   ├── /ai
+│   │   ├── /assistant
+│   │   ├── /irrigation
+│   │   ├── /planner
+│   │   └── /insights  /reports
+│   └── /settings
+│       ├── /profile  /farm-profile
+│       ├── /team  /notifications
+│       └── /preferences
+├── /supplier             (role: supplier)
+│   ├── /dashboard  /products  /orders  /shipments  /analytics  /reviews
+└── /admin                (role: admin)
+    ├── /users  /farms  /suppliers  /products  /orders
+    ├── /subscriptions  /insurance  /support
+    └── /integrations     (Odoo · Tasleem · logs)`,
+
+  ux:[
+    ['Role-aware sidebar','الـ Sidebar بيتبني من صلاحيات الدور؛ العناصر غير المسموحة تتخفي، والصفحات المقيدة تعرض حالة Permission Restricted.'],
+    ['Farm / Zone switcher عام','Selector دايم في الـ Topbar لتغيير المزرعة، وكل صفحات المراقبة والري بتتفلتر بيه.'],
+    ['Interactive farm map كنقطة دخول','من الخريطة تختار Zone فتفتح Drawer فيه القراءات والحساسات وزرار الري بدل التنقل بين صفحات.'],
+    ['تأكيد قبل أي تحكم فعلي','أي Start/Stop للري أو فتح/قفل Canopy بيعرض Confirmation Modal وبعدين Toast بالنتيجة وتسجيل في الـ History.'],
+    ['حالات الجهاز والاتصال','Online / Offline / Low battery / Needs calibration بـ Status Badges موحدة، وآخر قراءة مع وقتها دايماً ظاهرة.'],
+    ['Sync status للتكاملات','مؤشر صغير على المنتج والطلب يوضح حالة المزامنة مع Odoo (Synced / Pending / Failed) مع آخر تحديث.'],
+    ['فصل حالة الشحن عن حالة الاسترداد','في المرتجعات: Tracker للوجستيات (Tasleem) وTracker منفصل للـ Refund/Replacement علشان ما يحصلش لبس.'],
+    ['Summary cards بتفتح الصفحة الكاملة','كروت Performance وSeasonal Planner وMaintenance في الـ Dashboard ملخص فقط، وكل كارت فيه View full.'],
+    ['6 states لكل شاشة','Loading (Skeleton) · Success · Error · Empty · Normal · Permission Restricted — مطلوبين في أي شاشة جديدة.'],
+    ['RTL/LTR بدون Reload','تبديل AR/EN يقلب الاتجاه فوراً، ويتحفظ في الـ profile، والأرقام والتواريخ بتتهيأ حسب اللغة.'],
+    ['Insurance disclaimer واضح','ملاحظة ثابتة إن المنصة بتدير الطلبات داخلياً، والتغطية الفعلية عن طريق شريك تأميني مرخص.'],
+    ['Empty states بـ CTA','كل Empty State فيه جملة بسيطة وزرار إجراء (مثلاً: ضيف أول Zone، أضف جهاز).'],
+  ],
+
+  /* ── Frontend / Backend / Database ──  (الـ stack مقترح؛ الـ doc ما حددش تقنيات) */
+  frontend:{
+    note:'الـ Stack ده مقترح لأن الـ doc ما حددش تقنيات. ممكن يتبدّل (مثلاً Angular أو Next.js) من غير ما يتأثر باقي الـ Blueprint.',
+    stack:[
+      ['Framework',['React 18','TypeScript 5','Vite','React Router 6']],
+      ['State & Data',['TanStack Query','Zustand','Zod','React Hook Form']],
+      ['UI',['Tailwind CSS','Radix UI / shadcn','Recharts','Leaflet / Mapbox GL']],
+      ['i18n & RTL',['react-i18next','Intl API','CSS logical properties']],
+      ['Real-time',['WebSocket / SSE','MQTT over WS (اختياري)']],
+      ['Quality',['Vitest','Testing Library','Playwright','ESLint + Prettier','Storybook']],
+    ],
+    folders:`src/
+├── app/               # providers, router, layouts (App / Supplier / Admin / Auth)
+├── core/
+│   ├── api/           # http client, interceptors, typed endpoints
+│   ├── auth/          # session, refresh, route guards
+│   ├── rbac/          # permissions map, <Can/>, usePermission()
+│   ├── i18n/          # language + direction service
+│   ├── realtime/      # socket client, topic subscriptions
+│   └── theme/         # design tokens, light/dark
+├── shared/
+│   ├── ui/            # Button, Badge, Drawer, Modal, Toast, Skeleton, EmptyState
+│   ├── data/          # DataTable, Filters, KpiCard, Charts
+│   └── hooks/
+├── features/          # lazy-loaded, one folder per module
+│   ├── dashboard/  farms/  zones/  soil/  irrigation/  canopy/  devices/  weather/
+│   ├── services/       (cost · maintenance · experts · performance)
+│   ├── marketplace/    (store · cart · orders · returns)
+│   ├── finance/        (subscriptions · insurance)
+│   ├── ai/  settings/  supplier/  admin/
+├── locales/           # ar/  en/  (chunk per feature)
+└── tests/             # unit · component · e2e`,
+    decisions:[
+      ['State Management','Server state vs UI state',['TanStack Query','Zustand'],'بيانات السيرفر (مزارع، طلبات، قراءات) في TanStack Query بـ cache وrefetch. حالة الواجهة (المزرعة المختارة، الفلاتر، السلة المؤقتة) في Zustand صغيرة. مفيش Redux.'],
+      ['i18n & RTL','AR / EN بدون reload',['react-i18next','Logical CSS'],'تبديل اللغة يقلب dir فوراً، والـ spacing بـ margin-inline وpadding-inline بدل left/right. ملفات ترجمة chunk لكل feature، والأرقام والتواريخ بـ Intl حسب اللغة.'],
+      ['Theming','Design tokens',['CSS variables','Tailwind preset'],'ألوان Olive/Lime وradius 12–18px كـ CSS variables، وTailwind بيقراها. Light هو الأساس وDark اختياري يتضاف بـ [data-theme] من غير تغيير في الـ components.'],
+      ['RBAC في الواجهة','Role-aware UI',['<Can />','Route guards'],'الـ Sidebar والـ routes والأزرار بتتبني من permissions اللي راجعة من السيرفر. العنصر غير المسموح يتخفي، والصفحة المقيدة تعرض حالة Permission Restricted. الحماية الحقيقية تفضل في الـ Backend.'],
+      ['Real-time IoT','قراءات حية وتحكم آمن',['WebSocket / SSE','Polling fallback'],'اشتراك بـ topic لكل Zone لقراءات الرطوبة وحالة الري والـ Canopy. معدل التحديث حسب قدرة الأجهزة، مع مؤشر "آخر قراءة" وحالة Offline. أوامر الري تعدّي على Confirmation Modal وتتسجل في History.'],
+      ['Performance & States','Lazy + Skeleton',['Code splitting','Virtualized tables'],'Routes بـ lazy loading، وجداول طويلة بـ virtualization، وSkeleton بدل spinner. كل شاشة بتغطي الـ 6 states (Loading/Success/Error/Empty/Normal/Permission Restricted) بمكوّنات مشتركة.'],
+    ],
+    quality:['Coverage gate ≥ 80% على shared/ وcore/','Visual check لكل شاشة في RTL وLTR','E2E: تسجيل → إعداد مزرعة → ري → شراء → مرتجع','Accessibility: focus ring وcontrast وkeyboard nav'],
+  },
+
+  backend:{
+    note:'نسختين من الـ Backend بنفس الـ Modules والـ endpoints والـ Database والـ JSON contract. الفرق في التقنية وطريقة التنفيذ بس. الـ Stack مقترح ويقدر يتبدّل.',
+    variants:[
+      {
+        id:'dotnet', owner:'عمر مرشد', tech:'C# · ASP.NET Core 8',
+        note:'نسخة .NET: Clean Architecture بـ 4 طبقات + CQRS، وWorker منفصل للـ IoT والـ Jobs والتكاملات.',
+        stack:[
+          ['Runtime & API',['.NET 8 (LTS)','C# 12','ASP.NET Core Web API','OpenAPI (Swashbuckle / NSwag)']],
+          ['Architecture',['Clean Architecture','CQRS (Command / Query handlers)','FluentValidation','Mapster']],
+          ['Data',['PostgreSQL 16 + PostGIS + TimescaleDB','EF Core 8 + Npgsql','Dapper (للـ queries الثقيلة)','Redis (StackExchange.Redis)']],
+          ['Auth & Security',['ASP.NET Core Identity','JWT Bearer + Refresh','Policy-based Authorization','Rate Limiting middleware']],
+          ['IoT & Jobs',['MQTTnet','Hangfire','Outbox pattern','SignalR (real-time)']],
+          ['Quality & Ops',['xUnit + FluentAssertions','Testcontainers','Serilog + Seq','OpenTelemetry','Docker']],
+        ],
+        arch:`  Web / Supplier / Admin
+          │  HTTPS (JSON) · SignalR
+  ┌───────▼───────────────────────────────────┐
+  │ PlantGreen.Api                            │
+  │  Controllers · Auth · ProblemDetails      │
+  │  Idempotency + RateLimit middleware       │
+  ├───────────────────────────────────────────┤
+  │ PlantGreen.Application   (CQRS)           │
+  │  Commands · Queries · Validators · DTOs   │
+  ├───────────────────────────────────────────┤
+  │ PlantGreen.Domain                         │
+  │  Entities · Enums · Domain rules · Events │
+  ├───────────────────────────────────────────┤
+  │ PlantGreen.Infrastructure                 │
+  │  EF Core · Redis · Storage                │
+  │  Odoo client · Tasleem client · MQTT      │
+  └──────┬──────────────────┬─────────────────┘
+         │                  │
+    PostgreSQL        PlantGreen.Worker
+   (+PostGIS,         Hangfire · telemetry ingest
+    +Timescale)       outbox · Odoo/Tasleem sync`,
+        folders:`PlantGreen.sln
+src/
+├── PlantGreen.Api/
+│   ├── Controllers/        # Auth, Farms, Zones, Irrigation, Marketplace ...
+│   ├── Middleware/         # ProblemDetails, Idempotency, Audit
+│   ├── Hubs/               # SignalR: ZoneHub
+│   └── Program.cs
+├── PlantGreen.Application/
+│   ├── Features/
+│   │   ├── Farms/          # Commands/ Queries/ Validators/ Dtos/
+│   │   ├── Irrigation/  Marketplace/  Returns/  Insurance/ ...
+│   ├── Common/             # Behaviors (validation, logging), Result<T>
+│   └── Abstractions/       # IOdooClient, ITasleemClient, IClock
+├── PlantGreen.Domain/      # Entities, Enums, ValueObjects, Events
+├── PlantGreen.Infrastructure/
+│   ├── Persistence/        # DbContext, Configurations, Repositories
+│   ├── Integrations/       # Odoo/, Tasleem/ (Polly policies)
+│   ├── Iot/                # MqttSubscriber, CommandPublisher
+│   └── Identity/  Storage/
+├── PlantGreen.Worker/      # Hosted services + Hangfire jobs
+tests/
+├── PlantGreen.UnitTests/
+├── PlantGreen.IntegrationTests/   # Testcontainers (Postgres, Redis)
+└── PlantGreen.ArchitectureTests/`,
+        sample:{title:'Irrigation controller (C#)',code:`[ApiController]
+[Route("api/zones/{zoneId:guid}/irrigation")]
+[Authorize]
+public class IrrigationController(IDispatcher dispatcher) : ControllerBase
+{
+    [HttpPost("start")]
+    [HasPermission(Permissions.IrrigationControl)]
+    public async Task<IActionResult> Start(
+        Guid zoneId, StartIrrigationRequest req, CancellationToken ct)
+    {
+        var result = await dispatcher.Send(
+            new StartIrrigationCommand(zoneId, req.DurationMin, User.GetUserId()), ct);
+
+        // 202: الأمر اتسجل، والتأكيد الفعلي بييجي من الجهاز (ack)
+        return result.IsSuccess ? Accepted(result.Value) : result.ToProblem();
+    }
+}`},
+      },
+      {
+        id:'node', owner:'محمد سامي', tech:'Node.js · NestJS 10',
+        note:'نسخة Node.js: Modular Monolith بـ NestJS، وWorker منفصل (BullMQ) للـ IoT والتكاملات.',
+        stack:[
+          ['Runtime & API',['Node.js 20 (LTS)','TypeScript 5','NestJS 10','OpenAPI (@nestjs/swagger)']],
+          ['Architecture',['Modular Monolith (Nest Modules)','Services + Repositories','class-validator + class-transformer']],
+          ['Data',['PostgreSQL 16 + PostGIS + TimescaleDB','TypeORM + migrations','Raw SQL للـ Timescale / PostGIS','Redis (ioredis)']],
+          ['Auth & Security',['Passport JWT + Refresh','argon2','Guards + @Permissions()','@nestjs/throttler']],
+          ['IoT & Jobs',['MQTT.js','BullMQ','Outbox pattern','Socket.IO / SSE gateway']],
+          ['Quality & Ops',['Jest + Supertest','Testcontainers','Pino + OpenTelemetry','ESLint + Prettier','Docker']],
+        ],
+        arch:`  Web / Supplier / Admin
+          │  HTTPS (JSON) · WebSocket
+  ┌───────▼───────────────────────────────────┐
+  │ API  (NestJS)                             │
+  │  Guards · Pipes · Filters · Interceptors  │
+  │  Modules: auth · farms · iot · control    │
+  │  services · marketplace · finance · ai    │
+  │  admin · integrations                     │
+  └──────┬──────────────────┬─────────────────┘
+         │                  │ BullMQ jobs
+         │            ┌─────▼───────────────┐
+    PostgreSQL        │ Worker (Node)       │
+   (+PostGIS,         │ telemetry ingest    │
+    +Timescale)       │ outbox · retries    │
+         │            │ Odoo / Tasleem sync │
+       Redis          └─────────────────────┘
+  (cache · queues · rate limit)`,
+        folders:`apps/
+├── api/
+│   └── src/
+│       ├── main.ts
+│       ├── app.module.ts
+│       ├── common/           # guards, pipes, filters, interceptors, decorators
+│       ├── config/           # env validation, typed config
+│       ├── database/         # data-source, migrations, seeds
+│       └── modules/
+│           ├── auth/  farms/  zones/  iot/  control/
+│           ├── services/     # cost, maintenance, experts, performance
+│           ├── marketplace/  # products, cart, orders, returns
+│           ├── finance/      # subscriptions, insurance
+│           ├── ai/  admin/  supplier/  notifications/
+│           └── integrations/ # odoo/, tasleem/, webhooks/
+└── worker/
+    └── src/processors/       # telemetry, outbox, odoo-sync, tasleem-sync
+libs/
+└── contracts/                # DTOs + enums + error codes shared
+test/                         # e2e (Supertest + Testcontainers)`,
+        sample:{title:'Irrigation controller (NestJS)',code:`@Controller('zones/:zoneId/irrigation')
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+export class IrrigationController {
+  constructor(private readonly irrigation: IrrigationService) {}
+
+  @Post('start')
+  @Permissions('irrigation.control')
+  @HttpCode(202) // الأمر اتسجل، والتأكيد الفعلي بييجي من الجهاز (ack)
+  start(
+    @Param('zoneId', ParseUUIDPipe) zoneId: string,
+    @Body() dto: StartIrrigationDto,
+    @CurrentUser() user: AuthUser,
+  ) {
+    return this.irrigation.start(zoneId, dto.durationMin, user.id);
+  }
+}`},
+      },
+    ],
+    compare:[
+      ['Framework','ASP.NET Core 8 Web API','NestJS 10'],
+      ['Language','C# 12','TypeScript 5'],
+      ['Architecture','Clean Architecture + CQRS','Modular Monolith (Nest Modules)'],
+      ['ORM','EF Core 8 + Npgsql (Dapper للثقيل)','TypeORM (Raw SQL للـ Timescale / PostGIS)'],
+      ['Validation','FluentValidation','class-validator + class-transformer'],
+      ['Auth','ASP.NET Core Identity + JWT Bearer','Passport JWT + argon2'],
+      ['RBAC','Policy-based + [HasPermission]','Guards + @Permissions()'],
+      ['Real-time','SignalR','Socket.IO / SSE'],
+      ['IoT (MQTT)','MQTTnet داخل Worker','MQTT.js داخل Worker'],
+      ['Background jobs','Hangfire','BullMQ'],
+      ['Resilience','Polly (retry · circuit breaker · timeout)','BullMQ backoff + circuit breaker (opossum)'],
+      ['API docs','Swashbuckle / NSwag','@nestjs/swagger'],
+      ['Logging & tracing','Serilog + OpenTelemetry','Pino + OpenTelemetry'],
+      ['Testing','xUnit + Testcontainers','Jest + Supertest + Testcontainers'],
+      ['Container','Docker (aspnet runtime)','Docker (node:20-alpine)'],
+    ],
+    contract:[
+      'مصدر واحد للـ Database schema: SQL migrations مشتركة (مش migrations كل ORM لوحده). الـ ORM بيعمل mapping بس.',
+      'نفس الـ endpoints والـ JSON field names (camelCase) والـ enums المذكورة في صفحة Database.',
+      'Auth Token: JWT قصير + Refresh، وبنفس الـ claims (sub, org, role, permissions) علشان الـ Frontend ما يفرقش.',
+      'الأخطاء بصيغة Problem Details (RFC 7807): code + message + traceId في النسختين.',
+      'Pagination موحد: page, pageSize, sort، والرد { items, total, page, pageSize }.',
+      'Idempotency-Key على checkout وأوامر التحكم، ومعاه تخزين الـ key في orders وintegration_logs.',
+      'أوامر الري والـ Canopy ترجع 202 Accepted مع commandId، والحالة النهائية بتتحدث بعد ack من الجهاز.',
+      'Webhooks (Odoo / Tasleem) موقّعة HMAC وبتتخزن بـ external_event_id لمنع التكرار.',
+      'نفس مجموعة اختبارات الـ Contract (API tests) بتتشغل على النسختين.',
+    ],
+    modules:[
+      ['Auth & RBAC','حسابات، OTP/تحقق، sessions، أدوار وصلاحيات، organizations.'],
+      ['Farms & IoT','مزارع، Zones، أجهزة وحساسات، استقبال القراءات، تنبيهات، طقس.'],
+      ['Control','ري وCanopy: أوامر، جدولة، قواعد تلقائية، سجل، وتأكيد تنفيذ من الجهاز.'],
+      ['Services','تكاليف، صيانة، خبراء وحجوزات، Performance Score.'],
+      ['Marketplace','منتجات، سلة، طلبات، شحنات، مرتجعات، مراجعات.'],
+      ['Finance','اشتراكات، مدفوعات، طلبات تأمين ووثائق ومطالبات.'],
+      ['AI','محادثة بسياق المزرعة، توصيات ري، Seasonal Planner، تقارير.'],
+      ['Admin & Platform','مستخدمين، موردين، دعم، إعدادات، مراقبة التكاملات، Audit.'],
+    ],
+    integrations:[
+      ['Odoo — Inventory',['المصدر الأساسي لبيانات المخزون يتحدد صراحة (Odoo = Source of truth للكميات).','مزامنة بـ product ID وSKU ثابتين، وWebhooks لو متاحة وإلا Polling بتردد محدد.','Stock reservation عند الطلب لتفادي التعارض، وIdempotency Key لمنع تكرار الطلب.','Retries + Integration Logs + حالة Synced / Pending / Failed.','آلية الربط الفعلية تعتمد على إصدار Odoo والـ API المتاح.']],
+      ['Tasleem — Returns',['بعد موافقة المرتجع يتم تسجيل الشحنة وتخزين tracking number وexternal reference.','تحديثات التتبع تتزامن مع حماية من الأحداث المكررة (external_event_id).','حالة اللوجستيات منفصلة عن حالة الاسترداد/الاستبدال.','الـ Refund وتسوية المخزون من مسؤولية Plant Green وOdoo.','لازم تأكيد قدرات الـ API المتاحة من Tasleem قبل التثبيت.']],
+      ['IoT Ingestion',['الأجهزة بتنشر على MQTT، والـ worker بيعمل validation وبيخزن في sensor_readings.','تردد التحديث حسب الهاردوير؛ التحكم بـ command/ack (الأمر يتسجل ثم يتأكد من الجهاز).','Device health وآخر ظهور بيتحدثوا مع كل رسالة.','الري يتبع شبكة الفلاتر والـ valves الفعلية، مش مضخة لكل متر.']],
+    ],
+    api:[
+      ['Auth & Account',[
+        ['POST','/api/auth/register','إنشاء حساب مع نوع الحساب','Public'],
+        ['POST','/api/auth/verify','تأكيد التحقق (OTP/رابط)','Public'],
+        ['POST','/api/auth/login','دخول + access/refresh tokens','Public'],
+        ['POST','/api/auth/refresh','تجديد الـ token','Auth'],
+        ['POST','/api/auth/logout','إنهاء الجلسة','Auth'],
+        ['GET','/api/me','بيانات المستخدم وصلاحياته (permissions)','Auth'],
+        ['PATCH','/api/me','تعديل الملف الشخصي واللغة','Auth'],
+      ]],
+      ['Farms & Zones',[
+        ['GET','/api/farms','مزارعي','Owner · Business'],
+        ['POST','/api/farms','إضافة مزرعة','Owner · Business'],
+        ['GET','/api/farms/:id','تفاصيل المزرعة','Owner · Business'],
+        ['PATCH','/api/farms/:id','تعديل المزرعة','Owner · Business'],
+        ['GET','/api/farms/:id/zones','Zones المزرعة (GeoJSON)','Owner · Business'],
+        ['POST','/api/farms/:id/zones','إنشاء Zone','Owner · Business'],
+        ['PATCH','/api/zones/:id','تعديل Zone','Owner · Business'],
+        ['DELETE','/api/zones/:id','حذف Zone','Owner · Business'],
+        ['GET','/api/farms/:id/documents','مستندات المزرعة','Owner · Business'],
+      ]],
+      ['Devices, Sensors & Monitoring',[
+        ['GET','/api/devices','الأجهزة مع الحالة والصحة','Owner · Business'],
+        ['POST','/api/devices','تسجيل جهاز','Owner · Business'],
+        ['PATCH','/api/devices/:id','تعديل جهاز','Owner · Business'],
+        ['POST','/api/sensors/:id/calibrate','تسجيل معايرة','Owner · Business'],
+        ['GET','/api/zones/:id/readings','قراءات حية/تاريخية (from, to, interval)','Owner · Business'],
+        ['GET','/api/farms/:id/weather','الطقس وحالة المطر','Owner · Business'],
+        ['GET','/api/alerts','التنبيهات','Owner · Business'],
+        ['PATCH','/api/alerts/:id','تأكيد/إغلاق تنبيه','Owner · Business'],
+        ['WS','/ws/zones/:id','بث القراءات والحالة لحظياً','Owner · Business'],
+      ]],
+      ['Irrigation & Canopy',[
+        ['POST','/api/zones/:id/irrigation/start','بدء ري يدوي (مدة/كمية)','Owner · Business'],
+        ['POST','/api/zones/:id/irrigation/stop','إيقاف الري','Owner · Business'],
+        ['GET','/api/zones/:id/irrigation/events','سجل الري واستهلاك المياه','Owner · Business'],
+        ['GET','/api/zones/:id/irrigation/schedules','جداول الري','Owner · Business'],
+        ['PUT','/api/zones/:id/irrigation/schedules','حفظ الجدول/قواعد الأوتوماتيك','Owner · Business'],
+        ['POST','/api/devices/:id/canopy/command','فتح/إغلاق Canopy (command + ack)','Owner · Business'],
+        ['PUT','/api/devices/:id/canopy/rules','قواعد التحكم التلقائي (مطر/رياح/حرارة)','Owner · Business'],
+        ['GET','/api/devices/:id/canopy/events','سجل نشاط الـ Canopy','Owner · Business'],
+        ['GET','/api/commands/:id','حالة أمر تحكم (pending → acked / timeout)','Owner · Business'],
+      ]],
+      ['Plant Green Services',[
+        ['GET','/api/costs','مصاريف المزرعة والتقسيم','Owner · Business'],
+        ['POST','/api/costs','إضافة بند تكلفة','Owner · Business'],
+        ['POST','/api/costs/estimate','تقدير الميزانية الشهرية','Owner · Business'],
+        ['GET','/api/maintenance','طلبات الصيانة','Owner · Business'],
+        ['POST','/api/maintenance','إنشاء طلب مع صور','Owner · Business'],
+        ['GET','/api/maintenance/:id','تفاصيل وحالة الطلب والتحديثات','Owner · Business'],
+        ['PATCH','/api/maintenance/:id','تغيير الحالة','Admin'],
+        ['GET','/api/experts','دليل الخبراء (specialization)','Owner · Business'],
+        ['GET','/api/experts/:id/slots','المواعيد المتاحة','Owner · Business'],
+        ['POST','/api/consultations','حجز استشارة','Owner · Business'],
+        ['GET','/api/consultations','مواعيدي وسجل الاستشارات','Owner · Business'],
+        ['GET','/api/farms/:id/performance','Performance Score والتفاصيل','Owner · Business'],
+      ]],
+      ['Marketplace',[
+        ['GET','/api/categories','التصنيفات','Auth'],
+        ['GET','/api/products','بحث وفلترة وفرز المنتجات','Auth'],
+        ['GET','/api/products/:id','تفاصيل المنتج والتوفر','Auth'],
+        ['GET','/api/cart','السلة','Auth'],
+        ['PUT','/api/cart/items/:productId','إضافة/تعديل كمية','Auth'],
+        ['DELETE','/api/cart/items/:productId','حذف من السلة','Auth'],
+        ['POST','/api/wishlist/:productId','إضافة للمفضلة','Auth'],
+        ['POST','/api/checkout','إنشاء طلب (Idempotency-Key)','Auth'],
+        ['GET','/api/orders','طلباتي','Auth'],
+        ['GET','/api/orders/:id','تفاصيل الطلب','Auth'],
+        ['GET','/api/orders/:id/tracking','تتبع الشحنة وسجل التوصيل','Auth'],
+        ['POST','/api/orders/:id/cancel','إلغاء طلب (لو مسموح)','Auth'],
+      ]],
+      ['Returns',[
+        ['POST','/api/orders/:id/returns','تقديم طلب مرتجع بالسبب','Auth'],
+        ['GET','/api/returns','مرتجعاتي','Auth'],
+        ['GET','/api/returns/:id','تفاصيل المرتجع + حالة اللوجستيات + حالة الاسترداد','Auth'],
+        ['PATCH','/api/returns/:id/decision','موافقة/رفض المرتجع','Admin'],
+        ['POST','/api/returns/:id/inspection','نتيجة الفحص','Admin'],
+        ['POST','/api/returns/:id/resolution','Refund أو Replacement','Admin'],
+      ]],
+      ['Subscriptions & Billing',[
+        ['GET','/api/plans','الخطط والمقارنة','Public'],
+        ['GET','/api/subscription','الاشتراك الحالي','Owner · Business'],
+        ['POST','/api/subscription','اشتراك/ترقية/تخفيض','Owner · Business'],
+        ['PATCH','/api/subscription/renewal','إعدادات التجديد','Owner · Business'],
+        ['GET','/api/billing/invoices','سجل الفواتير','Owner · Business'],
+        ['GET','/api/payment-methods','طرق الدفع','Owner · Business'],
+      ]],
+      ['Insurance',[
+        ['GET','/api/insurance/plans','خطط التأمين','Owner · Business'],
+        ['POST','/api/insurance/estimate','حاسبة التأمين','Owner · Business'],
+        ['POST','/api/insurance/applications','تقديم طلب + Farm Assessment','Owner · Business'],
+        ['GET','/api/insurance/policies','وثائقي','Owner · Business'],
+        ['POST','/api/insurance/policies/:id/claims','تقديم مطالبة','Owner · Business'],
+        ['GET','/api/insurance/claims/:id','تتبع المطالبة','Owner · Business'],
+        ['PATCH','/api/insurance/applications/:id','موافقة/رفض/طلب معلومات','Admin · Insurance Officer'],
+      ]],
+      ['AI Intelligence',[
+        ['POST','/api/ai/chat','محادثة بسياق المزرعة (stream)','Owner · Business'],
+        ['GET','/api/ai/recommendations','توصيات الري والمحاصيل والتكلفة','Owner · Business'],
+        ['POST','/api/ai/recommendations/:id/apply','تطبيق توصية','Owner · Business'],
+        ['GET','/api/ai/insights','Insights وتوقعات وتحليل المياه','Owner · Business'],
+        ['GET','/api/planner','الموسم والمهام','Owner · Business'],
+        ['POST','/api/planner/generate','توليد جدول موسمي مقترح','Owner · Business'],
+        ['PATCH','/api/planner/tasks/:id','تحديث مهمة','Owner · Business'],
+        ['GET','/api/ai/reports','تقارير AI','Owner · Business'],
+      ]],
+      ['Team & Notifications',[
+        ['GET','/api/team','أعضاء الفريق','Business'],
+        ['POST','/api/team/invitations','دعوة عضو','Business'],
+        ['PATCH','/api/team/:memberId','تغيير الدور','Business'],
+        ['DELETE','/api/team/:memberId','إزالة عضو','Business'],
+        ['GET','/api/notifications','الإشعارات','Auth'],
+        ['PATCH','/api/notifications/read','تحديد كمقروء','Auth'],
+      ]],
+      ['Supplier Workspace',[
+        ['GET','/api/supplier/dashboard','المبيعات والطلبات','Supplier'],
+        ['GET','/api/supplier/products','منتجاتي وحالة المزامنة','Supplier'],
+        ['POST','/api/supplier/products','إضافة منتج','Supplier'],
+        ['PATCH','/api/supplier/products/:id','تعديل وسعر ونشر','Supplier'],
+        ['GET','/api/supplier/orders','طلبات المورد','Supplier'],
+        ['POST','/api/supplier/orders/:id/ship','تجهيز وشحن','Supplier'],
+        ['GET','/api/supplier/reviews','مراجعات العملاء','Supplier'],
+      ]],
+      ['Admin',[
+        ['GET','/api/admin/users','المستخدمين','Admin'],
+        ['PATCH','/api/admin/users/:id','حالة/دور المستخدم','Admin'],
+        ['PATCH','/api/admin/suppliers/:id','اعتماد/إيقاف مورد','Admin'],
+        ['GET','/api/admin/orders','الطلبات والمعاملات','Admin'],
+        ['GET','/api/admin/subscriptions','الاشتراكات','Admin'],
+        ['PUT','/api/admin/plans/:id','ضبط ميزات وحدود الخطة','Admin'],
+        ['GET','/api/admin/support','طلبات الدعم','Admin'],
+        ['GET','/api/admin/analytics','تحليلات المنصة','Admin'],
+        ['GET','/api/admin/integrations','حالة Odoo وTasleem','Admin'],
+        ['GET','/api/admin/integrations/logs','Integration Logs','Admin'],
+        ['POST','/api/admin/integrations/logs/:id/retry','إعادة محاولة حدث فاشل','Admin'],
+      ]],
+      ['Integration Webhooks (Inbound)',[
+        ['POST','/api/webhooks/odoo/stock','تحديث مخزون/منتج من Odoo (توقيع + idempotency)','System'],
+        ['POST','/api/webhooks/tasleem/tracking','تحديث تتبع شحنة مرتجع','System'],
+      ]],
+    ],
+  },
+
+  database:(function(){
+    /* صيغة العمود: name:type:key:note   key = pk | fk>table | (فاضي) */
+    const T=(domain,name,desc,cols)=>({domain,name,desc,cols:cols.split('|').map(c=>{const [n,t,k='',note='']=c.split(':');const isKey=k==='pk'||k.startsWith('fk>');return {n,t,k:isKey?k:'',note:isKey?note:[k,note].filter(Boolean).join(' · ')}})});
+    return {
+      conventions:['كل الجداول: id UUID كـ PK + created_at/updated_at (timestamptz)، عدا role_permissions وwishlist_items (composite PK) وsensor_readings (sensor_id, ts كـ hypertable)','Multi-tenant: المزارع والطلبات والاشتراكات عليها organization_id، والباقي (zones, devices, readings…) بيرث المؤسسة من farm_id، والعزل بـ Row-Level Security','الكتالوج ثنائي اللغة (name_ar / name_en)','Soft delete (deleted_at) للكيانات الحساسة + audit_logs','المبالغ numeric(12,2) والعملة الافتراضية EGP','تخزين الـ external IDs مع Unique Index لمنع التكرار'],
+      tables:[
+        /* Identity & Access */
+        T('Identity & Access','users','حسابات المستخدمين','id:uuid:pk|name:varchar(120)|email:varchar(160)::unique|phone:varchar(20)|password_hash:text|account_type:enum(owner,business,supplier,admin,insurance_officer)|preferred_lang:enum(ar,en)|status:enum(pending,active,suspended)|verified_at:timestamptz'),
+        T('Identity & Access','organizations','الكيان اللي بيملك المزارع/المنتجات','id:uuid:pk|name:varchar(160)|type:enum(farm_owner,business,supplier)|owner_id:uuid:fk>users|tax_no:varchar(40)|logo_url:text'),
+        T('Identity & Access','roles','الأدوار (system + custom)','id:uuid:pk|key:varchar(40)::unique|name_ar:varchar(80)|name_en:varchar(80)|scope:enum(platform,organization)|is_system:boolean'),
+        T('Identity & Access','role_permissions','صلاحيات كل دور','role_id:uuid:fk>roles:PK (role_id, permission)|permission:varchar(80)::مثال farms.write, irrigation.control'),
+        T('Identity & Access','memberships','عضوية المستخدم في Organization','id:uuid:pk|organization_id:uuid:fk>organizations|user_id:uuid:fk>users|role_id:uuid:fk>roles|status:enum(invited,active,removed)|invited_by:uuid:fk>users'),
+        T('Identity & Access','refresh_tokens','جلسات الدخول','id:uuid:pk|user_id:uuid:fk>users|token_hash:text|device_info:varchar(200)|expires_at:timestamptz|revoked_at:timestamptz'),
+        T('Identity & Access','verification_codes','أكواد التحقق','id:uuid:pk|user_id:uuid:fk>users|channel:enum(sms,email)|code_hash:text|expires_at:timestamptz|consumed_at:timestamptz'),
+        /* Farms & IoT */
+        T('Farms & IoT','farms','المزارع','id:uuid:pk|organization_id:uuid:fk>organizations|name:varchar(160)|location:geography(Point)|address:text|area_m2:numeric(12,2)|soil_type:varchar(60)|status:enum(onboarding,active,inactive)|cover_image_url:text'),
+        T('Farms & IoT','zones','مناطق المزرعة','id:uuid:pk|farm_id:uuid:fk>farms|name:varchar(120)|geometry:geography(Polygon)|area_m2:numeric(12,2)|crop_id:uuid:fk>crops|soil_type:varchar(60)|status:enum(active,paused,fallow)'),
+        T('Farms & IoT','devices','المتحكمات والـ Gateways والـ Valves والـ Canopy','id:uuid:pk|farm_id:uuid:fk>farms|zone_id:uuid:fk>zones:nullable|type:enum(controller,gateway,valve,pump,canopy_motor,weather_station)|serial_no:varchar(80)::unique|firmware:varchar(40)|status:enum(online,offline,maintenance)|health_score:smallint|last_seen_at:timestamptz'),
+        T('Farms & IoT','sensors','الحساسات','id:uuid:pk|device_id:uuid:fk>devices|zone_id:uuid:fk>zones|type:enum(soil_moisture,soil_temp,air_temp,humidity,rain,flow)|unit:varchar(12)|calibration_offset:numeric(8,3)|calibrated_at:timestamptz|status:enum(ok,needs_calibration,faulty)'),
+        T('Farms & IoT','sensor_readings','قراءات زمنية','sensor_id:uuid:fk>sensors:PK (sensor_id, ts) · TimescaleDB hypertable|ts:timestamptz|value:double precision|quality:smallint'),
+        T('Farms & IoT','irrigation_schedules','جداول وقواعد الري','id:uuid:pk|zone_id:uuid:fk>zones|mode:enum(manual,auto,scheduled)|days:smallint[]|start_time:time|duration_min:int|rule:jsonb::حدود الرطوبة، الطقس|is_active:boolean'),
+        T('Farms & IoT','irrigation_events','سجل الري','id:uuid:pk|zone_id:uuid:fk>zones|schedule_id:uuid:fk>irrigation_schedules:nullable|command_id:uuid:fk>device_commands|triggered_by:enum(user,schedule,ai,rule)|user_id:uuid:fk>users:nullable|started_at:timestamptz|ended_at:timestamptz|water_liters:numeric(12,2)|status:enum(running,completed,failed,cancelled)'),
+        T('Farms & IoT','canopy_events','سجل الـ Canopy','id:uuid:pk|device_id:uuid:fk>devices|command_id:uuid:fk>device_commands|action:enum(open,close)|reason:enum(manual,rain,wind,temperature,schedule)|user_id:uuid:fk>users:nullable|acked_at:timestamptz:تأكيد من الجهاز'),
+        T('Farms & IoT','device_commands','أوامر التحكم (command + ack)','id:uuid:pk|device_id:uuid:fk>devices|zone_id:uuid:fk>zones|type:enum(irrigation_start,irrigation_stop,canopy_open,canopy_close)|payload:jsonb|status:enum(pending,sent,acked,failed,timeout)|requested_by:uuid:fk>users|idempotency_key:varchar(80)::unique|sent_at:timestamptz|acked_at:timestamptz|expires_at:timestamptz'),
+        T('AI & Planning','crops','كتالوج المحاصيل','id:uuid:pk|name_ar:varchar(80)|name_en:varchar(80)|category:varchar(40)|growth_days:smallint|water_need_mm_week:numeric(6,2)'),
+        T('AI & Planning','crop_calendar','مراحل المحصول ومهامه','id:uuid:pk|crop_id:uuid:fk>crops|stage:varchar(40)|start_day:smallint|end_day:smallint|task:varchar(120)'),
+        T('AI & Planning','knowledge_docs','قاعدة المعرفة للـ RAG','id:uuid:pk|title:varchar(200)|lang:enum(ar,en)|content:text|embedding:vector(1536)::pgvector|source:varchar(200)'),
+        T('Farms & IoT','weather_snapshots','لقطات الطقس','id:uuid:pk|farm_id:uuid:fk>farms|temp_c:numeric(4,1)|humidity:smallint|wind_kmh:numeric(5,1)|rain_mm:numeric(5,1)|rain_detected:boolean|source:varchar(40)|observed_at:timestamptz'),
+        T('Farms & IoT','alerts','التنبيهات','id:uuid:pk|farm_id:uuid:fk>farms|zone_id:uuid:fk>zones:nullable|device_id:uuid:fk>devices:nullable|type:enum(low_moisture,device_offline,irrigation_failed,rain,low_stock)|severity:enum(info,warning,critical)|status:enum(open,acked,resolved)|message:text'),
+        T('Farms & IoT','farm_documents','مستندات المزرعة','id:uuid:pk|farm_id:uuid:fk>farms|kind:varchar(60)|file_url:text|uploaded_by:uuid:fk>users'),
+        /* Services */
+        T('Services','cost_entries','بنود التكلفة','id:uuid:pk|farm_id:uuid:fk>farms|category:enum(water,electricity,equipment,labor,maintenance,other)|amount:numeric(12,2)|currency:char(3)::EGP|period:date|note:text'),
+        T('Services','performance_scores','Farm Performance Score','id:uuid:pk|farm_id:uuid:fk>farms|zone_id:uuid:fk>zones:nullable|overall:smallint|water_efficiency:smallint|soil_health:smallint|irrigation_efficiency:smallint|sensor_performance:smallint|computed_at:timestamptz'),
+        T('Services','maintenance_requests','طلبات الصيانة','id:uuid:pk|farm_id:uuid:fk>farms|device_id:uuid:fk>devices:nullable|requested_by:uuid:fk>users|assigned_to:uuid:fk>users:nullable|title:varchar(160)|description:text|priority:enum(low,medium,high)|status:enum(submitted,under_review,assigned,in_progress,resolved,cancelled)'),
+        T('Services','maintenance_updates','تحديثات الطلب','id:uuid:pk|request_id:uuid:fk>maintenance_requests|author_id:uuid:fk>users|status:varchar(30)|note:text|photos:jsonb'),
+        T('Services','experts','الخبراء','id:uuid:pk|user_id:uuid:fk>users|specialization:enum(soil_science,irrigation,crop_management,plant_diseases,agri_engineering)|bio:text|rating:numeric(2,1)|session_price:numeric(10,2)'),
+        T('Services','expert_slots','المواعيد المتاحة','id:uuid:pk|expert_id:uuid:fk>experts|starts_at:timestamptz|ends_at:timestamptz|is_booked:boolean'),
+        T('Services','consultations','الاستشارات المحجوزة','id:uuid:pk|expert_id:uuid:fk>experts|slot_id:uuid:fk>expert_slots|user_id:uuid:fk>users|farm_id:uuid:fk>farms:nullable|status:enum(booked,completed,cancelled)|notes:text|meeting_url:text'),
+        /* Marketplace */
+        T('Marketplace','categories','تصنيفات المنتجات','id:uuid:pk|parent_id:uuid:fk>categories:nullable|slug:varchar(80)::unique|name_ar:varchar(120)|name_en:varchar(120)'),
+        T('Marketplace','suppliers','ملف المورد','id:uuid:pk|organization_id:uuid:fk>organizations|display_name:varchar(160)|status:enum(pending,approved,suspended)|rating:numeric(2,1)|odoo_partner_id:int:nullable'),
+        T('Marketplace','products','المنتجات','id:uuid:pk|supplier_id:uuid:fk>suppliers|category_id:uuid:fk>categories|sku:varchar(60)::unique|name_ar:varchar(200)|name_en:varchar(200)|description:text|specs:jsonb|price:numeric(12,2)|status:enum(draft,published,hidden)|images:jsonb'),
+        T('Marketplace','inventory_refs','مرجع المخزون من Odoo','id:uuid:pk|product_id:uuid:fk>products|odoo_product_id:int::unique|warehouse:varchar(80)|qty_on_hand:int|qty_reserved:int|low_stock_threshold:int|sync_status:enum(synced,pending,failed)|synced_at:timestamptz'),
+        T('Marketplace','cart_items','السلة','id:uuid:pk|user_id:uuid:fk>users|product_id:uuid:fk>products|qty:int::unique(user_id, product_id)'),
+        T('Marketplace','wishlist_items','المفضلة','user_id:uuid:fk>users:PK (user_id, product_id)|product_id:uuid:fk>products'),
+        T('Marketplace','orders','الطلبات','id:uuid:pk|order_no:varchar(30)::unique|buyer_id:uuid:fk>users|organization_id:uuid:fk>organizations|status:enum(pending,paid,processing,shipped,delivered,cancelled)|payment_status:enum(pending,paid,failed,refunded)|subtotal:numeric(12,2)|shipping_fee:numeric(12,2)|total:numeric(12,2)|shipping_address:jsonb|odoo_order_ref:varchar(60)|idempotency_key:varchar(80)::unique'),
+        T('Marketplace','order_items','بنود الطلب','id:uuid:pk|order_id:uuid:fk>orders|product_id:uuid:fk>products|supplier_id:uuid:fk>suppliers|sku:varchar(60)|qty:int|unit_price:numeric(12,2)'),
+        T('Marketplace','shipments','شحنات الطلبات','id:uuid:pk|order_id:uuid:fk>orders|carrier:varchar(60)|tracking_no:varchar(80)|status:enum(preparing,shipped,in_transit,delivered,failed)|shipped_at:timestamptz|delivered_at:timestamptz'),
+        T('Marketplace','shipment_events','أحداث التتبع','id:uuid:pk|shipment_id:uuid:fk>shipments|status:varchar(40)|location:varchar(120)|occurred_at:timestamptz|external_event_id:varchar(80)::unique'),
+        T('Marketplace','reviews','مراجعات المنتجات','id:uuid:pk|product_id:uuid:fk>products|user_id:uuid:fk>users|rating:smallint|comment:text|status:enum(visible,hidden)'),
+        T('Marketplace','returns','المرتجعات: 3 حالات منفصلة','id:uuid:pk|order_id:uuid:fk>orders|order_item_id:uuid:fk>order_items|reason:enum(defective,wrong_item,not_as_described,other)|details:text|return_status:enum(requested,under_review,approved,rejected,inspection,closed)::مسار القرار|logistics_status:enum(none,pickup_scheduled,picked_up,in_transit,delivered_to_return_location)::من Tasleem|resolution_type:enum(refund,replacement):nullable|resolution_status:enum(none,processing,completed)::مسار الاسترداد|tasleem_ref:varchar(80)|tracking_no:varchar(80)'),
+        T('Marketplace','return_events','سجل أحداث المرتجع','id:uuid:pk|return_id:uuid:fk>returns|kind:enum(workflow,logistics,resolution)|status:varchar(40)|occurred_at:timestamptz|external_event_id:varchar(80)::unique:nullable'),
+        /* Integrations */
+        T('Integrations','integration_connections','حالة الربط مع كل نظام','id:uuid:pk|system:enum(odoo,tasleem)::unique|status:enum(healthy,degraded,down)|last_sync_at:timestamptz|cursor:text|config:jsonb::مشفّر'),
+        T('Integrations','integration_logs','سجل التكاملات','id:uuid:pk|system:enum(odoo,tasleem)|direction:enum(in,out)|entity:varchar(40)|entity_id:uuid|external_ref:varchar(80)|idempotency_key:varchar(100)::unique|status:enum(success,failed,retrying,duplicate)|attempts:smallint|error:text|payload:jsonb'),
+        /* Finance */
+        T('Finance','subscription_plans','خطط الاشتراك','id:uuid:pk|code:enum(free,basic,pro)::unique|name_ar:varchar(80)|name_en:varchar(80)|price_monthly:numeric(10,2)|limits:jsonb::قابلة للضبط من Admin|features:jsonb|is_active:boolean'),
+        T('Finance','subscriptions','اشتراكات المنظمات','id:uuid:pk|organization_id:uuid:fk>organizations|plan_id:uuid:fk>subscription_plans|status:enum(active,past_due,cancelled)|period_start:date|period_end:date|auto_renew:boolean'),
+        T('Finance','payments','المدفوعات','id:uuid:pk|organization_id:uuid:fk>organizations|purpose:enum(order,subscription,insurance)|ref_id:uuid|amount:numeric(12,2)|status:enum(pending,paid,failed,refunded)|provider_ref:varchar(100)|paid_at:timestamptz'),
+        T('Finance','insurance_plans','خطط التأمين (من الشريك)','id:uuid:pk|name_ar:varchar(120)|name_en:varchar(120)|coverage:jsonb|base_premium:numeric(12,2)|partner_name:varchar(120)|is_active:boolean'),
+        T('Finance','insurance_applications','طلبات التأمين','id:uuid:pk|organization_id:uuid:fk>organizations|plan_id:uuid:fk>insurance_plans|farm_id:uuid:fk>farms|assessment:jsonb|status:enum(draft,submitted,needs_info,approved,rejected)|reviewed_by:uuid:fk>users:nullable|review_note:text'),
+        T('Finance','policies','الوثائق','id:uuid:pk|application_id:uuid:fk>insurance_applications|policy_no:varchar(40)::unique|partner_ref:varchar(80)|premium:numeric(12,2)|starts_on:date|ends_on:date|status:enum(active,expired,cancelled)|document_url:text'),
+        T('Finance','claims','المطالبات','id:uuid:pk|policy_id:uuid:fk>policies|description:text|amount_claimed:numeric(12,2)|evidence:jsonb|status:enum(submitted,under_review,approved,rejected,paid)|reviewed_by:uuid:fk>users:nullable'),
+        /* AI & Planning */
+        T('AI & Planning','ai_conversations','محادثات المساعد','id:uuid:pk|user_id:uuid:fk>users|farm_id:uuid:fk>farms:nullable|title:varchar(160)|lang:enum(ar,en)'),
+        T('AI & Planning','ai_messages','رسائل المحادثة','id:uuid:pk|conversation_id:uuid:fk>ai_conversations|role:enum(user,assistant)|content:text|context:jsonb::بيانات المزرعة المستخدمة'),
+        T('AI & Planning','ai_recommendations','التوصيات','id:uuid:pk|farm_id:uuid:fk>farms|zone_id:uuid:fk>zones:nullable|type:enum(irrigation,plant,cost,seasonal)|payload:jsonb|status:enum(new,applied,dismissed)|valid_until:timestamptz'),
+        T('AI & Planning','seasonal_plans','خطط الموسم','id:uuid:pk|farm_id:uuid:fk>farms|season:varchar(30)|crop_id:uuid:fk>crops|start_date:date|end_date:date|status:enum(draft,active,done)'),
+        T('AI & Planning','plan_tasks','مهام الموسم','id:uuid:pk|plan_id:uuid:fk>seasonal_plans|zone_id:uuid:fk>zones:nullable|type:enum(planting,irrigation,fertilization,other)|title:varchar(160)|due_date:date|status:enum(todo,done,skipped)'),
+        T('AI & Planning','ai_reports','التقارير','id:uuid:pk|farm_id:uuid:fk>farms|kind:varchar(40)|period:daterange|file_url:text|generated_at:timestamptz'),
+        /* Platform */
+        T('Platform','notifications','الإشعارات','id:uuid:pk|user_id:uuid:fk>users|type:varchar(40)|title:varchar(160)|body:text|data:jsonb|read_at:timestamptz'),
+        T('Platform','support_requests','طلبات الدعم','id:uuid:pk|user_id:uuid:fk>users|subject:varchar(160)|body:text|status:enum(open,in_progress,closed)|assigned_to:uuid:fk>users:nullable'),
+        T('Platform','audit_logs','سجل التدقيق','id:uuid:pk|actor_id:uuid:fk>users:nullable|action:varchar(80)|entity:varchar(40)|entity_id:uuid|diff:jsonb|ip:inet'),
+      ]
+    };
+  })(),
+
+  /* ── AI / Dashboard / Roadmap / Scaling / RBAC / Integrations / Risks ── */
+  ai:{
+    note:'الأهداف (Target) هنا مقترحة وبتتحدد قيمتها الفعلية بعد قياس baseline على مزرعة تجريبية. القيم placeholders قابلة للتعديل.',
+    principles:[
+      'AI استشاري: أي أمر تحكم (ري / Canopy) بيعدّي على تأكيد المستخدم، إلا لو المستخدم فعّل Auto mode بنفسه.',
+      'كل توصية بتوضح البيانات اللي اتبنت عليها (قراءات، طقس، محصول) ودرجة الثقة.',
+      'لو الحساسات Offline أو البيانات ناقصة، النظام يرجع لقواعد بسيطة ويقول ده صراحة.',
+      'التشخيص غير المؤكد (أمراض نباتات مثلاً) يتحول لـ Expert Consultation.',
+      'بيانات المزرعة خاصة: بتتبعت للـ LLM بالحد الأدنى المطلوب وبدون بيانات شخصية.',
+    ],
+    flow:`  Sensors (Timescale) ─┐
+  Weather ─────────────┤
+  Crops / Zones ───────┼─► Feature layer ─► Rules + ML models ─┐
+  Orders / Costs ──────┤                                      ├─► ai_recommendations
+  Knowledge base ──────┘          LLM (explain + chat, RAG) ───┘        │
+                                                                        ▼
+                                              UI card (Apply / Dismiss) ─► confirm ─► control command`,
+    models:[
+      {n:1,t:'AI Agriculture Assistant',phase:'Phase 5',badge:'LLM + RAG',
+       d:'مساعد محادثة بالعربي والإنجليزي بيجاوب بسياق المزرعة: التربة، الري، المحاصيل.',
+       inputs:'سؤال المستخدم + سياق المزرعة/الـ Zone المختارة + آخر القراءات + قاعدة معرفة زراعية.',
+       outputs:'إجابة مع Cards (قراءات، توصية، رابط لصفحة) وأسئلة مقترحة. تتخزن في ai_conversations / ai_messages.',
+       guard:'استشاري فقط ومش بيبعت أوامر تحكم. التشخيص غير المؤكد بيتحول لخبير.',
+       metric:'نسبة الإجابات المفيدة (thumbs up)',pct:80},
+      {n:2,t:'Smart Irrigation Recommendations',phase:'Phase 5',badge:'Rules + Forecast',
+       d:'بيقترح وقت ومدة الري لكل Zone ويحسب توفير المياه المتوقع.',
+       inputs:'رطوبة التربة، توقعات الطقس، نوع المحصول والتربة، آخر ري، قيود شبكة الـ valves.',
+       outputs:'توصية (متى / كام دقيقة / ليه) + Apply / Dismiss. بتتخزن في ai_recommendations.',
+       guard:'تأكيد المستخدم قبل التنفيذ، وحدود أمان للمدة، وfallback لقواعد بسيطة لو الحساس Offline.',
+       metric:'نسبة التوصيات المقبولة',pct:70},
+      {n:3,t:'Seasonal Planner',phase:'Phase 5',badge:'Rules + LLM',
+       d:'بيولّد جدول موسمي للزراعة والري والتسميد حسب المحصول والموسم.',
+       inputs:'المحصول، الموسم، مساحة الـ Zones، نوع التربة، تقويم المحاصيل.',
+       outputs:'seasonal_plans + plan_tasks بتواريخ وتذكيرات، وملخص يظهر في كارت الـ Dashboard.',
+       guard:'الجدول قابل للتعديل بالكامل والتغييرات متسجلة، وLLM بيشرح بس ومبيغيّرش التواريخ لوحده.',
+       metric:'مهام اتنفذت في موعدها',pct:75},
+      {n:4,t:'Insights & Predictions',phase:'Phase 5',badge:'Time-series Analytics',
+       d:'توقع احتياج الري، تحليل استهلاك المياه، تحسين التكلفة، وتوصيات نباتات.',
+       inputs:'سجل الري والمياه، cost_entries، قراءات تاريخية، طقس، نتائج الموسم.',
+       outputs:'Insights + منحنيات توقع + تقارير (ai_reports) قابلة للتصدير.',
+       guard:'بيعرض نافذة البيانات ودرجة الثقة، وما بيطلعش توقع لو البيانات أقل من الحد الأدنى.',
+       metric:'دقة التوقع (Forecast accuracy)',pct:85},
+      {n:5,t:'Performance Score & Anomaly Detection',phase:'Phase 3 → 5',badge:'Scoring + Anomaly',
+       d:'بيحسب Farm Performance Score وبيكتشف الشذوذ في القراءات والأجهزة.',
+       inputs:'قراءات الحساسات، صحة الأجهزة، كفاءة الري، استهلاك المياه، تاريخ الأعطال.',
+       outputs:'performance_scores (كلي + 4 مكونات) وتنبيهات alerts (حساس بيقرا غلط، جهاز بطيء، تسريب محتمل).',
+       guard:'الـ Score قابل للتفسير (كل مكوّن ظاهر)، وعتبات التنبيه قابلة للضبط لتقليل الإنذارات الكاذبة.',
+       metric:'دقة التنبيهات (Alert precision)',pct:90},
+    ],
+  },
+
+  dashboard:{
+    note:'الأرقام توضيحية (Sample data) علشان شكل الصفحة. القيم الفعلية بتيجي من الجداول المذكورة في Metrics Dictionary.',
+    kpis:[['🌾','Active Farms','128','farms.status = active',72],['📡','Devices Online','94%','1,204 جهاز متصل',94],['🛒','Orders (30 days)','342','Return rate 3.1%',60],['💳','Active Subscriptions','86','Pro 22 · Basic 41 · Free 23',55]],
+    water:{title:'Water Usage by Zone',badge:'Operations',sub:'لتر / أسبوع',labels:['A1','A2','A3','B1','B2','B3','C1','C2'],vals:[62,48,75,40,88,55,70,35]},
+    sales:{title:'Marketplace: Orders vs Returns',badge:'Marketplace',sub:'آخر 6 شهور',labels:['Jun','Jul','Aug','Sep','Oct','Nov'],vals:[38,52,61,74,90,100],note:'Return rate 3.1%'},
+    integ:{title:'Integration Health',badge:'Integrations',rows:[['Odoo — Inventory','Healthy','آخر مزامنة: منذ 4 دقايق · Failed events: 0'],['Tasleem — Returns','Degraded','آخر تحديث: منذ 38 دقيقة · Failed events: 2 (retrying)']]},
+    ai:{title:'AI Usage',badge:'AI',rows:[['محادثات المساعد (7 أيام)','1,240'],['توصيات ري اتولدت','860'],['توصيات اتطبقت','71%'],['تقارير AI اتصدّرت','94']]},
+    dict:[
+      ['Active Farms','عدد المزارع بحالة active','farms'],
+      ['Devices Online %','الأجهزة اللي last_seen_at خلال آخر 10 دقايق ÷ كل الأجهزة','devices'],
+      ['Orders (30d)','طلبات اتأكد دفعها في آخر 30 يوم','orders'],
+      ['Return rate','المرتجعات ÷ بنود الطلبات المسلّمة','returns, order_items'],
+      ['Active Subscriptions','اشتراكات status = active حسب الخطة','subscriptions'],
+      ['Water Usage','مجموع water_liters لكل Zone في الفترة','irrigation_events'],
+      ['Integration Failed events','أحداث status = failed أو retrying','integration_logs'],
+      ['Recommendation acceptance','توصيات status = applied ÷ كل التوصيات','ai_recommendations'],
+    ],
+  },
+
+  roadmap:{
+    note:'الـ Phases من الـ doc (6 مراحل). الأسابيع تقدير مبدئي قابل للتعديل حسب حجم الفريق. إدارة المستخدمين والموردين الأساسية (Admin) بتتبني مبكراً مع كل Phase.',
+    phases:[
+      {c:'#2F3A1D',name:'Phase 1 — Core Platform',weeks:'Weeks 1–8',items:[['Wk 1–2','Authentication، Organizations، الأدوار وRBAC، RTL/LTR scaffold'],['Wk 3–4','Farms وFarm Zones بالخريطة التفاعلية'],['Wk 5–6','استقبال IoT (MQTT)، Soil Monitoring، Devices & Sensors'],['Wk 7–8','Irrigation وCanopy Control (command + ack)، Main Dashboard']],exit:'مزرعة تجريبية بتتراقب وبتتحكم فيها بأمان (تأكيد + سجل).'},
+      {c:'#5E7B24',name:'Phase 2 — Marketplace & Integrations',weeks:'Weeks 9–16',items:[['Wk 9–10','Categories، Products، Supplier workspace'],['Wk 11–12','Cart، Checkout، Payment، Orders'],['Wk 13–14','Odoo: مزامنة المنتجات والمخزون وReservation'],['Wk 15–16','Tasleem: Returns وTracking وفصل حالات الشحن عن الاسترداد']],exit:'طلب كامل من الشراء للتتبع، ومرتجع كامل لحد الإغلاق.'},
+      {c:'#8FB43A',name:'Phase 3 — Plant Green Services',weeks:'Weeks 17–22',items:[['Wk 17–18','Farm Cost Calculator'],['Wk 19–20','Maintenance Requests'],['Wk 21–22','Expert Consultation وFarm Performance Score']],exit:'الخدمات الأربعة شغالة وكروتها ظاهرة في الـ Dashboard.'},
+      {c:'#A8C85C',name:'Phase 4 — Financial Services',weeks:'Weeks 23–28',items:[['Wk 23–24','Subscriptions: خطط، ترقية، فواتير'],['Wk 25–26','Insurance: Applications وFarm Assessment وAdmin review'],['Wk 27–28','Policies وClaims وتتبعها']],exit:'اشتراك فعلي + طلب تأمين اتراجع من الـ Admin.'},
+      {c:'#C3DE7A',name:'Phase 5 — AI Intelligence',weeks:'Weeks 29–36',items:[['Wk 29–30','AI Assistant (RAG)'],['Wk 31–32','Smart Irrigation Recommendations'],['Wk 33–34','Seasonal Planner'],['Wk 35–36','Insights وPredictions وAI Reports']],exit:'توصيات مفعّلة على المزارع التجريبية مع قياس نسبة القبول.'},
+      {c:'#CFFF74',name:'Phase 6 — Admin & Optimization',weeks:'Weeks 37–42',items:[['Wk 37–38','Advanced Admin وAnalytics وIntegration Monitoring'],['Wk 39–40','Performance optimization'],['Wk 41–42','Security review، Testing، Deployment']],exit:'جاهزية Production: أمان، أداء، مراقبة.'},
+    ],
+    opex:[
+      ['Cloud hosting','API + Worker + PostgreSQL/Timescale + Redis','يتأثر بحجم القراءات وعدد الأجهزة'],
+      ['Object storage','صور المزارع، صور الصيانة، وثائق التأمين','حسب الحجم والاحتفاظ'],
+      ['MQTT broker','استقبال بيانات الأجهزة','Managed أو Self-hosted'],
+      ['Monitoring & logs','Metrics، Logs، Error tracking','حسب حجم الـ logs'],
+      ['SMS / Email','التحقق والإشعارات','حسب عدد الرسائل'],
+      ['Maps','الخريطة التفاعلية وتحديد المواقع','حسب الاستخدام أو Self-hosted tiles'],
+      ['LLM API','المساعد والتوصيات والتقارير','حسب tokens، ويتحكم فيه caching وحدود الاستخدام'],
+      ['Payment gateway','رسوم المعاملات','نسبة من كل عملية'],
+      ['Odoo / Tasleem','تكلفة الترخيص أو الـ API إن وجدت','تتأكد من الأطراف دي'],
+      ['Device connectivity','اتصال الأجهزة (شرائح / بيانات)','حسب عدد الأجهزة'],
+    ],
+    money:[
+      ['Subscriptions','Free / Basic / Pro، والمميزات والحدود يضبطها الـ Admin','من الـ doc'],
+      ['Marketplace margin','نسبة أو عمولة على مبيعات الموردين','مقترح'],
+      ['Expert consultations','رسوم جلسة أو مشاركة إيراد مع الخبراء','مقترح'],
+      ['Insurance referral','عمولة من شريك تأميني مرخص (مش تأمين مباشر)','مقترح'],
+      ['Supplier plans','باقات ظهور وأدوات تحليل للموردين','مقترح'],
+    ],
+  },
+
+  scaling:{
+    note:'الـ doc ما حددش أرقام مستخدمين أو جدول زمني، فالتقسيم هنا بالمراحل وبمؤشرات الانتقال (Scale triggers) بدل أرقام مخترعة.',
+    stages:[
+      {c:'#2F3A1D',s:'Stage 1',name:'Foundation — Pilot Farms',phases:'Phases 1–2',tags:['Modular Monolith','Postgres واحد (+Timescale)','Worker واحد','بيئة Production واحدة'],focus:'إثبات الدورة الكاملة على مزارع تجريبية: مراقبة، تحكم، شراء، مرتجع.'},
+      {c:'#5E7B24',s:'Stage 2',name:'Growth — Multi-farm & Services',phases:'Phases 3–5',tags:['Read replicas','Redis cache','Timescale compression + retention','Worker scale-out','CDN للصور'],focus:'مزارع وأجهزة أكتر، وخدمات مالية وAI، مع الحفاظ على الأداء.'},
+      {c:'#8FB43A',s:'Stage 3',name:'Platform — Optimization & Resilience',phases:'Phase 6+',tags:['استخراج Telemetry service','استخراج Integrations service','AI service مستقل','SLA + Monitoring متقدم'],focus:'فصل الأجزاء الثقيلة، ومراقبة وجاهزية للتوسع جغرافياً لو لزم.'},
+    ],
+    triggers:[
+      ['Telemetry write load','CPU / IOPS على Postgres بسبب sensor_readings','Timescale compression، downsampling، فصل DB للقراءات'],
+      ['API latency','p95 على endpoints الـ Dashboard','Caching، Read replicas، Materialized views'],
+      ['Queue depth','تأخر jobs الـ Odoo/Tasleem أو الـ telemetry','زيادة Workers، تقسيم الـ queues'],
+      ['Real-time connections','عدد اتصالات WebSocket/SignalR','Scale-out + Redis backplane'],
+      ['LLM cost','تكلفة tokens لكل مستخدم','Caching، تلخيص السياق، حدود حسب الخطة'],
+      ['Media storage','نمو الصور والوثائق','Lifecycle rules + CDN'],
+    ],
+    milestones:[
+      ['M1','Pilot farm live','Auth + Dashboard + Monitoring + Irrigation مع Ack','Phase 1'],
+      ['M2','أول طلب End-to-End','شراء → Odoo stock update → شحن → تتبع','Phase 2'],
+      ['M3','أول مرتجع مقفول','Tasleem tracking → Inspection → Refund/Replacement','Phase 2'],
+      ['M4','الخدمات شغالة','Cost + Maintenance + Experts + Performance Score','Phase 3'],
+      ['M5','أول اشتراك وأول طلب تأمين','Billing + Admin review','Phase 4'],
+      ['M6','AI على مزرعة تجريبية','توصيات ري + مساعد + Planner مع قياس القبول','Phase 5'],
+      ['M7','Production readiness','Security review + Load test + Monitoring','Phase 6'],
+    ],
+  },
+
+  rbac:{
+    note:'مصفوفة مبنية على الـ doc (القسم 3). الخلايا اللي فيها Limited افتراضات لازم تتأكد قبل التنفيذ.',
+    roles:['Farm Owner','Business','Supplier','Platform Admin','Insurance Officer*'],
+    rows:[
+      ['Farms & Zones','f','f','n','l','n'],
+      ['Monitoring (Soil / Weather)','f','f','n','l','n'],
+      ['Irrigation & Canopy control','f','f','n','l','n'],
+      ['Devices & Sensors','f','f','n','l','n'],
+      ['Cost Calculator & Performance','f','f','n','l','n'],
+      ['Maintenance — إنشاء ومتابعة','f','f','n','f','n'],
+      ['Expert Consultation — حجز','f','f','n','l','n'],
+      ['Marketplace — شراء','f','f','n','l','n'],
+      ['Supplier products & inventory','n','n','f','f','n'],
+      ['Orders processing & shipments','n','n','f','f','n'],
+      ['Returns — تقديم','f','f','n','n','n'],
+      ['Returns — مراجعة وتسوية','n','n','l','f','n'],
+      ['Subscriptions','f','f','n','f','n'],
+      ['Insurance — تقديم ومطالبات','f','f','n','n','n'],
+      ['Insurance — مراجعة','n','n','n','f','f'],
+      ['AI Intelligence','f','f','n','l','n'],
+      ['Team Management','n','f','n','f','n'],
+      ['Analytics','n','l','l','f','n'],
+      ['Integration Monitoring','n','n','n','f','n'],
+    ],
+    notes:['f = كامل · l = محدود (عرض فقط أو على بياناته هو) · n = غير متاح.','Insurance Officer* دور مستقبلي حسب الـ doc.','الـ Admin بيعرض ويدير لأغراض الدعم، لكن أوامر التحكم الفعلي في الري والـ Canopy للمالك وفريقه.','الصلاحيات بتتخزن كـ permissions (مثال: irrigation.control) والـ Roles بتتجمع منها، وبتتفرض في الـ Backend قبل الـ UI.'],
+  },
+
+  integrations:{
+    odoo:['المنتجات والمخزون بتتدار أو بتتحدّث في Odoo.','Odoo بيعرّض بيانات المنتج والمخزون لـ Plant Green.','Plant Green بيعرض آخر توفر في الـ Marketplace.','عند الطلب، Plant Green يبعت بيانات الطلب لـ Odoo.','Odoo يعالج عملية المخزون حسب الـ workflow.','Plant Green يستقبل تحديث الطلب والمخزون.','الـ Marketplace يعرض التوفر المحدّث.'],
+    tasleem:['العميل يفتح الطلب.','يقدّم طلب مرتجع بالسبب.','Plant Green يسجل الطلب وسببه.','بعد الموافقة، بيانات الشحنة تتبعت لـ Tasleem (لو متاح).','Tasleem يرجّع reference / tracking number.','Plant Green يعرض بيانات التتبع.','تحديثات الحالة بتتزامن.','وصول المنتج لجهة الاستلام يحدّث الحالة.','الفريق يفحص المنتج ويعالج Refund أو Replacement.'],
+    tracks:[
+      ['Workflow (Plant Green)',['Return Requested','Under Review','Approved / Rejected','Inspection','Closed']],
+      ['Logistics (Tasleem)',['Pickup Scheduled','Picked Up','In Transit','Delivered to Return Location']],
+      ['Resolution (Plant Green + Odoo)',['Refund Processing','Refunded','Replacement Processing']],
+    ],
+    owners:[
+      ['Plant Green','الواجهة، قرار المرتجع، الفحص، الـ Refund / Replacement، سجل التكاملات'],
+      ['Odoo','مصدر الكميات والمخزون، وتسوية المخزون بعد المرتجع (حسب الـ workflow)'],
+      ['Tasleem','شحنة المرتجع، Pickup، التتبع، تأكيد التسليم'],
+    ],
+    reliability:['API Authentication','Data Validation','Error Handling','Retry Mechanisms','Integration Logs','External Reference IDs','Duplicate Event Protection','Synchronization Status Monitoring','Stock reservation للطلبات المتزامنة','تحديد Source of truth'],
+    syncStates:[['Synced','تمت المزامنة'],['Pending','في الانتظار / قيد المعالجة'],['Retrying','فشل ويتعاد'],['Failed','فشل نهائي ويحتاج تدخل'],['Duplicate','حدث مكرر اتتجاهل']],
+  },
+
+  risks:{
+    note:'الأسئلة دي طالعة من ملاحظات الـ doc نفسه ومن فجوات واضحة فيه. كل بند محتاج قرار قبل المرحلة المذكورة.',
+    items:[
+      ['High','حماية التحكم عن بُعد','أوامر الري والـ Canopy لازم تكون آمنة: تأكيد، ack من الجهاز، وسلوك آمن لو الاتصال قطع (fail-safe محلي).','Phase 1'],
+      ['High','بروتوكول الأجهزة وتردد التحديث','الـ doc بيقول التحديث حسب قدرة الهاردوير. محتاجين تحديد MQTT / HTTP / غيره ودعم الـ ack.','Phase 1'],
+      ['High','نسختين Backend (C# و Node.js)','خطر اختلاف السلوك. لازم Schema واحد وعقد API موحد واختبارات Contract مشتركة.','Phase 1'],
+      ['High','Odoo: الإصدار والـ API والـ Source of truth','آلية الربط تعتمد على الإصدار والإعدادات. لازم تحديد مين صاحب الكميات.','Phase 2'],
+      ['High','Tasleem: قدرات الـ API','تأكيد إمكانية إنشاء شحنة مرتجع والتتبع وطريقة التحديثات (Webhook / Polling).','Phase 2'],
+      ['High','بوابة الدفع','الـ doc ما حددش مزود الدفع. القرار بيأثر على Checkout والاشتراكات والـ Refund.','Phase 2'],
+      ['High','شريك التأمين المرخص','المنصة بتدير الطلبات داخلياً، والتغطية والتعويض محتاجين شريك مرخص واتفاق قانوني صحيح.','Phase 4'],
+      ['Medium','طبولوجيا الري','الري يتبع شبكة الـ valves الفعلية مش مضخة لكل متر. لازم تحديد وحدة التحكم لكل Zone.','Phase 1'],
+      ['Medium','الاحتفاظ بالقراءات (Retention)','حجم sensor_readings هيكبر: سياسة Downsampling والاحتفاظ لازم تتحدد.','Phase 1'],
+      ['Medium','حدود وأسعار الخطط','Free / Basic / Pro: الحدود والمميزات قابلة للضبط من الـ Admin، لكن لازم قيم البداية.','Phase 4'],
+      ['Medium','AI: مزود LLM وخصوصية البيانات','جودة العربي، تكلفة الـ tokens، وإخلاء المسؤولية في التوصيات الزراعية.','Phase 5'],
+      ['Low','قنوات الإشعارات','SMS / Email / Push: الـ doc ما حددش القنوات المطلوبة.','Phase 1'],
+    ],
+  },
+
+  components:['Sidebar','Topbar','Search','Notifications','Profile Menu','KPI Cards','Charts','Data Tables','Status Badges','Filters','Detail Drawers','Confirmation Modals','Empty States','Loading Skeletons','Toast Notifications'],
+  screenStates:['Loading','Success','Error','Empty','Normal Data','Permission Restricted'],
+
+  promptGen:{
+    context:'Plant Green — a Smart Agriculture & Farm Management web platform (IoT monitoring, automated irrigation & canopy control, equipment marketplace, agricultural services, insurance management, AI recommendations) with role-based access: Farm Owner, Agricultural Business, Supplier, Platform Admin.',
+    device:'Desktop web dashboard, 1440×900 viewport, screen content only, no browser chrome',
+    rules:[
+      'Modern SaaS dashboard style, clean and calm, generous spacing, 4px grid.',
+      'Olive sidebar (#2F3A1D) with lime (#CFFF74) active state; lime is used for primary actions and active states only.',
+      'Light dashboard cards on #F3F4EF with subtle 1px borders; corner radius 12–18px.',
+      'Typography: Display 28/700, H1 22/700, H2 18/600, Body 14/400, Caption 12/400, Label 11/600 uppercase.',
+      'Status always as consistent badges (Online / Offline / Pending / Approved …); never color alone — include text.',
+      'Data-heavy screens must show realistic agricultural data (zones, moisture %, EGP, SKUs) — no lorem ipsum.',
+      'Include the shared components: Sidebar, Topbar (search, farm switcher, notifications, language, profile menu).',
+      'Show the screen in its Normal Data state and include a small side note listing the other required states.'
+    ],
+    langs:{
+      ar:{label:'العربية',dir:'RTL',font:'IBM Plex Sans Arabic',num:'Eastern Arabic numerals optional; use Western numerals for sensor values and prices',all:'Arabic (Modern Standard, Egyptian agricultural context)',tog:'AR active, EN outlined'},
+      en:{label:'English',dir:'LTR',font:'Inter (or Manrope)',num:'Western numerals',all:'English',tog:'EN active, AR outlined'}
+    }
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   2) ENGINE  —  ثابت لكل المشاريع
+   ═══════════════════════════════════════════════════════════════ */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function applyTheme(){
+  const st=document.createElement('style');
+  st.textContent=':root{'+PROJECT.theme.colors.map(c=>'--'+c.key+':'+c.v).join(';')+'}';
+  document.head.appendChild(st);
+}
+
+/* ── Mockup block library (عام لأي مشروع) ── */
+const B={
+  kpi:()=>`<div class="m-grid4">${[['—','72%'],['—','18'],['—','4.2k'],['—','96%']].map(([,v],i)=>`<div class="m-box"><div class="m-line" style="width:55%;height:5px"></div><div class="m-v">${v}</div><div class="m-bar"><u style="width:${[72,45,60,96][i]}%"></u></div></div>`).join('')}</div>`,
+  chart:()=>`<div class="m-box"><div class="m-line" style="width:35%"></div><div class="m-bars">${[40,62,48,75,58,88,70,95].map(h=>`<u style="height:${h}%"></u>`).join('')}</div></div>`,
+  table:()=>`<div class="m-box">${[1,2,3,4].map(i=>`<div class="m-row"><div class="m-line" style="width:${40+i*6}%;margin:0"></div><span class="m-st ${i%2?'':'g'}">●</span></div>`).join('')}</div>`,
+  list:()=>`<div class="m-box">${[1,2,3].map(i=>`<div class="m-row"><div style="display:flex;gap:8px;align-items:center;flex:1"><s style="width:18px;height:18px;border-radius:6px;background:var(--lime-soft);display:block"></s><div class="m-line" style="width:${55-i*7}%;margin:0"></div></div><span class="m-st g">—</span></div>`).join('')}</div>`,
+  cards:()=>`<div class="m-grid3">${[1,2,3].map(()=>`<div class="m-box"><div style="height:46px;border-radius:7px;background:linear-gradient(135deg,var(--lime-soft),#E3E8D5);margin-bottom:7px"></div><div class="m-line" style="width:70%"></div><div class="m-line" style="width:40%"></div><span class="m-st">●</span></div>`).join('')}</div>`,
+  filters:()=>`<div class="m-top"><div class="m-state"><span class="m-pill">🔍 …</span><span class="m-pill">Filter ▾</span><span class="m-pill">Sort ▾</span></div><span class="m-btn">+ Add</span></div>`,
+  form:()=>`<div class="m-box"><div class="m-grid2" style="grid-template-columns:1fr 1fr">${[1,2,3,4].map(()=>`<div class="m-field"><s>Label</s><u></u></div>`).join('')}</div><span class="m-btn">Save</span></div>`,
+  map:()=>`<div class="m-box"><div class="m-map">${Array.from({length:24},(_,i)=>`<u class="${[2,3,8,9,14,15].includes(i)?'a':[11,20].includes(i)?'b':''}"></u>`).join('')}</div></div>`,
+  steps:()=>`<div class="m-steps"><u class="d">1</u><s></s><u class="d">2</u><s></s><u>3</u><s></s><u>4</u></div>`,
+  accounttype:()=>`<div class="m-grid3">${['Owner','Business','Supplier'].map((t,i)=>`<div class="m-box" style="text-align:center;${i==0?'border-color:var(--olive);background:var(--lime-soft)':''}"><div style="font-size:16px">${['🌱','🏢','📦'][i]}</div><div class="m-k">${t}</div></div>`).join('')}</div>`,
+  hero:()=>`<div class="m-center m-box" style="text-align:center;padding:26px"><div class="m-v" style="margin-bottom:6px">🌿</div><div class="m-line" style="width:70%;margin:6px auto"></div><div class="m-line" style="width:50%;margin:6px auto 14px"></div><span class="m-btn">Create account</span> <span class="m-btn out">Sign in</span></div>`,
+  otp:()=>`<div class="m-center m-box" style="text-align:center;padding:24px"><div class="m-line" style="width:60%;margin:0 auto 14px"></div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:14px">${[1,2,3,4,5,6].map(i=>`<s style="width:24px;height:30px;border:1px solid var(--border2);border-radius:6px;display:block;${i<3?'background:var(--lime-soft)':''}"></s>`).join('')}</div><span class="m-btn">Verify</span></div>`,
+  toggle:()=>`<div class="m-box">${[1,2,3].map(i=>`<div class="m-row"><div class="m-line" style="width:45%;margin:0"></div><s style="width:28px;height:15px;border-radius:99px;background:${i<3?'var(--olive)':'#D6DACB'};display:block"></s></div>`).join('')}</div>`,
+  schedule:()=>`<div class="m-box"><div class="m-top"><span class="m-pill">Manual</span><span class="m-pill" style="background:var(--olive);color:var(--lime)">Auto</span></div>${[1,2,3].map(i=>`<div class="m-row"><span class="m-k">0${i*2}:00</span><div class="m-bar" style="flex:1;margin:0 8px"><u style="width:${30+i*15}%"></u></div><span class="m-st">ON</span></div>`).join('')}</div>`,
+  calendar:()=>`<div class="m-box"><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">${Array.from({length:21},(_,i)=>`<s style="height:22px;border-radius:5px;display:block;background:${[3,9,10,16].includes(i)?'var(--lime)':'#EEF0E6'}"></s>`).join('')}</div></div>`,
+  chat:()=>`<div class="m-box" style="display:flex;flex-direction:column;gap:7px;min-height:200px"><div class="m-chat-a">…</div><div class="m-chat-u">…</div><div class="m-chat-a">…<div class="m-bar"><u style="width:80%"></u></div></div><div style="margin-top:auto;display:flex;gap:6px"><div class="m-field" style="flex:1;margin:0"><u></u></div><span class="m-btn">➤</span></div></div>`,
+  plans:()=>`<div class="m-grid3">${['Free','Basic','Pro'].map((t,i)=>`<div class="m-box" style="${i==2?'border:2px solid var(--olive);background:var(--lime-soft)':''}"><div class="m-k">${t}</div><div class="m-v">${['0','—','—'][i]}</div><div class="m-line"></div><div class="m-line" style="width:70%"></div><span class="m-btn ${i==2?'':'out'}">Select</span></div>`).join('')}</div>`,
+  timeline:()=>`<div class="m-box">${[1,2,3,4].map(i=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><s style="width:10px;height:10px;border-radius:50%;display:block;background:${i<3?'var(--olive)':'#D6DACB'}"></s><div class="m-line" style="width:${60-i*8}%;margin:0"></div></div>`).join('')}</div>`,
+  product:()=>`<div class="m-grid2" style="grid-template-columns:1fr 1fr"><div class="m-box"><div style="height:120px;border-radius:8px;background:linear-gradient(135deg,var(--lime-soft),#E3E8D5)"></div></div><div class="m-box"><div class="m-line" style="width:80%"></div><div class="m-v">EGP —</div><span class="m-st">In stock</span><div class="m-line"></div><div class="m-line" style="width:60%"></div><span class="m-btn">Add to cart</span></div></div>`,
+  summary:()=>`<div class="m-box"><div class="m-row"><span class="m-k">Subtotal</span><b>—</b></div><div class="m-row"><span class="m-k">Shipping</span><b>—</b></div><div class="m-row"><b>Total</b><b>—</b></div><span class="m-btn">Checkout</span></div>`,
+  upload:()=>`<div class="m-box" style="border-style:dashed;text-align:center;padding:18px"><div style="font-size:18px">📷</div><div class="m-k">Upload photos</div></div>`,
+};
+function mockHTML(s){
+  const side=[];
+  PROJECT.sidebar.forEach((g,gi)=>g.items.forEach((it,ii)=>side.push([gi,ii,it])));
+  const hasSide=s.nav!==-1;
+  const gIdx=PROJECT.sidebar.findIndex(g=>g.g===s.g);
+  const sidebar=hasSide?`<div class="m-side"><div class="m-logo"><s></s>${esc(PROJECT.brand.name)}</div>${PROJECT.sidebar.map((g,gi)=>`<div class="m-nav ${gi===gIdx&&g.items.length?'on':''}">${esc(g.g)}</div>`).join('')}</div>`:'';
+  const body=s.blocks.map(b=>(B[b]||B.list)()).join('');
+  return `<div class="bw"><div class="bw-bar"><b></b><b></b><b></b><span class="bw-url">app.plantgreen/${esc(s.name.en.toLowerCase().replace(/[^a-z]+/g,'-'))}</span></div>
+  <div class="bw-body ${hasSide?'':'noside'}">${sidebar}<div class="m-main"><div class="m-top"><div class="m-title">${esc(s.name.ar)}</div><div class="m-state"><span class="m-pill">🔍</span><span class="m-pill">AR | EN</span><span class="m-pill">🔔</span></div></div>${body}</div></div></div>`;
+}
+
+/* ── Prompt builder ── */
+function buildPrompt(s,lang,mode){
+  const P=PROJECT.promptGen,L=P.langs[lang],T=PROJECT.theme,c=Object.fromEntries(T.colors.map(x=>[x.key,x.v]));
+  const theme=mode==='dark'
+   ?`DARK MODE
+• Page background ${T.dark.bg}, card surface ${T.dark.surface}, borders ${T.dark.border}
+• Primary text ${T.dark.ink}, secondary text ${T.dark.ink2}
+• Accent / primary actions / active states: ${T.dark.accent} with ${c.olive} text
+• Sidebar: darkest surface with lime active item`
+   :`LIGHT MODE
+• Page background ${c.bg}, card surface ${c.surface}, borders ${c.border}
+• Sidebar ${c.olive}, active item ${c.lime} with ${c.olive} text
+• Primary actions ${c.lime} with ${c.olive} text; secondary text ${c.gray}`;
+  const name=s.name[lang]||s.name.en;
+  return `Design a high-fidelity UI screen for ${P.context}
+
+SCREEN: ${name} (${s.name.en}) | Group: ${s.g} | Screen ${s.id} of ${PROJECT.screens.length}
+VISIBLE TO ROLES: ${s.roles}
+
+PURPOSE:
+${s.desc}
+
+LANGUAGE & DIRECTION:
+• Language: ${L.all}
+• Layout direction: ${L.dir}
+• Font: ${L.font}
+• Numbers: ${L.num}
+• Language toggle: ${L.tog}
+
+THEME — ${theme}
+
+GLOBAL DESIGN RULES:
+${P.rules.map((r,i)=>(i+1)+'. '+r).join('\n')}
+
+SCREEN-SPECIFIC LAYOUT & CONTENT:
+${s.content}
+
+REQUIRED STATES (design notes): ${PROJECT.screenStates.join(' · ')}
+
+OUTPUT SPECS:
+• ${P.device}
+• Realistic, contextual ${L.all} content — zero lorem ipsum
+• Flat-on perspective, crisp, production-quality`;
+}
+
+/* ── Page renderers ── */
+const PAGES=[
+  {id:'vision',label:'Vision',render:renderVision},
+  {id:'design',label:'Design System',render:renderDesign},
+  {id:'screens',label:'Screens',render:renderScreens},
+  {id:'ux',label:'UX Flow',render:renderUX},
+  {id:'frontend',label:'Frontend',render:renderFrontend},
+  {id:'backend',label:'Backend',render:renderBackend},
+  {id:'database',label:'Database',render:renderDatabase},
+  {id:'ai',label:'AI System',render:renderAI},
+  {id:'dashboard',label:'Dashboard',render:renderDashboard},
+  {id:'roadmap',label:'Roadmap',render:renderRoadmap},
+  {id:'scaling',label:'Scaling',render:renderScaling},
+  {id:'rbac',label:'Roles & RBAC',render:renderRBAC},
+  {id:'integrations',label:'Integrations',render:renderIntegrations},
+  {id:'risks',label:'Risks & Decisions',render:renderRisks},
+];
+
+const VEN={kicker:'Egypt · Smart Agriculture',title:['Run your farm','<em>smarter</em> from one place'],
+ sub:'One web platform for IoT farm monitoring, automated irrigation and canopy control, an equipment marketplace, agri services, insurance and AI recommendations.',
+ ctas:['Browse screens','See user flows'],
+ problem:{title:'The problem',text:'Farmers and agri-businesses juggle separate systems: one for monitoring and irrigation, another for buying equipment, a third for shipping and returns, with no unified view of cost and performance.'},
+ solution:{title:'The solution',text:'A central role-based (RBAC) dashboard covering farm management, marketplace, services, insurance and AI, integrated with Odoo for inventory and Tasleem for returns tracking.'},
+ market:{title:'Target users',text:'Farm owners, multi-farm agri companies, suppliers, and the platform admin (and an Insurance Officer in future).'},
+ leads:['Problem, solution and who uses the platform.','What makes the platform different?','All users share one platform; permissions follow the account type.']};
+function renderVision(){
+  const en=document.documentElement.lang==='en';
+  const v=en?Object.assign({},PROJECT.vision,VEN,{problem:Object.assign({},PROJECT.vision.problem,VEN.problem),solution:Object.assign({},PROJECT.vision.solution,VEN.solution),market:Object.assign({},PROJECT.vision.market,VEN.market)}):PROJECT.vision;
+  const LD=en?VEN.leads:['المشكلة، الحل، ومين بيستخدم المنصة.','إيه اللي بيميّز المنصة؟','كل المستخدمين على نفس المنصة والصلاحيات بتتحدد حسب نوع الحساب.'];
+  const three=[v.problem,v.solution,v.market].map(x=>`<div class="card"><div class="cico">${x.ico}</div><h3 class="h3">${esc(x.title)}</h3><p class="p">${esc(x.text)}</p></div>`).join('');
+  const props=v.props.map(([i,t,d])=>`<div class="card"><div class="cico">${i}</div><h3 class="h3">${esc(t)}</h3><p class="p">${esc(d)}</p></div>`).join('');
+  const roles=v.roles.map(([r,d])=>`<div class="card flat"><span class="badge dark">${esc(r)}</span><p class="p" style="margin-top:10px">${esc(d)}</p></div>`).join('');
+  return `<section class="hero"><div class="kicker">${esc(v.kicker)}</div><h1>${v.title.join('<br>')}</h1><p>${esc(v.sub)}</p>
+    <div class="hero-cta"><button class="btn btn-lime" onclick="showPage('screens')">${esc(v.ctas[0])}</button><button class="btn btn-ghost" onclick="showPage('ux')">${esc(v.ctas[1])}</button></div>
+    <div class="hero-tags">${v.tags.map(t=>`<span class="badge" style="background:rgba(255,255,255,.1);color:#fff">${esc(t)}</span>`).join('')}</div></section>
+  <div class="wrap">
+    <div class="sect"><h2 class="h2">🎯 Product Vision</h2><p class="lead">${LD[0]}</p><div class="grid g3">${three}</div></div>
+    <div class="sect"><h2 class="h2">💡 Core Value Propositions</h2><p class="lead">${LD[1]}</p><div class="grid g3">${props}</div></div>
+    <div class="sect"><h2 class="h2">👥 User Roles</h2><p class="lead">${LD[2]}</p><div class="grid g4">${roles}</div></div>
+  </div>`;
+}
+
+function renderDesign(){
+  const T=PROJECT.theme;
+  const tabs=[['tokens','Tokens'],['components','Components'],['uxlist','UX Improvements'],['prompts','AI Prompts'],['gen','⚡ Prompt Generator']];
+  const tokens=`<h3 class="h3">Color tokens</h3><div class="tok">${T.colors.map(c=>`<div class="tok-c"><div class="tok-sw" style="background:${c.v}"></div><div class="tok-l">${esc(c.label)}</div><div class="tok-v">${c.v}</div><div class="tok-l" style="margin-top:4px">${esc(c.role)}</div></div>`).join('')}</div>
+   <h3 class="h3">Typography scale</h3><div class="card flat" style="padding:4px 22px;margin-bottom:24px">${T.type.map(([m,t,st])=>`<div class="trow"><small>${m}</small><span style="${st}">${t}</span></div>`).join('')}</div>
+   <h3 class="h3">Font stacks</h3><div class="card flat" style="margin-bottom:24px"><p class="p" style="line-height:2.2">Arabic (RTL): <span class="mono">${esc(T.fonts.ar)}</span><br>English (LTR): <span class="mono">${esc(T.fonts.en)}</span><br>Mono: <span class="mono">${esc(T.fonts.mono)}</span></p></div>
+   <h3 class="h3">Radius & spacing</h3><div class="kv" style="margin-bottom:24px">${T.radius.map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+   <h3 class="h3">Interaction states</h3><div class="kv">${T.states.map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join('')}</div>`;
+  const comps=`<h3 class="h3">Shared components</h3><div class="tags" style="margin-bottom:28px">${PROJECT.components.map(c=>`<span class="badge">${c}</span>`).join('')}</div>
+   <h3 class="h3">States required on every screen</h3><div class="tags">${PROJECT.screenStates.map(c=>`<span class="badge dark">${c}</span>`).join('')}</div>`;
+  const ux=`<ul class="ux">${PROJECT.ux.map(([t,s],i)=>`<li><div class="num">${i+1}</div><div><b>${esc(t)}</b><span>${esc(s)}</span></div></li>`).join('')}</ul>`;
+  const P=PROJECT.promptGen;
+  const master=`<div class="callout">الـ Master Prompt ده بيتحط في أول أي محادثة تصميم، وبعدها تستخدم الـ Prompt Generator لكل شاشة.</div>
+   <h3 class="h3">Project context</h3><div class="promptbox" style="margin-bottom:18px">${esc(P.context)}</div>
+   <h3 class="h3">Global design rules</h3><div class="promptbox" style="margin-bottom:18px">${esc(P.rules.map((r,i)=>(i+1)+'. '+r).join('\n'))}</div>
+   <h3 class="h3">Output spec</h3><div class="promptbox">${esc(P.device)}</div>`;
+  const gen=`<div class="pg-ctrl"><div class="pg-grp"><small>Language</small><div class="chips" id="pg-lang">${PROJECT.langs.map((l,i)=>`<button class="tab ${i?'':'on'}" data-v="${l}">${P.langs[l].label}</button>`).join('')}</div></div>
+   <div class="pg-grp"><small>Theme</small><div class="chips" id="pg-mode"><button class="tab on" data-v="light">Light</button><button class="tab" data-v="dark">Dark</button></div></div></div>
+   <div class="pg-grid" id="pg-grid"></div>
+   <div class="pg-out" id="pg-out" style="display:none"><div class="pg-head"><div class="p" id="pg-meta"></div><button class="btn btn-olive" id="pg-copy">Copy Prompt</button></div><pre class="promptbox" id="pg-text"></pre></div>`;
+  return `<div class="wrap"><h2 class="h2">🎨 Design System</h2><p class="lead">Olive + Lime · Modern SaaS · RTL/LTR · ${PROJECT.screens.length} screens.</p>
+   <div class="tabs" id="ds-tabs">${tabs.map(([k,l],i)=>`<button class="tab ${i?'':'on'}" data-k="${k}">${l}</button>`).join('')}</div>
+   <div class="panel on" id="ds-tokens">${tokens}</div><div class="panel" id="ds-components">${comps}</div>
+   <div class="panel" id="ds-uxlist">${ux}</div><div class="panel" id="ds-prompts">${master}</div><div class="panel" id="ds-gen">${gen}</div></div>`;
+}
+function initDesign(){
+  $$('#ds-tabs .tab').forEach(b=>b.onclick=()=>{
+    $$('#ds-tabs .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    $$('#page-design .panel').forEach(p=>p.classList.remove('on'));$('#ds-'+b.dataset.k).classList.add('on');
+  });
+  let lang=PROJECT.langs[0],mode='light',cur=null;
+  const grid=$('#pg-grid');
+  const draw=()=>{
+    grid.innerHTML=PROJECT.screens.map(s=>`<button class="pg-sc ${cur===s.id?'on':''}" data-id="${s.id}"><small>Screen ${s.id} · ${esc(s.g)}</small><b>${esc(s.name[lang]||s.name.en)}</b></button>`).join('');
+    $$('.pg-sc',grid).forEach(b=>b.onclick=()=>{cur=b.dataset.id;draw();show()});
+  };
+  const show=()=>{
+    if(!cur)return;const s=PROJECT.screens.find(x=>x.id===cur);
+    $('#pg-out').style.display='block';
+    $('#pg-meta').innerHTML=`<b>Screen ${s.id}/${PROJECT.screens.length}</b> — ${esc(s.name[lang]||s.name.en)} · ${PROJECT.promptGen.langs[lang].label} · ${mode}`;
+    $('#pg-text').textContent=buildPrompt(s,lang,mode);$('#pg-copy').textContent='Copy Prompt';
+  };
+  $$('#pg-lang .tab').forEach(b=>b.onclick=()=>{lang=b.dataset.v;$$('#pg-lang .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');draw();show()});
+  $$('#pg-mode .tab').forEach(b=>b.onclick=()=>{mode=b.dataset.v;$$('#pg-mode .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');show()});
+  $('#pg-copy').onclick=()=>{
+    const t=$('#pg-text').textContent;
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()});
+    $('#pg-copy').textContent='Copied ✓';setTimeout(()=>$('#pg-copy').textContent='Copy Prompt',1800);
+  };
+  draw();
+}
+
+function renderScreens(){
+  const groups=[...new Set(PROJECT.screens.map(s=>s.g))];
+  const side=groups.map(g=>`<div class="sc-g">${esc(g)}</div>${PROJECT.screens.filter(s=>s.g===g).map(s=>`<button class="sc-item" data-id="${s.id}"><i>${s.id}</i>${esc(s.name.ar)}</button>`).join('')}`).join('');
+  return `<div class="wrap"><h2 class="h2">📱 Screens</h2><p class="lead">${PROJECT.screens.length} شاشة في ${groups.length} مجموعات. اختار شاشة تشوف الـ wireframe والـ prompt بتاعها.</p>
+   <div class="sc-layout"><aside class="sc-side">${side}</aside><section id="sc-detail"></section></div></div>`;
+}
+function initScreens(){
+  const show=id=>{
+    const s=PROJECT.screens.find(x=>x.id===id);
+    $$('.sc-item').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+    const i=PROJECT.screens.indexOf(s),prev=PROJECT.screens[i-1],next=PROJECT.screens[i+1];
+    $('#sc-detail').innerHTML=`
+     <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+       <div><div class="mono" style="color:var(--ink3);font-size:12px">SCREEN ${s.id}</div><h3 style="font-size:22px;font-weight:700">${esc(s.name.ar)} <span style="color:var(--ink3);font-weight:500;font-size:15px">· ${esc(s.name.en)}</span></h3></div>
+       <div class="tags" style="margin:0;align-self:flex-start"><span class="badge dark">${esc(s.g)}</span><span class="badge line">${esc(s.roles)}</span></div></div>
+     ${mockHTML(s)}
+     <div class="card flat" style="margin-top:18px"><h3 class="h3">الوصف</h3><p class="p">${esc(s.desc)}</p>
+       <h3 class="h3" style="margin-top:16px">Layout & Content</h3><div class="promptbox">${esc(s.content)}</div>
+       <div class="tags">${PROJECT.screenStates.map(x=>`<span class="badge gray">${x}</span>`).join('')}</div></div>
+     <div style="display:flex;justify-content:space-between;margin-top:16px;gap:10px">
+       ${prev?`<button class="btn btn-line" data-go="${prev.id}">→ ${esc(prev.name.ar)}</button>`:'<span></span>'}
+       ${next?`<button class="btn btn-line" data-go="${next.id}">${esc(next.name.ar)} ←</button>`:''}</div>`;
+    $$('[data-go]',$('#sc-detail')).forEach(b=>b.onclick=()=>{show(b.dataset.go);window.scrollTo({top:0,behavior:'smooth'})});
+  };
+  $$('.sc-item').forEach(b=>b.onclick=()=>show(b.dataset.id));
+  show(PROJECT.screens[0].id);
+}
+
+function renderUX(){
+  const chips=PROJECT.flows.map(([n],i)=>`<button class="tab ${i?'':'on'}" data-i="${i}">${esc(n)}</button>`).join('');
+  const nav=PROJECT.navigation.map(([t,d])=>`<div class="callout"><b>${esc(t)}:</b> ${esc(d)}</div>`).join('');
+  const side=PROJECT.sidebar.map(g=>`<div style="margin-bottom:10px"><b style="font-size:13px">${esc(g.g)}</b><div class="tags" style="margin-top:6px">${g.items.map(i=>`<span class="badge gray">${esc(i)}</span>`).join('')}</div></div>`).join('');
+  return `<div class="wrap"><h2 class="h2">🔄 UX Flow & Navigation</h2><p class="lead">رحلات المستخدم الأساسية، هيكل التنقل، وشجرة الـ routes.</p>
+   <div class="sect"><div class="flow-chips" id="flow-chips">${chips}</div><div class="card flat" id="flow-steps"></div></div>
+   <div class="grid g2 sect"><div class="card flat"><h3 class="h3">Navigation Architecture</h3>${nav}</div><div class="card flat"><h3 class="h3">Sidebar Structure</h3>${side}</div></div>
+   <div class="sect"><h2 class="h2">📐 Information Architecture</h2><div class="code">${esc(PROJECT.routes)}</div></div></div>`;
+}
+function initUX(){
+  const show=i=>{
+    $$('#flow-chips .tab').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+    $('#flow-steps').innerHTML=`<h3 class="h3" style="margin-bottom:8px">${esc(PROJECT.flows[i][0])}</h3>`+PROJECT.flows[i][1].map((s,k)=>`<div class="step"><div class="num">${k+1}</div><b>${esc(s)}</b></div>`).join('');
+  };
+  $$('#flow-chips .tab').forEach(b=>b.onclick=()=>show(+b.dataset.i));show(0);
+}
+/* ── Frontend / Backend / Database ── */
+const stackHTML=g=>g.map(([t,items])=>`<div class="stack-grp"><small>${esc(t)}</small>${items.map(i=>`<span class="pill">${esc(i)}</span>`).join('')}</div>`).join('');
+
+function renderFrontend(){
+  const f=PROJECT.frontend;
+  const cards=f.decisions.map(([badge,title,pills,text])=>`<div class="card"><span class="badge dark">${esc(badge)}</span><h3 class="h3" style="margin-top:12px">${esc(title)}</h3><p class="p">${esc(text)}</p><div class="tags">${pills.map(p=>`<span class="pill">${esc(p)}</span>`).join('')}</div></div>`).join('');
+  return `<div class="wrap"><h2 class="h2">⚛️ Frontend Architecture</h2><p class="lead">واجهة ويب واحدة بـ RBAC، RTL/LTR، وStates موحدة لكل الشاشات.</p>
+   <div class="callout note">${esc(f.note)}</div>
+   <div class="grid g2 sect"><div class="card flat"><h3 class="h3">Tech Stack</h3>${stackHTML(f.stack)}</div><div class="card flat"><h3 class="h3">Folder Structure</h3><div class="code">${esc(f.folders)}</div></div></div>
+   <div class="sect"><h2 class="h2">🧭 Key Decisions</h2><p class="lead">القرارات اللي بتحكم باقي الـ Frontend.</p><div class="grid g3">${cards}</div></div>
+   <div class="sect"><h2 class="h2">✅ Quality Gates</h2><div class="grid g4">${f.quality.map(q=>`<div class="card flat"><p class="p">${esc(q)}</p></div>`).join('')}</div></div></div>`;
+}
+
+function renderBackend(){
+  const b=PROJECT.backend,total=b.api.reduce((n,[,e])=>n+e.length,0);
+  const mods=b.modules.map(([t,d])=>`<div class="card flat"><span class="badge">${esc(t)}</span><p class="p" style="margin-top:10px">${esc(d)}</p></div>`).join('');
+  const ints=b.integrations.map(([t,items])=>`<div class="card flat"><h3 class="h3">${esc(t)}</h3><ul class="ux">${items.map((x,i)=>`<li style="padding:8px 0"><div class="num" style="width:22px;min-width:22px;height:22px;font-size:10px">${i+1}</div><span>${esc(x)}</span></li>`).join('')}</ul></div>`).join('');
+  const api=b.api.map(([g,eps])=>`<div class="api-grp"><div class="api-grp-h"><h3 class="h3" style="margin:0">${esc(g)}</h3><span class="badge gray">${eps.length} endpoints</span></div>${eps.map(([m,p,d,w])=>`<div class="api"><span class="mt mt-${m==='WS'?'GET':m}">${m}</span><div><div class="ep">${esc(p)}</div><div class="ep-d">${esc(d)}</div></div><span class="badge line api-who">${esc(w)}</span></div>`).join('')}</div>`).join('');
+  const tabs=`<div class="tabs" id="be-tabs">${b.variants.map((v,i)=>`<button class="tab ${i?'':'on'}" data-k="${v.id}">${esc(v.owner)} · ${esc(v.tech)}</button>`).join('')}<button class="tab" data-k="cmp">⚖️ مقارنة وعقد مشترك</button></div>`;
+  const vpanel=(v,i)=>`<div class="panel ${i?'':'on'}" id="be-${v.id}">
+    <div class="callout"><b>${esc(v.owner)}</b> — ${esc(v.tech)}: ${esc(v.note)}</div>
+    <div class="grid g2 sect"><div class="card flat"><h3 class="h3">Tech Stack</h3>${stackHTML(v.stack)}</div><div class="card flat"><h3 class="h3">Architecture</h3><div class="code">${esc(v.arch)}</div></div></div>
+    <div class="grid g2 sect"><div class="card flat"><h3 class="h3">Project Structure</h3><div class="code">${esc(v.folders)}</div></div><div class="card flat"><h3 class="h3">${esc(v.sample.title)}</h3><div class="code">${esc(v.sample.code)}</div></div></div></div>`;
+  const cmp=`<div class="panel" id="be-cmp"><div class="grid g2 sect" style="align-items:start">
+    <div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp"><thead><tr><th></th><th>${esc(b.variants[0].owner)} · C#</th><th>${esc(b.variants[1].owner)} · Node.js</th></tr></thead><tbody>${b.compare.map(([k,a,c])=>`<tr><td>${esc(k)}</td><td>${esc(a)}</td><td>${esc(c)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="card flat"><h3 class="h3">Shared Contract</h3><p class="p" style="margin-bottom:8px">قواعد لازم النسختين يلتزموا بيها علشان الـ Frontend والـ Database يشتغلوا مع أي نسخة.</p><ul class="ux">${b.contract.map((x,i)=>`<li style="padding:9px 0"><div class="num" style="width:24px;min-width:24px;height:24px;font-size:10px">${i+1}</div><span>${esc(x)}</span></li>`).join('')}</ul></div></div></div>`;
+  return `<div class="wrap"><h2 class="h2">⚙️ Backend Architecture</h2><p class="lead">نسختين من نفس الـ Backend: C# و Node.js.</p>
+   <div class="callout note">${esc(b.note)}</div>
+   ${tabs}${b.variants.map(vpanel).join('')}${cmp}
+   <div class="sect"><h2 class="h2">🧩 Modules (مشتركة)</h2><div class="grid g4">${mods}</div></div>
+   <div class="sect"><h2 class="h2">🔗 Integrations & IoT (مشتركة)</h2><div class="grid g3">${ints}</div></div>
+   <div class="sect"><h2 class="h2">🔌 API Endpoints (مشتركة)</h2><p class="lead">${total} endpoint في ${b.api.length} مجموعة. نفس المسارات في النسختين، والصلاحية الظاهرة بتتفرض في الـ Backend بالـ RBAC.</p>${api}</div></div>`;
+}
+function initBackend(){
+  $$('#be-tabs .tab').forEach(b=>b.onclick=()=>{
+    $$('#be-tabs .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    $$('#page-backend .panel').forEach(p=>p.classList.remove('on'));$('#be-'+b.dataset.k).classList.add('on');
+  });
+}
+
+function renderDatabase(){
+  const D=PROJECT.database,doms=[...new Set(D.tables.map(t=>t.domain))];
+  const fkCount=D.tables.reduce((n,t)=>n+t.cols.filter(c=>c.k.startsWith('fk>')).length,0);
+  return `<div class="wrap"><h2 class="h2">🗄️ Database Architecture</h2><p class="lead">${D.tables.length} جدول في ${doms.length} مجالات، و${fkCount} علاقة FK. PostgreSQL + PostGIS + TimescaleDB + pgvector.</p>
+   <div class="card flat sect"><h3 class="h3">Conventions</h3><div class="tags" style="margin-top:0">${D.conventions.map(c=>`<span class="badge gray">${esc(c)}</span>`).join('')}</div></div>
+   <div class="tabs" id="db-tabs"><button class="tab on" data-d="">الكل (${D.tables.length})</button>${doms.map(d=>`<button class="tab" data-d="${esc(d)}">${esc(d)} (${D.tables.filter(t=>t.domain===d).length})</button>`).join('')}</div>
+   <div class="db-grid" id="db-list">${D.tables.map(t=>`<div class="db" data-d="${esc(t.domain)}"><div class="db-h"><b>${esc(t.name)}</b><span class="badge">${esc(t.domain)}</span></div><div class="db-d">${esc(t.desc)}</div><div class="db-t"><table>${t.cols.map(c=>`<tr><td>${esc(c.n)}</td><td class="ty">${esc(c.t)}</td><td class="kc">${c.k==='pk'?'<span class="k pk">PK</span>':c.k.startsWith('fk>')?`<span class="k fk">FK</span><span class="ty" style="font-size:10px">→ ${esc(c.k.slice(3))}</span>`:''}</td><td class="nt">${esc(c.note)}</td></tr>`).join('')}</table></div></div>`).join('')}</div></div>`;
+}
+function initDatabase(){
+  $$('#db-tabs .tab').forEach(b=>b.onclick=()=>{
+    $$('#db-tabs .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    $$('#db-list .db').forEach(c=>c.style.display=(!b.dataset.d||c.dataset.d===b.dataset.d)?'':'none');
+  });
+}
+/* ── AI / Dashboard / Roadmap / Scaling / RBAC / Integrations / Risks ── */
+function renderAI(){
+  const a=PROJECT.ai;
+  const models=a.models.map(m=>`<div class="ai-card"><div class="ai-top"><span class="badge dark">Model ${m.n}</span><h3>${esc(m.t)}</h3><span class="badge">${esc(m.badge)}</span><span class="badge line">${esc(m.phase)}</span></div>
+    <p class="p">${esc(m.d)}</p>
+    <div class="io"><div><small>Inputs</small><p>${esc(m.inputs)}</p></div><div><small>Outputs</small><p>${esc(m.outputs)}</p></div><div><small>Guardrails</small><p>${esc(m.guard)}</p></div></div>
+    <div class="tgt"><span>هدف مقترح: <b>${esc(m.metric)}</b></span><b>${m.pct}%</b></div><div class="bar"><u style="width:${m.pct}%"></u></div></div>`).join('');
+  return `<div class="wrap"><h2 class="h2">🤖 AI System Design</h2><p class="lead">5 نماذج بتشتغل على بيانات المزرعة وبتقدّم توصيات قابلة للتفسير.</p>
+   <div class="callout note">${esc(a.note)}</div>
+   <div class="grid g2 sect" style="align-items:start"><div class="card flat"><h3 class="h3">Data → Recommendation Flow</h3><div class="code">${esc(a.flow)}</div></div>
+   <div class="card flat"><h3 class="h3">AI Principles</h3><ul class="ux">${a.principles.map((x,i)=>`<li style="padding:9px 0"><div class="num" style="width:24px;min-width:24px;height:24px;font-size:10px">${i+1}</div><span>${esc(x)}</span></li>`).join('')}</ul></div></div>
+   <div class="sect">${models}</div></div>`;
+}
+
+function renderDashboard(){
+  const d=PROJECT.dashboard;
+  const kpis=d.kpis.map(([i,l,v,s,p])=>`<div class="stat"><div class="cico">${i}</div><div class="sl">${esc(l)}</div><div class="sv">${esc(v)}</div><div class="ss">${esc(s)}</div><div class="bar"><u style="width:${p}%"></u></div></div>`).join('');
+  const chart=c=>`<div class="card flat"><span class="badge">${esc(c.badge)}</span><h3 class="h3" style="margin-top:10px">${esc(c.title)}</h3><p class="p">${esc(c.sub)}${c.note?' · '+esc(c.note):''}</p><div class="cb">${c.vals.map((v,i)=>`<div><u style="height:${v}%"></u>${esc(c.labels[i])}</div>`).join('')}</div></div>`;
+  const integ=`<div class="card flat"><span class="badge">${esc(d.integ.badge)}</span><h3 class="h3" style="margin-top:10px">${esc(d.integ.title)}</h3>${d.integ.rows.map(([n,s,t])=>`<div class="row2"><div><b>${esc(n)}</b><br><small>${esc(t)}</small></div><span class="badge ${s==='Healthy'?'':'gray'}">${esc(s)}</span></div>`).join('')}</div>`;
+  const ai=`<div class="card flat"><span class="badge">${esc(d.ai.badge)}</span><h3 class="h3" style="margin-top:10px">${esc(d.ai.title)}</h3>${d.ai.rows.map(([k,v])=>`<div class="row2"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+  return `<div class="wrap"><h2 class="h2">📊 Smart Analytics Dashboard</h2><p class="lead">لوحة Platform Admin: صحة المنصة، التشغيل، المبيعات، التكاملات، والـ AI.</p>
+   <div class="callout note">${esc(d.note)}</div>
+   <div class="grid g4 sect">${kpis}</div>
+   <div class="grid g2 sect">${chart(d.water)}${chart(d.sales)}${integ}${ai}</div>
+   <div class="sect"><h2 class="h2">📖 Metrics Dictionary</h2><div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp"><thead><tr><th>Metric</th><th>التعريف</th><th>المصدر</th></tr></thead><tbody>${d.dict.map(([a,b,c])=>`<tr><td>${esc(a)}</td><td>${esc(b)}</td><td class="mono">${esc(c)}</td></tr>`).join('')}</tbody></table></div></div></div>`;
+}
+
+function renderRoadmap(){
+  const r=PROJECT.roadmap;
+  const phases=r.phases.map(p=>`<div class="phase" style="--c:${p.c}"><div class="phase-h">${esc(p.name)}<span class="badge dark">${esc(p.weeks)}</span></div>${p.items.map(([w,t])=>`<div class="tl"><span class="wk">${esc(w)}</span><span class="t">${esc(t)}</span></div>`).join('')}<div class="exit">✅ Exit: ${esc(p.exit)}</div></div>`).join('');
+  const t3=(rows,h)=>`<div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp"><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  return `<div class="wrap"><h2 class="h2">🚀 Roadmap</h2><p class="lead">6 مراحل من الـ doc مع تقدير مبدئي بالأسابيع.</p>
+   <div class="callout note">${esc(r.note)}</div>${phases}
+   <div class="grid g2 sect" style="align-items:start"><div><h2 class="h2" style="font-size:20px">💸 Monthly OpEx Drivers</h2><p class="lead" style="margin-bottom:12px">بنود التكلفة بدون أرقام، لأن الأسعار بتتحدد بعد اختيار المزودين.</p>${t3(r.opex,['البند','الاستخدام','ملاحظة'])}</div>
+   <div><h2 class="h2" style="font-size:20px">💰 Monetization</h2><p class="lead" style="margin-bottom:12px">الاشتراكات من الـ doc، والباقي مقترح للنقاش.</p>${t3(r.money,['المصدر','الفكرة','الحالة'])}</div></div></div>`;
+}
+
+function renderScaling(){
+  const s=PROJECT.scaling;
+  const stages=s.stages.map(x=>`<div class="phase" style="--c:${x.c}"><div class="phase-h"><span class="badge dark">${esc(x.s)}</span>${esc(x.name)}<span class="badge line">${esc(x.phases)}</span></div><p class="p">${esc(x.focus)}</p><div class="tags">${x.tags.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div></div>`).join('');
+  return `<div class="wrap"><h2 class="h2">📈 Scaling Strategy</h2><p class="lead">التوسع بالمراحل ومؤشرات الانتقال، من غير أرقام مستخدمين مخترعة.</p>
+   <div class="callout note">${esc(s.note)}</div>${stages}
+   <div class="sect"><h2 class="h2">🎚️ Scale Triggers</h2><div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp"><thead><tr><th>المجال</th><th>إيه اللي بنراقبه</th><th>الإجراء</th></tr></thead><tbody>${s.triggers.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>
+   <div class="sect"><h2 class="h2">🏁 Key Milestones</h2><div class="card flat">${s.milestones.map(([id,t,d,ph])=>`<div class="tl" style="border-top:0;border-bottom:1px solid var(--border)"><span class="wk">${id}</span><span class="t"><b>${esc(t)}</b> — ${esc(d)} <span class="badge gray">${esc(ph)}</span></span></div>`).join('')}</div></div></div>`;
+}
+
+function renderRBAC(){
+  const r=PROJECT.rbac,sym={f:'<span class="dot f" title="Full"></span>',l:'<span class="dot l" title="Limited"></span>',n:'<span class="dot n" title="None"></span>'};
+  return `<div class="wrap"><h2 class="h2">🔐 Roles & Permissions</h2><p class="lead">مين يقدر يعمل إيه. الـ Sidebar والـ routes بتتبني من الصلاحيات دي.</p>
+   <div class="callout note">${esc(r.note)}</div>
+   <div class="legend"><span>${sym.f} كامل</span><span>${sym.l} محدود</span><span>${sym.n} غير متاح</span></div>
+   <div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp mx"><thead><tr><th>الوحدة</th>${r.roles.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${r.rows.map(([n,...c])=>`<tr><td>${esc(n)}</td>${c.map(x=>`<td>${sym[x]}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+   <div class="card flat" style="margin-top:18px"><h3 class="h3">ملاحظات</h3><ul class="ux">${r.notes.map((x,i)=>`<li style="padding:8px 0"><div class="num" style="width:22px;min-width:22px;height:22px;font-size:10px">${i+1}</div><span>${esc(x)}</span></li>`).join('')}</ul></div></div>`;
+}
+
+function renderIntegrations(){
+  const g=PROJECT.integrations;
+  const steps=a=>`<ul class="ux">${a.map((x,i)=>`<li style="padding:9px 0"><div class="num" style="width:24px;min-width:24px;height:24px;font-size:10px">${i+1}</div><span>${esc(x)}</span></li>`).join('')}</ul>`;
+  const tracks=g.tracks.map(([t,s])=>`<div><b style="font-size:13px">${esc(t)}</b><div class="track">${s.map((x,i)=>`${i?'<span class="arr">←</span>':''}<span class="badge ${i%2?'gray':''}">${esc(x)}</span>`).join('')}</div></div>`).join('');
+  return `<div class="wrap"><h2 class="h2">🔗 External Integrations</h2><p class="lead">Odoo للمخزون وTasleem لشحنات المرتجعات.</p>
+   <div class="grid g2 sect" style="align-items:start"><div class="card flat"><span class="badge dark">Odoo</span><h3 class="h3" style="margin-top:10px">Inventory Synchronization</h3>${steps(g.odoo)}</div><div class="card flat"><span class="badge dark">Tasleem</span><h3 class="h3" style="margin-top:10px">Returns Flow</h3>${steps(g.tasleem)}</div></div>
+   <div class="sect"><h2 class="h2">🧭 Return: 3 Tracks منفصلة</h2><p class="lead">الـ doc بيشدد على فصل حالة الشحن عن حالة الاسترداد، فالمرتجع ليه 3 مسارات مستقلة في جدول returns.</p><div class="card flat">${tracks}</div></div>
+   <div class="grid g2 sect" style="align-items:start"><div class="card flat"><h3 class="h3">مين مسؤول عن إيه</h3>${g.owners.map(([a,b])=>`<div class="row2"><b>${esc(a)}</b><span class="p" style="max-width:70%">${esc(b)}</span></div>`).join('')}</div>
+   <div class="card flat"><h3 class="h3">Reliability Checklist</h3><div class="tags" style="margin-top:0">${g.reliability.map(x=>`<span class="badge">${esc(x)}</span>`).join('')}</div><h3 class="h3" style="margin-top:20px">Sync States</h3>${g.syncStates.map(([a,b])=>`<div class="row2"><span class="badge gray">${esc(a)}</span><span class="p">${esc(b)}</span></div>`).join('')}</div></div></div>`;
+}
+
+function renderRisks(){
+  const r=PROJECT.risks;
+  return `<div class="wrap"><h2 class="h2">⚠️ Risks & Open Decisions</h2><p class="lead">قرارات لازم تتقفل قبل ما المرحلة المرتبطة بيها تبدأ.</p>
+   <div class="callout note">${esc(r.note)}</div>
+   <div class="card flat" style="padding:0;overflow-x:auto"><table class="cmp"><thead><tr><th>الأهمية</th><th>الموضوع</th><th>ليه مهم</th><th>قبل</th></tr></thead><tbody>${r.items.map(([s,t,d,ph])=>`<tr><td><span class="badge sev-${s}">${s}</span></td><td>${esc(t)}</td><td>${esc(d)}</td><td><span class="badge line">${esc(ph)}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+const INITS={design:initDesign,screens:initScreens,ux:initUX,backend:initBackend,database:initDatabase};
+
+/* ── Shell ── */
+function showPage(id){
+  $$('.page').forEach(p=>p.classList.toggle('on',p.id==='page-'+id));
+  $$('.nav-btn').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  closeM();window.scrollTo({top:0,behavior:'smooth'});
+}
+function openM(){$('#mnav').classList.add('open');document.body.style.overflow='hidden'}
+function closeM(){$('#mnav').classList.remove('open');document.body.style.overflow=''}
+
+(function boot(){
+  applyTheme();
+  const b=PROJECT.brand;
+  $('#brand-ico').textContent=b.icon;$('#brand-name').textContent=b.name;$('#brand-sub').textContent=b.sub;
+  $('#footer').textContent=b.footer;document.title=b.name+' — Blueprint';
+  const btns=PAGES.map((p,i)=>`<button class="nav-btn ${i?'':'on'}" data-id="${p.id}"><i>${i+1}</i>${p.label}</button>`).join('');
+  $('#nav').innerHTML=btns;$('#mnav').innerHTML=btns;
+  $('#app').innerHTML=PAGES.map((p,i)=>`<div class="page ${i?'':'on'}" id="page-${p.id}">${p.render()}</div>`).join('');
+  PAGES.forEach(p=>INITS[p.id]&&INITS[p.id]());
+  $$('.nav-btn').forEach(x=>x.onclick=()=>showPage(x.dataset.id));
+  $('#burger').onclick=openM;
+  $('#brand-link').onclick=e=>{e.preventDefault();showPage('vision')};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+})();
+</script>
+<style>
+:root{--nav-h:92px}
+.nav{
+  display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,auto);
+  grid-auto-columns:max-content;align-content:center;gap:4px 6px;
+  overflow-x:auto;overflow-y:hidden;padding:6px 4px 8px;
+  scrollbar-width:thin;scrollbar-color:var(--lime) rgba(255,255,255,.12);
+}
+.nav::-webkit-scrollbar{display:block;height:6px}
+.nav::-webkit-scrollbar-track{background:rgba(255,255,255,.12);border-radius:3px}
+.nav::-webkit-scrollbar-thumb{background:var(--lime);border-radius:3px}
+.nav-btn{padding:6px 12px;font-size:12.5px}
+@media(max-width:768px){
+  :root{--nav-h:64px}
+  .nav{display:none}
+}
+</style>
+<script>
+(function(){
+  const nav=document.getElementById('nav');
+  // عجلة الماوس تحرّك الشريط أفقياً
+  nav.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){nav.scrollLeft+=e.deltaY;e.preventDefault()}
+  },{passive:false});
+  // التبويب النشط يظهر دايماً
+  const orig=window.showPage;
+  window.showPage=function(id){
+    orig(id);
+    const on=nav.querySelector('.nav-btn.on');
+    if(on)on.scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
+  };
+})();
+</script>
+<style>
+.tools{display:flex;gap:6px;flex-shrink:0}
+.tool{background:rgba(255,255,255,.1);border:0;color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:7px 11px;cursor:pointer;min-width:38px}
+.tool:hover{background:rgba(255,255,255,.2)}
+html[lang=en] body{font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif}
+html[data-theme=dark]{color-scheme:dark;--bg:#12170B;--surface:#1B2210;--border:#2C3620;--border2:#3A4630;--ink:#EEF3E0;--ink2:#B9C2A6;--ink3:#8E987C;--lime-soft:rgba(207,255,116,.14)}
+[data-theme=dark] .badge,[data-theme=dark] .callout,[data-theme=dark] .m-st,[data-theme=dark] .exit,[data-theme=dark] .wk{color:var(--ink)}
+[data-theme=dark] .badge.dark,[data-theme=dark] .tab.on,[data-theme=dark] .sc-item.on,[data-theme=dark] .num{background:var(--lime);color:#2F3A1D;border-color:var(--lime)}
+[data-theme=dark] .badge.gray,[data-theme=dark] .m-st.g,[data-theme=dark] .m-bar,[data-theme=dark] .m-line,[data-theme=dark] .bar{background:#2C3620;color:var(--ink2)}
+[data-theme=dark] .m-box,[data-theme=dark] .m-pill,[data-theme=dark] .m-chat-a,[data-theme=dark] .m-field u,[data-theme=dark] .m-steps u,[data-theme=dark] .m-btn.out,[data-theme=dark] .bw-url{background:var(--surface)}
+[data-theme=dark] .promptbox,[data-theme=dark] .callout.note,[data-theme=dark] .io>div,[data-theme=dark] .db-h,[data-theme=dark] .cmp th,[data-theme=dark] .wk,[data-theme=dark] .bw-bar,[data-theme=dark] .sc-item:hover,[data-theme=dark] .m-map u{background:#232C16}
+[data-theme=dark] .mt-GET,[data-theme=dark] .sev-Low{background:#26381A;color:#B7E38A}
+[data-theme=dark] .mt-PUT,[data-theme=dark] .mt-PATCH,[data-theme=dark] .sev-Medium{background:#3A3217;color:#F2D272}
+[data-theme=dark] .mt-DELETE,[data-theme=dark] .sev-High{background:#3D2318;color:#F2A184}
+[data-theme=dark] .topbar,[data-theme=dark] .mnav{background:#1B2210;border-bottom:1px solid var(--border)}
+</style>
+<script>
+(function(){
+  const H=document.documentElement,LS=k=>{try{return localStorage.getItem(k)}catch(e){return null}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+  const tb=document.createElement('div');tb.className='tools';
+  tb.innerHTML='<button class="tool" id="t-lang" aria-label="Language"></button><button class="tool" id="t-theme" aria-label="Theme"></button>';
+  const burger=document.getElementById('burger');burger.parentNode.insertBefore(tb,burger);
+  function theme(m){H.dataset.theme=m;document.getElementById('t-theme').textContent=m==='dark'?'☀️':'🌙';SV('pg-theme',m)}
+  function lang(l){
+    H.lang=l;H.dir='rtl';document.getElementById('t-lang').textContent=l==='en'?'عربي':'EN';SV('pg-lang-ui',l);
+    const v=document.getElementById('page-vision');if(v){v.innerHTML=renderVision();v.dir=l==='en'?'ltr':'rtl'}
+  }
+  const dark=LS('pg-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  theme(dark);lang(LS('pg-lang-ui')||'ar');
+  document.getElementById('t-theme').onclick=()=>theme(H.dataset.theme==='dark'?'light':'dark');
+  document.getElementById('t-lang').onclick=()=>lang(H.lang==='en'?'ar':'en');
+})();
+</script>
+<!-- ═══ v2 polish: design refinements + 3D hero + interaction layer ═══ -->
+<style>
+html{scroll-padding-top:calc(var(--nav-h) + 12px)}
+@keyframes fade{from{opacity:0;transform:perspective(900px) translateY(14px) rotateX(2.5deg)}to{opacity:1;transform:none}}
+@keyframes pgRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+:focus-visible{outline:2px solid var(--olive);outline-offset:2px;border-radius:6px}
+.topbar :focus-visible,[data-theme=dark] :focus-visible{outline-color:var(--lime)}
+
+/* chrome */
+.topbar{background:rgba(47,58,29,.9);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:0 1px 0 rgba(207,255,116,.14)}
+.nav-btn{transition:background .18s,color .18s,box-shadow .18s}
+.nav-btn.on{box-shadow:0 6px 18px rgba(207,255,116,.28)}
+.pgbar{position:fixed;inset:var(--nav-h) 0 auto 0;height:3px;background:var(--lime);transform-origin:right;transform:scaleX(0);z-index:101;pointer-events:none}
+.totop{position:fixed;inset-inline-end:20px;bottom:20px;width:42px;height:42px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(47,58,29,.18);opacity:0;pointer-events:none;transform:translateY(8px);transition:.2s;z-index:90}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
+
+/* type + rhythm */
+.h2{font-size:clamp(22px,2.4vw,28px)}
+.wrap{padding-block:clamp(32px,5vw,56px)}
+html[lang=en] .hero h1{letter-spacing:-.02em}
+
+/* hero: the one bold moment */
+.hero{min-height:min(78vh,660px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero3d{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9;-webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(0,0,0,.28),#000 78%);mask-image:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(0,0,0,.28),#000 78%)}
+.hero h1,.hero p{text-shadow:0 2px 26px rgba(18,26,8,.6)}
+.hero>.kicker,.hero>h1,.hero>p,.hero>.hero-cta,.hero>.hero-tags{animation:pgRise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero>h1{animation-delay:.08s}.hero>p{animation-delay:.18s}.hero>.hero-cta{animation-delay:.28s}.hero>.hero-tags{animation-delay:.38s}
+
+/* surfaces: hierarchy instead of one shadow everywhere */
+.card{box-shadow:0 1px 0 rgba(47,58,29,.04),0 10px 26px -14px rgba(47,58,29,.16)}
+.card.flat{box-shadow:none}
+.cmp tbody tr:nth-child(even){background:rgba(47,58,29,.035)}
+.cmp tbody tr:hover{background:var(--lime-soft)}
+.code{border:1px solid rgba(207,255,116,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.bw{transition:transform .22s ease-out,box-shadow .22s;will-change:transform}
+.bw.tilt{box-shadow:0 34px 72px rgba(47,58,29,.24)}
+
+@media(max-width:900px){.sc-layout{grid-template-columns:1fr}.sc-side{position:static;max-height:none}}
+@media(max-width:600px){.hero{padding:64px 18px 56px;min-height:520px}.wrap{padding-inline:16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.hero3d{display:none}}
+</style>
+<script>
+(function(){
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches, $=s=>document.querySelector(s);
+
+  /* reading progress + back to top */
+  const bar=document.createElement('div');bar.className='pgbar';document.body.appendChild(bar);
+  const up=document.createElement('button');up.className='totop';up.setAttribute('aria-label','Back to top');up.textContent='↑';
+  up.onclick=()=>scrollTo({top:0,behavior:RM?'auto':'smooth'});document.body.appendChild(up);
+  addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-innerHeight;
+    bar.style.transform='scaleX('+(m>0?Math.min(scrollY/m,1):0)+')';up.classList.toggle('show',scrollY>600)},{passive:true});
+
+  /* 3D tilt on the screen mockup (follows the pointer) */
+  if(!RM&&matchMedia('(pointer:fine)').matches){
+    const reset=()=>document.querySelectorAll('.bw.tilt').forEach(x=>{x.classList.remove('tilt');x.style.transform=''});
+    document.addEventListener('pointermove',e=>{
+      const b=e.target.closest&&e.target.closest('.bw');
+      document.querySelectorAll('.bw.tilt').forEach(x=>{if(x!==b){x.classList.remove('tilt');x.style.transform=''}});
+      if(!b)return;const r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      b.classList.add('tilt');b.style.transform='perspective(1400px) rotateY('+(x*5)+'deg) rotateX('+(-y*4)+'deg)';
+    });
+    document.documentElement.addEventListener('pointerleave',reset);
+  }
+
+  /* 3D hero: a farm of soil beds, a sliding canopy, rain and sensor pulses */
+  if(RM)return;
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  s.onload=hero3d;document.head.appendChild(s);
+
+  function hero3d(){
+    const T=THREE,cv=document.createElement('canvas');cv.className='hero3d';cv.setAttribute('aria-hidden','true');
+    let R;try{R=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return}
+    R.setPixelRatio(Math.min(devicePixelRatio,2));
+    const sc=new T.Scene(),cam=new T.PerspectiveCamera(32,1,.1,100);
+    sc.add(new T.AmbientLight(0xffffff,.7));
+    const dl=new T.DirectionalLight(0xdfffa0,.9);dl.position.set(4,9,5);sc.add(dl);
+    const G=new T.Group();sc.add(G);
+
+    const N=9,M=6,beds=[],bg=new T.BoxGeometry(.92,1,.92);
+    for(let i=0;i<N;i++)for(let j=0;j<M;j++){
+      const m=new T.Mesh(bg,new T.MeshStandardMaterial({color:new T.Color().setHSL(.22+.04*Math.random(),.5,.2+.24*(i/N)),roughness:.7}));
+      m.position.set((i-(N-1)/2)*1.02,0,(j-(M-1)/2)*1.02);m.userData={i:i,j:j};G.add(m);beds.push(m);
+    }
+    const can=new T.Mesh(new T.BoxGeometry(3,.06,3),new T.MeshStandardMaterial({color:0xCFFF74,transparent:true,opacity:.5}));
+    can.position.y=2.3;G.add(can);
+
+    const dg=new T.SphereGeometry(.045,8,8),dm=new T.MeshBasicMaterial({color:0xCFFF74}),drops=[];
+    const rs=(d,f)=>{d.position.set((Math.random()-.5)*9,f?Math.random()*5:5.5,(Math.random()-.5)*6);d.userData.v=.025+Math.random()*.03};
+    for(let k=0;k<70;k++){const d=new T.Mesh(dg,dm);rs(d,1);G.add(d);drops.push(d)}
+
+    const rg=new T.RingGeometry(.3,.34,40),pulses=[];
+    for(let k=0;k<5;k++){
+      const p=new T.Mesh(rg,new T.MeshBasicMaterial({color:0xCFFF74,transparent:true,side:T.DoubleSide}));
+      p.rotation.x=-Math.PI/2;p.position.set((Math.random()-.5)*7,.9,(Math.random()-.5)*4.5);p.userData.o=Math.random();G.add(p);pulses.push(p);
+    }
+
+    let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5},{passive:true});
+    const fit=()=>{const p=cv.parentNode;if(!p)return;const w=p.clientWidth,h=p.clientHeight;if(!w||!h)return;
+      R.setSize(w,h,false);cam.aspect=w/h;cam.position.set(0,w<700?17:10,w<700?19:16);cam.lookAt(0,.4,0);
+      G.scale.setScalar(w<700?.8:1.25);cam.updateProjectionMatrix()};
+    addEventListener('resize',fit);
+
+    /* the hero is re-rendered on language switch: re-attach the same canvas */
+    const mount=()=>{const h=$('#page-vision .hero');if(h&&cv.parentNode!==h){h.prepend(cv);fit()}};
+    mount();new MutationObserver(mount).observe($('#page-vision'),{childList:true});
+
+    const clk=new T.Clock();
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(document.hidden||!cv.isConnected||!cv.offsetWidth)return;
+      const t=clk.getElapsedTime();
+      G.rotation.y=t*.07+mx*.5;G.rotation.x=my*.15;
+      beds.forEach(b=>{const h=.7+.4*Math.sin(t*1.1+b.userData.i*.55+b.userData.j*.7);b.scale.y=h;b.position.y=h/2});
+      can.position.x=Math.sin(t*.5)*3.2;
+      drops.forEach(d=>{d.position.y-=d.userData.v;if(d.position.y<.6)rs(d)});
+      pulses.forEach(p=>{const k=(t*.4+p.userData.o)%1;p.scale.setScalar(1+k*3);p.material.opacity=.9*(1-k)});
+      R.render(sc,cam);
+    })();
+  }
+})();
+</script>
+
+
+<style>
+.gantt{padding:22px 26px;margin-bottom:22px}
+.gt-axis,.gt-row{display:grid;grid-template-columns:210px 1fr;gap:14px;align-items:center}
+.gt-ticks{position:relative;height:18px;font:500 11px var(--mono);color:var(--ink3)}
+.gt-ticks span{position:absolute;top:0}
+.gt-row{padding:9px 0;border-top:1px solid var(--border)}
+.gt-name{font-size:13.5px;font-weight:600;display:flex;flex-direction:column;gap:2px}
+.gt-risk{font-size:11px;font-weight:600;color:#9A3412}
+[data-theme=dark] .gt-risk{color:#F2A184}
+.gt-track{position:relative;height:32px;border-radius:8px;background:rgba(47,58,29,.05)}
+.gt-bar{position:absolute;inset-block:3px;inset-inline-start:var(--s);width:var(--w);background:var(--c);border-radius:7px;display:flex;align-items:center;justify-content:center;transform-origin:100% 50%;transform:scaleX(0);transition:transform .9s cubic-bezier(.22,1,.36,1) var(--d)}
+.gt-bar b{font:600 11px var(--mono)}
+.gantt.in .gt-bar{transform:none}
+@media(max-width:700px){.gt-axis,.gt-row{grid-template-columns:1fr}.gt-axis>div:first-child{display:none}}
+.bar u{transition:width 1s cubic-bezier(.22,1,.36,1)}
+.cb u{transition:height 1s cubic-bezier(.22,1,.36,1)}
+.tabs{position:relative}
+.tabs .tab{position:relative;z-index:1}
+.tabs .tab.on{background:transparent;border-color:transparent}
+[data-theme=dark] .tabs .tab.on{background:transparent;color:#2F3A1D}
+.tab-ind{position:absolute;left:0;top:0;border-radius:99px;background:var(--olive);z-index:0;pointer-events:none}
+[data-theme=dark] .tab-ind{background:var(--lime)}
+.tab-ind.ready{transition:transform .35s cubic-bezier(.22,1,.36,1),width .35s,height .35s}
+@media(prefers-reduced-motion:reduce){.gt-bar{transform:none}}
+</style>
+<script>
+(function(){
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* roadmap: Gantt over 42 weeks, with the open High-severity decisions per phase */
+  const w=document.querySelector('#page-roadmap .wrap');
+  if(w&&typeof PROJECT!=='undefined'){
+    const TOT=42,risks=PROJECT.risks.items;
+    const ink=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16)+.587*((n>>8)&255)+.114*(n&255)>150?'#1D2412':'#fff'};
+    const rows=PROJECT.roadmap.phases.map((p,i)=>{
+      const m=p.weeks.match(/(\d+)\D+(\d+)/),a=+m[1],b=+m[2],n=p.name.match(/Phase (\d)/)[1];
+      const hi=risks.filter(r=>r[0]==='High'&&r[3]==='Phase '+n).length;
+      return '<div class="gt-row"><div class="gt-name">'+p.name.replace(/^Phase \d\s*—\s*/,'')+(hi?'<span class="gt-risk">High مفتوح: '+hi+'</span>':'')+'</div>'+
+        '<div class="gt-track"><i class="gt-bar" style="--c:'+p.c+';--s:'+((a-1)/TOT*100)+'%;--w:'+((b-a+1)/TOT*100)+'%;--d:'+(i*90)+'ms"><b style="color:'+ink(p.c)+'">W'+a+'–'+b+'</b></i></div></div>';
+    }).join('');
+    const ticks=[1,8,16,22,28,36,42].map(k=>'<span style="inset-inline-start:'+((k-1)/TOT*100)+'%">W'+k+'</span>').join('');
+    const el=document.createElement('div');el.className='card flat gantt';
+    el.innerHTML='<div class="gt-axis"><div></div><div class="gt-ticks">'+ticks+'</div></div>'+rows;
+    (w.querySelector('.callout')||w.querySelector('.lead')).after(el);
+  }
+
+  /* values count up and bars fill the first time a card is seen */
+  if(!RM){
+    const count=el=>{const m=el.textContent.trim().match(/^([\d.,]+)(.*)$/);if(!m)return;
+      const end=parseFloat(m[1].replace(/,/g,'')),dec=(m[1].split('.')[1]||'').length,sep=m[1].indexOf(',')>-1,t0=performance.now();
+      (function f(n){const k=Math.min((n-t0)/900,1),v=end*(1-Math.pow(1-k,3));
+        el.textContent=(sep?v.toLocaleString('en',{maximumFractionDigits:dec}):v.toFixed(dec))+m[2];
+        if(k<1)requestAnimationFrame(f)})(t0)};
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting)return;io.unobserve(e.target);const c=e.target;c.classList.add('in');
+      c.querySelectorAll('[data-w]').forEach(u=>u.style.width=u.dataset.w);
+      c.querySelectorAll('[data-h]').forEach(u=>u.style.height=u.dataset.h);
+      c.querySelectorAll('.sv').forEach(count);
+    }),{threshold:.25});
+    document.querySelectorAll('.stat u').forEach(u=>{u.dataset.w=u.style.width;u.style.width='0%'});
+    document.querySelectorAll('.cb u').forEach(u=>{u.dataset.h=u.style.height;u.style.height='0%'});
+    document.querySelectorAll('.stat,.cb,.gantt').forEach(c=>io.observe(c));
+  }
+
+  /* one sliding pill under the active tab */
+  document.querySelectorAll('.tabs').forEach(c=>{
+    const ind=document.createElement('i');ind.className='tab-ind';c.prepend(ind);
+    const place=()=>{const b=c.querySelector('.tab.on');if(!b||!b.offsetWidth)return;
+      ind.style.width=b.offsetWidth+'px';ind.style.height=b.offsetHeight+'px';
+      ind.style.transform='translate('+b.offsetLeft+'px,'+b.offsetTop+'px)';
+      requestAnimationFrame(()=>ind.classList.add('ready'))};
+    c.addEventListener('click',()=>requestAnimationFrame(place));
+    new ResizeObserver(place).observe(c);place();
+  });
+})();
+</script>
+
+
+<style>
+/* cards: depth answers the pointer; flat cards stay quiet */
+.card{position:relative;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s,border-color .35s}
+.card:not(.flat)::before{content:'';position:absolute;inset-block:16px;inset-inline-start:0;width:3px;border-radius:99px;background:linear-gradient(var(--lime),#8FB43A);transform:scaleY(0);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.card:not(.flat):hover{transform:translateY(-4px);border-color:#B9D86B;box-shadow:0 18px 36px -14px rgba(47,58,29,.28),0 4px 10px -4px rgba(143,180,58,.35)}
+.card:not(.flat):hover::before{transform:scaleY(1)}
+[data-theme=dark] .card:not(.flat):hover{border-color:rgba(207,255,116,.45);box-shadow:0 18px 36px -14px rgba(0,0,0,.6)}
+</style>
+<script>
+/* first visit to a tab: the first 8 cards of each grid settle in, 30ms apart */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const seen=new Set();
+  const run=id=>{
+    if(seen.has(id))return;seen.add(id);
+    const pg=document.getElementById('page-'+id);if(!pg)return;
+    pg.querySelectorAll('.grid').forEach(g=>[...g.children].slice(0,8).forEach((c,i)=>
+      c.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],
+        {duration:380,delay:i*30,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'})));
+  };
+  seen.add('vision');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(()=>run(b.dataset.id))));
+})();
+</script>
+
+</body>
+</html>
