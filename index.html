@@ -4065,7 +4065,206 @@ OUTPUT SPECS:
       document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => requestAnimationFrame(() => run(b.dataset.id))));
     })();
   </script>
+  <script>
+    /* paste the full contents of screens-extra.js here */
+    /* ═══════════════════════════════════════════════════════════════
+     screens-extra.js — Plant Green Blueprint
+     1) يستبدل الـ wireframe بصورة الشاشة الفعلية من tech/UI
+     2) يضيف كارت "Screen walkthrough" لكل شاشة
+     حطه جنب index.html وضيف قبل 
+     ═══════════════════════════════════════════════════════════════ */
+    (function () {
+      'use strict';
 
+      /* ── 1) صور الشاشات: id → [Arabic, English] ── */
+      const UI = 'tech/UI/';
+      const D = 'Dashnord/', A = 'DashbordAdmain/', C = 'Create&login/';
+      const MAP = {
+        '01': [C + 'Screen-01-Role-Selection.png'],
+        '02': [C + 'Screen-05-Farmer-Sign-Up-Arabic.png', C + 'Screen-04-Farmer-Sign-Up.png'],
+        '03': [C + 'Screen-07-OTP-Verification-Arabic.png', C + 'Screen-06-Email-OTP-Verification.png'],
+        '04': [C + 'Screen-03-Farm-Size-Plan-Setup-Arabic.png', C + 'Screen-02-Farm-Size-Plan-Setup.png'],
+        '05': [D + 'Screen-05-Main-Dashboard.png'],
+        '06': [D + 'Screen-06-My-Farms.png'],
+        '07': [D + 'Screen-07-Farm-Details.png'],
+        '08': [D + 'Screen-08-Zones-Map.png'],
+        '09': [D + 'Screen-09-Soil-Moisture-Monitoring.png'],
+        '10': [D + 'Screen-11-Irrigation-AR.png', D + 'Screen-10-Irrigation-EN.png'],
+        '11': [D + 'Screen-12-Canopy-Control-AR.png', D + 'Screen-11-Canopy-Control-EN.png'],
+        '12': [D + 'Screen-13-Devices-and-Sensors-AR.png', D + 'Screen-12-Devices-and-Sensors-EN.png'],
+        '13': [D + 'Screen-14-Weather-Overview-AR.png', D + 'Screen-13-Weather-Overview-EN.png'],
+        '14': [D + 'Screen-15-Cost-Calculator-AR.png', D + 'Screen-14-Cost-Calculator-EN.png'],
+        '15': [D + 'Screen-16-Maintenance-Center-AR.png', D + 'Screen-15-Maintenance-Center-EN.png'],
+        '16': [D + 'Screen-17-New-Request-AR.png', D + 'Screen-16-New-Request-EN.png'],
+        '17': [D + 'Screen-18-Experts-Directory-AR.png', D + 'Screen-17-Experts-Directory-EN.png'],
+        '18': [D + 'Screen-19-Book-Consultation-AR.png', D + 'Screen-18-Book-Consultation-EN.png'],
+        '19': [D + 'Screen-20-Performance-Score-AR.png', D + 'Screen-19-Performance-Score-EN.png'],
+        '20': [D + 'Screen-20-22-Equipment-Store.png'],
+        '21': [D + 'Screen-20-22-Equipment-Store.png'],
+        '22': [D + 'Screen-20-22-Equipment-Store.png'],
+        '23': [D + 'Screen-23-My-Orders-Shipping-Tracking.png'],
+        '24': [D + 'Screen-24-Returns-Request.png'],
+        '25': [D + 'Screen-25-26-Financial-Services-Subscriptions.png'],
+        '26': [D + 'Screen-25-26-Financial-Services-Subscriptions.png'],
+        '27': [D + 'Screen-27-Documents-and-Claims.png'],
+        '28': [D + 'Screen-28-AI-Agronomist-Assistant.png'],
+        '29': [D + 'Screen-29-Smart-Irrigation-Recommendations.png'],
+        '30': [D + 'Screen-30-Season-Planner.png'],
+        '31': [D + 'Screen-31-Season-Planner-Copy.png'],
+        '32': [D + 'Screen-32-Digital-Farm-File.png'],
+        '33': [D + 'Screen-33-Team-Management.png'],
+        '34': [D + 'Screen-34-Settings.png'],
+        '35': [D + 'Screen-35-Supplier-Dashboard.png'],
+        '36': [D + 'Screen-36-Catalog-Management.png'],
+        '38': [A + 'Screen-11-Integrations-Webhook-Event-Log.png'],
+        '39': [A + 'Screen-01-Overview-Dashboard.png', A + 'Screen-03-Overview-Dashboard-English.png'],
+        '40': [A + 'Screen-05-Customer-Profile.png'],
+        '41': [A + 'Screen-04-Leads-Management.png'],
+        '42': [A + 'Screen-08-Farm-Details.png'],
+        '43': [A + 'Screen-07-Finance-Management.png'],
+        '44': [A + 'Screen-13-Staff-Roles-Permissions.png'],
+        '45': [D + 'Screen-45-Academy-Video-Library.png']
+      };
+      const imgSrc = id => {
+        const p = MAP[id]; if (!p) return null;
+        const f = document.documentElement.lang === 'en' ? (p[1] || p[0]) : p[0];
+        return UI + f.split('/').map(encodeURIComponent).join('/'); /* & في Create&login */
+      };
+
+      /* ── 2) وصف كل شاشة من الصور الفعلية ── */
+      const WALK = {
+        '01': ["Role Selection (Screen 01 in Create&login): header with nav, EN switch and Log In; title Welcome to Plant Green, Step 1: Account Selection.",
+          "4 cards: Farmer & Land Owner (Most Popular, default, live line 4 IoT nodes / 98% soil health), Agricultural Company, Equipment & Supply Vendor, Agronomy & Services.",
+          "Actions: Continue to Create Account, Just track an order (no registration), Log In link. Footer: Satellite Data, IoT Sensor Sync, 256-bit Encryption, 24/7 Agronomist Support."],
+        '02': ["Sign-up (Screens 04 EN / 05 AR): Quick Sign Up with Google; Full Name, Mobile (+20), Email, Governorate dropdown, Password with strength bar; required Terms/Privacy checkbox; Get Started and Log In link.",
+          "Left panel: real-time moisture, manual/automated irrigation, season cost calculation, equipment purchasing, Basic plan summary, free 30-day trial.",
+          "Related: Login (Screens 10/11: Google, National SSO, email/mobile, remember me, forgot password) and Forgot Password (Screens 13/14: registered email + recovery by mobile)."],
+        '03': ["Email OTP (Screens 06 EN / 07 AR): six-digit code sent to a masked email, test code 249081 with Auto-fill, six empty boxes, Resend in 00:50, buttons Verify Code & Access Dashboard and Change Email Address, Back to Sign Up.",
+          "Mobile OTP popup (Screen 12 AR): confirm number +20 114 478 9665 with change link, 4 boxes, 20-second timer, resend by SMS or WhatsApp, confirm button."],
+        '04': ["Farm Size & Plan Setup (Screens 02 EN / 03 AR), step 1 of 4: What is your approximate farm size? Under 5 feddans = Free; 5 to 25 = Basic (Most Popular, default); over 25 = Pro.",
+          "Recommendation box: Basic Plan, +30% water savings. Left panel: sample field telemetry (soil moisture 68%, canopy index 94%) and Basic features. Button: Continue to Account Details.",
+          "Getting Started (Screens 08/09): Welcome Ahmed, 100% complete badge, Field Launch Readiness 1 of 3 (33%), cards Add Your First Field Zone, Link Soil & Canopy Sensor (Bluetooth/QR), Try Seasonal Cost Calculator, button Open Management Dashboard, Talk with an Expert."],
+        '05': ["Owner/Business overview: 3 farms, 48 feddan, 12 of 14 zones active, 86 sensors, 24 devices.",
+          "Smart agriculture: soil humidity 62%, irrigation running in Zone 3 (25 min ago), water 18.4 m3 today, 29 C, rain probability 10%, canopy 74% open.",
+          "AI recommendations (reduce Zone 3 irrigation, heat wave Thursday, Zone 4 sensor unreliable); notifications (pressure drop Farm 2, Zone 5 moisture below 20%, Zone 1 irrigation done); quick actions (add farm, add device, maintenance request, new order).",
+          "Maintenance 3 open / 2 in progress / 14 completed; Seasonal planner 2026/27 at 35%; Performance 82 (productivity 88, water 79, product health 81, +4); recent orders #1042, #1039, #1035; Business plan renews 12 Jan 2027."],
+        '06': ["Grid of 5 farm cards: Al-Waha (Giza, 48,000 m2, active, 4 zones, 12 devices), Al-Nakheel (Beheira, 120,000, active, 6, 20), Al-Rabee (Sharqia, 72,000, inactive, 5, none), Al-Salam (Assiut, 55,000, active, 4, 9), Al-Wadi (Minya, 36,500, pending setup, 3, 7).",
+          "Filter tabs All / Active / Pending setup / Inactive, sort newest first, dashed Add farm card; a message shows when no farm matches."],
+        '07': ["Al-Waha header: 48,000 m2, 4 zones, 11 of 12 devices connected, last reading 3 min ago. Tabs: Overview, Zones, Irrigation, Devices, Photos.",
+          "Zone map color-coded: A tomatoes (normal), B cucumber (warning), C peppers (critical), D strawberries (grey dashed, disconnected); dark circles = valves, light squares = sensors. Zone list with badges; 4 photo placeholders with upload."],
+        '08': ["Interactive map editor: toolbar select / draw zone / edit boundary / full screen.",
+          "Zone B panel: Z-B, 11,500 m2, cucumber, sandy loam, 3 sensors (2 connected), performance 72/100; actions start irrigation and edit; note that irrigation follows the real valve network and is logged.",
+          "Confirmation dialog: Start irrigation in Zone B for 20 minutes? Create/edit zone panel with name (example Zone H), crop and soil selectors, save."],
+        '09': ["Filters: all zones or A-D; ranges 24h / 7d / 30d / custom. Alert banner: Zone C below threshold (12 min ago).",
+          "Gauges: A 41% (24 C), B 29% (26 C), C 17% (27 C). 24h chart: A about 70%, B 50 to 33%, C 40 to 15%, with threshold lines.",
+          "Sensor table: S-101 (A, 41%, 3 min), S-102 (B, 29%, 8 min), S-103 (C, 17%, 12 min), S-104 (D, disconnected). Older readings hidden for clarity."],
+        '10': ["Green Valley Farm, Fayoum, updated 18 Nov 2026 09:42. Stats: 1 of 4 zones active, 1,240 L today (demo), 2 scheduled sessions (next 18:00), system Online.",
+          "Zone cards: A tomatoes idle 42% (06:30), B cucumber irrigating 35% (since 06:45), C peppers idle 51%, D strawberries idle 28%. Manual/Automatic switch; manual control for Zone A (idle, flow 0 L/min, start/stop).",
+          "Schedules: Sun/Tue/Thu 06:00 20 min Zone A (on); daily 18:00 15 min Zone B (on); Mon/Fri 05:30 30 min Zone C (off). Consumption chart 180/60/40/220 L; alerts; history table (5 runs, 3 pages); demo buttons for loading, error and empty states."],
+        '11': ["Canopy status Open 100%, mode Manual, device connected, last movement 17 Nov 18:05; schematic with panels A, B, C.",
+          "Controls: Open (disabled while open) and Close; prototype note, no real device. Auto mode off; weather inputs rain none, 27 C, wind 14 km/h (09:42).",
+          "History: 17 Nov 18:05 opened manual OK; 17 Nov 16:20 closed auto OK; 14 Nov 07:10 opened auto OK; 12 Nov 16:20 closed auto FAILED; 12 Nov 08:00 opened manual OK. Simulate offline button, operation filter."],
+        '12': ["Summary: 12 devices, 10 online, 2 offline, 4 need attention. Filters: search, type, zone, connection, health, calibration.",
+          "Table: CC-5001 Canopy Controller (B, online, healthy, calibrated), GW-0001 Gateway (A), PC-4001 Pump Controller A, RN-2001 Rain Sensor, SM-1001 / SM-1002 soil moisture (A, 1 min). 2 pages, View details per row.",
+          "Alerts: disconnected, sensor data unavailable, calibration required, unusual readings, device health warning (critical)."],
+        '13': ["Current: 27 C, clear, humidity 38%, wind 14 km/h, rain 10%. Rain detection: none; RN-2001 online, last rain 12 Nov 16:20; Simulate rain button.",
+          "7-day forecast: Wed 29/16 (5%), Thu 28/15 (10%), Fri 26/14 (20%), Sat 24/13 (55%), Sun 22/12 (80%), Mon 23/13 (30%), Tue 26/14 (10%).",
+          "Irrigation impact (rain, heat threshold 35 C, forecast rain: none triggered). Canopy impact: rain and wind rules on in Manual, temperature rule off; confirmed state Open. Trends chart and 4 info alerts."],
+        '14': ["November 2026 inputs: Water 1,200 m3 x 6 = 7,200 EGP; Electricity 3,500 kWh x 2.1 = 7,350; Equipment 3,000 + 5,000 + 600 = 8,600; Labor 6 x 5,500 + 1,500 = 34,500; Maintenance 900 + 1,200 + 700 = 2,800.",
+          "Total 60,450 EGP (estimate, not an accounting record). Distribution: labor 57.1%, equipment 14.2%, electricity 12.2%, water 11.9%, maintenance 4.6%. Vs October 56,800: +3,650 (+6.4%). History table (Oct, Sep, Aug) with delete."],
+        '15': ["Summary: 1 open, 2 in progress, 3 resolved. Filters: search, status, category, priority, date. Button Create new request.",
+          "MR-1042 temp sensor offline (Temp/Humidity D, high, Submitted, 17 Nov); MR-1041 valve controller not responding (high, In Progress); MR-1040 soil moisture fluctuates (B1, medium, In Progress); MR-1036 pump pressure low (medium, Resolved); MR-1031 rain sensor cleaning (low, Resolved)."],
+        '16': ["4-step wizard: 1 Select device (current), 2 Describe problem, 3 Upload photos, 4 Review and submit. Search by name or ID.",
+          "12 device cards: SM-1001/1002 (A, online), SM-1003 (B, online), SM-1004 (C, offline), RN-2001, WN-2002 (A), TH-3001 (B), TH-3002 (D, offline), PC-4001 (A), VC-4002 (C), CC-5001 (B), GW-0001 (A). Previous disabled on step 1; Continue disabled until a device is chosen."],
+        '17': ["Demo expert profiles. Filters: all, soil, irrigation, plant diseases, agricultural engineers, crop management, greenhouse, other; availability dropdown; search; My appointments.",
+          "8 cards: Dr. Hassan El-Sayed (soil, 4.9, 18 y, today 11:00), Eng. Mona Fathy (irrigation, 4.8), Dr. Karim Nabil (pathology, 4.7), Eng. Salma Adel (agri engineer, 4.6, 19 Nov 09:00), Dr. Omar Gaber (crop advisor, 4.9, fully booked, button disabled), Dr. Nadia Rashed (soil fertility, 4.5), Eng. Youssef Hamed (greenhouse, 4.7), Dr. Laila Ibrahim (pathology, 4.8). Actions: View profile, Book consultation."],
+        '18': ["Empty state: tabs Book / My appointments; calendar shows Choose an expert first; no time slots; expert dropdown; booking summary (expert, specialization, date, time) with type fixed Video call 60 min (mock); Confirm booking. Prototype note: no real booking."],
+        '19': ["Overall 82/100 (Good, +4); formula not defined yet. Water efficiency 84 (+3), Soil health 77 (+1, avg moisture 38%), Irrigation efficiency 80 (+4, 92% on schedule), Sensor health 83 (-2, 10 of 12 online).",
+          "6-week history chart with previous-period dashed line (daily/weekly/monthly). Zone table: A 88, D 83, B 79, C 74 with sub-scores.",
+          "Suggestions to verify: Zone C water use (medium), Zone C soil sensor (high), Zone B schedules (medium), offline devices (high). Buttons Open irrigation / Open devices; Export report."],
+        '20': ["Store layout: Plant Green sidebar, left filters (category, brand, price range), grid of 6 products (e.g. ESP32 IoT board, drip irrigation kit) with add-to-cart. Image is small, exact prices/names not reliable."],
+        '21': ["Selected product shown in the store page: shading net 50% x 5 at 21,000 EGP with specs (dimensions, material) and add-to-cart."],
+        '22': ["Checkout section: shipping and payment steps with order totals (same combined store image)."],
+        '23': ["Orders: ORD-1052 (15/11, 38,150 EGP, paid, in transit), ORD-1047 (02/11, 3,900, paid, delivered), ORD-1039 (20/10, 1,150, partially paid, delivered), ORD-1033 (10/10, 260, payment failed, cancelled). Filters All/Processing/Shipped/Delivered/Cancelled + search.",
+          "ORD-1052: TRK-000123; timeline ordered 15/11 10:20, reserved 16:00, shipped 16/11 09:00, in transit to Giza 17/11 08:30, expected 19/11. Items: shading net x5 21,000, ESP32 x20 5,200, drip pipe x10 11,500. Actions: track, request return, cancel (only while unshipped)."],
+        '24': ["Returns: RET-3310 (ORD-1047, 05/11, under review), RET-3201 (ORD-1012, 18/10, refunded). New return form: order, product (0.5 m3 water tank), reason (defective / wrong item / not as described / other), details, optional photo.",
+          "RET-3310 timeline has two separate tracks: shipping via Tasleem (pickup scheduled, not collected, not in transit, not at warehouse) and refund (requested 05/11, under review, approval/rejection, processing, completion). They do not update each other."],
+        '25': ["Plans: Free 0, Basic 299 EGP/month (most popular, active), Pro 799 EGP/month, with comparison table (farms, devices, support). Saved card ending 5678 + add payment. Invoices 01/11, 01/10, 01/09/2026 (Basic, paid). Small image, plan details approximate."],
+        '26': ["Insurance step-by-step: crop insurance, coverage 48,000 EGP for 12 months, estimated premium about 4,800 EGP/year; insurer selection and payout/terms summary; cover includes crop loss, equipment and sensors, weather damage."],
+        '27': ["Policies: POL-2201 (Al-Waha crop, active 01/06/2026 to 31/05/2027, certificate and terms) and POL-1984 (Al-Nakheel equipment, expired 31/12/2025).",
+          "Claims: CL-102 (12,000 EGP, under review, 05/11), CL-097 (4,500, paid, 20/10), CL-081 (7,200, rejected, 12/03). New claim form (policy, description, amount, evidence, submit / save draft). CL-102 status: submitted, under review (current), decision pending, payment pending."],
+        '28': ["Chat with context panel (Al-Waha, zone B, cucumber, last 24h readings, sources) and past conversations. Example: irrigate Zone B today? Answer: moisture below optimal, no rain, irrigate in the morning, with cards 29% / 26 C / 0 mm and a view recommendation button.",
+          "Yellow leaves with spots: cannot diagnose from description, possible overwatering or nutrient deficiency, suggests booking an expert. Suggested prompts; disclaimer: advice only, no commands, no disease diagnosis."],
+        '29': ["Summary: 4 new, 7 applied this week, about 12% expected water savings, 71% acceptance. Cards: Zone C critical (irrigate now 30 min, moisture 17%, medium confidence), Zone B warning (20 min at 06:00, 29%, about 10% savings, high confidence), Zone A (no irrigation, adequate moisture and rain forecast, about 15%), Zone D (15 min fallback, sensors disconnected, low confidence).",
+          "Actions apply / ignore / why; confirmation preview for Zone B 20 min, logged after confirm. No irrigation runs without user confirmation."],
+        '30': ["Season selector (summer 2026, autumn 2026 selected, winter 2026/27, spring 2027), filters Zone B / cucumber, progress 8 of 20 (40%). November 2026 calendar with planned, completed and AI-suggested tasks.",
+          "Tasks: 18/11 irrigation B, 20/11 first fertilization B, 25/11 planting transplants D (reminder off), 12/11 irrigation A done, 08/11 soil preparation B done. Buttons Generate suggested plan and Create season report; schedule stays editable, AI only suggests."],
+        '31': ["No dedicated image in tech/UI (the Screen-31 file is a copy of the Season Planner)."],
+        '32': ["Al-Waha farm file: owner sample customer, Giza, 48,000 m2, sandy loam, crops tomato/cucumber/pepper/strawberry, 4 zones. Devices 11 of 12 connected (last contact 3 min), View devices.",
+          "Documents: land ownership deed (01/03/2026), farm license (12/04/2026), soil analysis (02/06/2026) with view/download/upload; 6 photo placeholders. View-only until Edit; saved after confirmation."],
+        '33': ["Members: Owner (cannot be removed), Farm manager (active, change role), Technical advisor (invited, resend), Viewer (remove). Invite form: email, role, farm access (Al-Waha on, Al-Nakheel off).",
+          "Permission matrix: farms/zones (manager edit, others view), soil (manager and advisor edit), irrigation and canopy (manager edit, advisor canopy only, viewer none), devices (manager and advisor edit), store/finance/team manager only. Prototype note."],
+        '34': ["Menu: Personal profile, Security, Notifications, Language and preferences, Privacy. Profile: Sample customer, user@example.com, empty phone. Security: password change, 2FA off, device sessions with end session.",
+          "Notifications matrix (in-app/email/SMS): low humidity on/on/off; device offline on/on/on; order and shipping on/off/off; renewal on/on/off; applies to all team members. Language Arabic RTL / English LTR applied without reload; date d/m/y; default farm Al-Waha. Privacy: share minimum data with AI (on), export data, delete account with confirmation."],
+        '35': ["Al-Modeer Supply Co. Stats: 42 purchase orders, 5 open contracts (1 ending in a month), 4 pending quotes, 86,400 EGP outstanding (3 invoices), Odoo sync 2 need review, 7 active projects, 31 completed deliveries, 6 delayed (1 late).",
+          "Recent POs: PO-1042 Al-Waha 215,000 confirmed; PO-1041 Nakheel 640,000 pending; PO-1038 Rabee 38,500 late; PO-1035 Salam 96,000 delivered. Deliveries DL-310, DL-311, DL-305 (late). Price requests RQ-218, RQ-221, RQ-224 with submit quote. Marketplace: 8 products, 3 requests, 2 low-stock alerts. Performance: on-time 92%, quality 4.6/5, fulfillment 95%, projects 88%, response 5h."],
+        '36': ["Catalog (5): shading net 50% (roll, 4,200, min 5, synced), greenhouse structure (m2, 310, min 100, waiting), ESP32 board (piece, 260, min 20, synced), drip line 16 mm (roll, 1,150, min 10, sync failed), 0.5 HP pump (piece, 3,900, min 2, needs review). Category tabs and sync filter.",
+          "Edit panel (shading net): SKU SHD-N50, 50% shading, 4 m x 50 m, unit roll, price 4,200, min 5, capacity 200 rolls/month, 12-month warranty, images and PDF datasheet, publish toggle (off). Odoo is source of truth for inventory; legend waiting / synced / failed / needs review."],
+        '38': ["Integrations Webhook Event Log (Screen 11): Odoo card (inventory, last sync 4 min, 98.2% success, 5 pending, 2 failed), Tasleem card (91.0%, 3 pending, 4 failed, 2 failed shipment returns), missing-data card (N/A).",
+          "Event log: 14:32 Odoo inventory update, 14:10 Tasleem tracking failed, 13:58 Tasleem return duplicate, 13:40 Odoo product failed, 13:12 Odoo stock movement pending, 12:50 Tasleem shipment success. Rules: idempotency, duplicate prevention, retry tracking, audit log. Detail E-20318: HTTP 504 timeout with retry history and safe-retry button. The earlier Screen 10 shows both cards as not checked yet with events E-1..E-4."],
+        '39': ["Staff overview (AR light / alternate / EN): search, last 30 days, AR/EN, notifications; critical alert Tasleem sync failure (2) with review log; period tabs and user type / farm / region filters.",
+          "KPIs: users 1,240 (+8%), active farms 318 (+4%), connected devices 1,150, offline 54, orders 686 (+12%), open leads 93 (-3%), tickets 6 (+2), revenue N/A (awaiting definition). Leads funnel: new 120, no answer 84, interested 48, follow-up 36, converted 22, rejected 30; revenue vs expenses; IoT monitoring (1,150 / 54 / 12 faulty / 9 stale); pending actions (7 late follow-ups, 4 without account manager, 12 orders, 3 returns, 2 vendors, 6 tickets); recent activity. Footer: Environment Production."],
+        '40': ["Customer profile (sample customer): tags farm, active, Pro, demo. Sales owner (sales 1) and account manager (account manager 1) with change buttons. Tabs: overview, account data, farms, orders, payments (selected), tickets, subscriptions, notes, activity.",
+          "Payments: total due / paid / remaining (blank), payment log (date, amount, method, reference, recorded by). Churn: last expected order 74 days ago, limit 90 days, close to churn. Internal notes input."],
+        '41': ["Leads list: Excel import, bulk, export; filters status, source, region, owner, next follow-up; summary tiles (total, new, follow-ups, overdue, interested, conversion).",
+          "Six leads (01000000001 to 01000000006) across Giza, Cairo, Sharqia, Minya, Beheira, Asyut; source Excel or manual; owners sales 1 / sales 2; statuses new, no answer, interested, follow-up, delivered, rejected. Import stages: upload, preview, map columns, detect duplicates, validate, confirm, save log."],
+        '42': ["Sample farm (read-only): 3 zones, 12 devices, 2 active alerts, updated 3 min ago. Tabs overview, zones, soil and environment, irrigation, canopy, equipment, activity.",
+          "Zones: A normal (4 sensors), B warning (3), C critical (5). Read-only irrigation log and canopy log (open/close with cause rain or timer). Devices list (Screen 09): connected 1,150, disconnected 54, faulty 12, unregistered 5; D-101 to D-105 with firmware, battery and status."],
+        '43': ["Finance: add manual transaction, export. KPIs: revenue, expenses, net profit (estimated), outstanding, collections, payouts. Expenses by category: salaries, shipping, marketing, platform subscriptions, maintenance, other. Revenue vs expenses chart blank pending revenue definition.",
+          "Transactions: order #1001 and #1003 with date, type, category, amount, source (system/manual), action (read-only / edit). Related Orders page (Screen 06): orders #1001 to #1004 with payment, delivery and status."],
+        '44': ["Staff and permissions: employee 1 Admin (all access), employee 2 Sales (40 leads), employee 3 Account Manager + Sales (58 leads, 12 orders), employee 4 Accounts (suspended).",
+          "Role tabs Admin / Sales / Account Manager / Accounts; matrix of modules (leads, customers, orders, finance, farms monitoring, IoT monitoring) vs view, add, edit, delete, approve, export. Audit-log notice; red warning: irrigation, canopy and device settings blocked for all staff."],
+        '45': ["Academy: 58 videos, 12 completed, 5 watching, 41 remaining, 21% progress. Continue watching: Adding a farm at 02:30 of 06:10 (40%). Categories: Getting started 6, Farm management 8, Canopy and irrigation 6, Smart AI 8, Store 8, Services 6, Insurance 6, Integrations 6.",
+          "Cards: Introduction to Plant Green (4:30, completed), Adding a farm (6:10, 40%), Understanding irrigation (5:20), Managing shading zones (9:00, advanced), Using the AI assistant (5:45), Importing products from external stores (8:15, intermediate). Insurance courses only when the service is active; search with no-results state.",
+          "Lesson page (Adding a farm, files 45i/46/46i/46ii): player paused at 02:30, mark complete (not automatic), PDFs (guide, checklist), related videos, 3 objectives, 4 steps, note that area can be edited later, links to my farm / irrigation (subscription) / dashboard."]
+      };
+
+      /* ── 3) استبدال mockHTML: صورة لو موجودة، وإلا الـ wireframe القديم ── */
+      const origMock = window.mockHTML;
+      window.mockHTML = function (s) {
+        const src = imgSrc(s.id);
+        if (!src) return origMock(s);
+        const url = 'app.plantgreen/' + esc(s.name.en.toLowerCase().replace(/[^a-z]+/g, '-'));
+        return '<div class="bw"><div class="bw-bar"><b></b><b></b><b></b><span class="bw-url">' + url + '</span></div>' +
+          '<img src="' + src + '" alt="' + esc(s.name.en) + '" loading="lazy" style="display:block;width:100%;height:auto" ' +
+          'onerror="this.outerHTML=\'<div class=&quot;callout note&quot; style=&quot;margin:14px&quot;>Image not found: ' + src.replace(/'/g, '') + '</div>\'"></div>';
+      };
+
+      /* ── 4) كارت الـ walkthrough: يتضاف تلقائي بعد كل رسم للشاشة ── */
+      const detail = document.getElementById('sc-detail');
+      if (!detail) return;
+      const addWalk = () => {
+        if (detail.querySelector('.walk-card')) return;
+        const m = (detail.querySelector('.mono') || {}).textContent || '';
+        const id = (m.match(/\d+/) || [''])[0];
+        const rows = WALK[id]; if (!rows) return;
+        const firstCard = detail.querySelector('.card.flat'); if (!firstCard) return;
+        const card = document.createElement('div');
+        card.className = 'card flat walk-card'; card.style.marginTop = '18px';
+        card.innerHTML = '<h3 class="h3">Screen walkthrough <span class="badge gray">from the screenshots</span></h3>' +
+          '<ul class="ux" dir="ltr" style="text-align:left">' + rows.map((t, i) =>
+            '<li style="padding:9px 0"><div class="num" style="width:22px;min-width:22px;height:22px;font-size:10px">' + (i + 1) + '</div><span>' + esc(t) + '</span></li>').join('') + '</ul>';
+        firstCard.after(card);
+      };
+      new MutationObserver(addWalk).observe(detail, { childList: true });
+
+      /* إعادة رسم الشاشة الحالية بالنسخة الجديدة (والصورة تتبدل مع AR/EN) */
+      const redraw = () => { const b = document.querySelector('.sc-item.on'); if (b) b.click(); };
+      redraw();
+      const tl = document.getElementById('t-lang');
+      if (tl) tl.addEventListener('click', () => setTimeout(redraw, 0));
+    })();
+  </script>
 </body>
 
 </html>
