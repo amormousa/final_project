@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import type { ApplicationRole } from '../config/roles'
+import type { ApplicationRole } from '../../core/permissions/roles'
 import type { Permission } from '../../core/permissions/permissions'
 
 export interface AuthContextValue {

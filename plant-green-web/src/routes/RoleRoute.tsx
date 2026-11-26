@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router-dom'
-import type { ApplicationRole } from '../app/config/roles'
+import type { ApplicationRole } from '../core/permissions/roles'
 import { useAuth } from '../app/providers/useAuth'
 
 interface RoleRouteProps extends PropsWithChildren {

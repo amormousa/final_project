@@ -1,4 +1,4 @@
-import type { ApplicationRole } from '../../app/config/roles'
+import type { ApplicationRole } from '../permissions/roles'
 import type { Permission } from '../permissions/permissions'
 
 let accessToken: string | null = null

@@ -7,7 +7,7 @@ export const STAFF_ROLES: readonly StaffRole[] = [
   'accounts',
 ]
 
-export function staffRolePermissions(_role: StaffRole): readonly Permission[] {
+export function staffPermissions(_role: StaffRole): readonly Permission[] {
   return []
 }
 

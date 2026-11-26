@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { AuthContext } from '../../app/providers/AuthContext'
+import { getSession } from '../auth/session'
 import type { Permission } from './permissions'
 
 export function usePermission(permission: Permission) {
-  const { permissions } = useContext(AuthContext)
+  const { permissions } = getSession()
   return permissions.includes(permission)
 }

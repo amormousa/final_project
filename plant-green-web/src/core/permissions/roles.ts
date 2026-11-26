@@ -1,4 +1,11 @@
-export type {
-  ApplicationRole,
-  StaffRole,
-} from '../../app/config/roles'
+export type ApplicationRole =
+  | 'owner'
+  | 'business'
+  | 'supplier'
+  | 'admin'
+  | 'insurance_officer'
+
+export type StaffRole =
+  | 'sales'
+  | 'account_manager'
+  | 'accounts'

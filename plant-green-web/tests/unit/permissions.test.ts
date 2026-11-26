@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { canForRole } from '../../src/core/permissions/can'
+import {
+  rolePermissions,
+  staffPermissions,
+} from '../../src/core/permissions/policies'
 import type { Permission } from '../../src/core/permissions/permissions'
 import type { ApplicationRole, StaffRole } from '../../src/core/permissions/roles'
 
@@ -23,4 +27,17 @@ describe('staff control permissions', () => {
       }
     },
   )
+
+  it('owner and business are the only application roles that may control IoT', () => {
+    expect(rolePermissions('owner')).toContain('irrigation.control')
+    expect(rolePermissions('business')).toContain('canopy.control')
+  })
+
+  it('all staff sub-role permission bundles exclude control permissions', () => {
+    for (const role of ['sales', 'account_manager', 'accounts'] as const) {
+      for (const permission of prohibitedPermissions) {
+        expect(staffPermissions(role)).not.toContain(permission)
+      }
+    }
+  })
 })

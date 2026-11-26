@@ -1,11 +1,4 @@
-export type ApplicationRole =
-  | 'owner'
-  | 'business'
-  | 'supplier'
-  | 'admin'
-  | 'insurance_officer'
-
-export type StaffRole =
-  | 'sales'
-  | 'account_manager'
-  | 'accounts'
+export type {
+  ApplicationRole,
+  StaffRole,
+} from '../../core/permissions/roles'
