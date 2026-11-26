@@ -13,24 +13,28 @@ export function AppRoutes() {
     <Suspense fallback={<div role="status" aria-busy="true" />}>
       <Routes>
         <Route path="/auth" element={<AuthLayout />}>
-          <Route index element={<Navigate to="/auth/welcome" replace />} />
+          <Route index element={<Navigate to="/welcome" replace />} />
+          <Route path="welcome" element={<Navigate to="/welcome" replace />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route path="/welcome" element={<AuthLayout />}>
+          <Route index element={<RoutePlaceholder />} />
+        </Route>
         <Route path="/app" element={<AppLayout />}>
-          <Route index element={<Navigate to="/auth" replace />} />
+          <Route index element={<Navigate to="/welcome" replace />} />
           <Route path="support" element={<RoutePlaceholder />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/supplier" element={<SupplierLayout />}>
-          <Route index element={<Navigate to="/auth" replace />} />
+          <Route index element={<Navigate to="/welcome" replace />} />
           <Route path="*" element={<RoutePlaceholder />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Navigate to="/auth" replace />} />
+          <Route index element={<Navigate to="/welcome" replace />} />
           <Route path="support" element={<RoutePlaceholder />} />
           <Route path="*" element={<RoutePlaceholder />} />
         </Route>
-        <Route path="/" element={<Navigate to="/auth" replace />} />
+        <Route path="/" element={<Navigate to="/welcome" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
