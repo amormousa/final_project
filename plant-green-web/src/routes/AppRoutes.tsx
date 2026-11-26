@@ -6,6 +6,7 @@ const AppLayout = lazy(() => import('../app/layouts/AppLayout'))
 const SupplierLayout = lazy(() => import('../app/layouts/SupplierLayout'))
 const AdminLayout = lazy(() => import('../app/layouts/AdminLayout'))
 const RoutePlaceholder = lazy(() => import('../components/layout/RoutePlaceholder'))
+const NotFound = lazy(() => import('../components/feedback/NotFound'))
 
 export function AppRoutes() {
   return (
@@ -13,12 +14,12 @@ export function AppRoutes() {
       <Routes>
         <Route path="/auth" element={<AuthLayout />}>
           <Route index element={<Navigate to="/auth/welcome" replace />} />
-          <Route path="*" element={<RoutePlaceholder />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/app" element={<AppLayout />}>
           <Route index element={<Navigate to="/auth" replace />} />
           <Route path="support" element={<RoutePlaceholder />} />
-          <Route path="*" element={<RoutePlaceholder />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/supplier" element={<SupplierLayout />}>
           <Route index element={<Navigate to="/auth" replace />} />
@@ -30,7 +31,7 @@ export function AppRoutes() {
           <Route path="*" element={<RoutePlaceholder />} />
         </Route>
         <Route path="/" element={<Navigate to="/auth" replace />} />
-        <Route path="*" element={<RoutePlaceholder />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   )
