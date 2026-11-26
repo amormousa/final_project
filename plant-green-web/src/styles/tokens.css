@@ -1,0 +1,8 @@
+:root {
+  --color-olive: #2f3a1d;
+  --color-lime: #cfff74;
+  --color-gray: #8b9183;
+  --color-background: #f3f4ef;
+  --font-sans: "IBM Plex Sans Arabic", "Inter", sans-serif;
+  --radius-md: 12px;
+}

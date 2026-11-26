@@ -1,0 +1,26 @@
+@import './tokens.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-olive);
+  font-family: var(--font-sans);
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+.route-placeholder {
+  min-height: 100vh;
+}

@@ -1,0 +1,9 @@
+[dir='rtl'] {
+  direction: rtl;
+  text-align: start;
+}
+
+[dir='ltr'] {
+  direction: ltr;
+  text-align: start;
+}
