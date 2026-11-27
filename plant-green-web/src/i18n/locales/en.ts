@@ -150,6 +150,9 @@ export default {
       helpSupport: 'Help & Support',
       logOut: 'Log out',
       menu: 'User menu',
+      loading: 'Loading account',
+      error: 'Could not load account',
+      retry: 'Retry account',
     },
     breadcrumb: {
       home: 'Dashboard',

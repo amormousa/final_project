@@ -1,0 +1,102 @@
+.user-menu__trigger {
+  border: 1px solid var(--header-border);
+  background: var(--header-control);
+  color: var(--header-text);
+}
+
+.user-menu__avatar {
+  display: grid;
+  inline-size: 28px;
+  block-size: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--header-avatar);
+  color: var(--header-avatar-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.user-menu__panel {
+  padding: var(--space-2);
+}
+
+.user-menu__content {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.user-menu__identity {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-block-end: 1px solid var(--header-border);
+}
+
+.user-menu__identity strong {
+  color: var(--header-text);
+}
+
+.user-menu__identity > span,
+.user-menu__identity p,
+.user-menu__error {
+  margin: 0;
+  color: var(--header-muted);
+  font-size: 0.8rem;
+}
+
+.user-menu__error {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.user-menu__link {
+  display: flex;
+  inline-size: 100%;
+  min-block-size: 44px;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--header-text);
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+
+.user-menu__link:hover {
+  background: var(--header-hover);
+}
+
+.user-menu__toggle {
+  --hover: var(--header-hover);
+  --active: var(--color-lime);
+  --switch-track: var(--header-switch-track);
+  --switch-knob: var(--header-switch-knob);
+  --switch-on: var(--header-switch-on);
+}
+
+.user-menu__toggle .pg-item {
+  min-block-size: 44px;
+  border-radius: var(--radius-md);
+  color: var(--header-text);
+}
+
+.user-menu__toggle .pg-item:hover {
+  background: var(--header-hover);
+}
+
+.user-menu__toggle .pg-label {
+  max-inline-size: none;
+  color: inherit;
+  opacity: 1;
+  transform: none;
+}
+
+.user-menu__logout {
+  border-block-start: 1px solid var(--header-border);
+  color: var(--header-danger);
+}

@@ -150,6 +150,9 @@ export default {
       helpSupport: 'المساعدة والدعم',
       logOut: 'تسجيل الخروج',
       menu: 'قائمة المستخدم',
+      loading: 'جار تحميل الحساب',
+      error: 'تعذر تحميل الحساب',
+      retry: 'إعادة تحميل الحساب',
     },
     breadcrumb: {
       home: 'لوحة التحكم',
