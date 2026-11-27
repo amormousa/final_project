@@ -39,6 +39,7 @@ interface NavScreen {
   path: string
   label: string
   icon?: LucideIcon
+  keywords?: string[]
 }
 
 interface NavItem {
@@ -47,12 +48,18 @@ interface NavItem {
   icon: LucideIcon
   path?: string
   children?: NavScreen[]
+  keywords?: string[]
 }
 
 interface NavSection {
   id: string
   label: string
   items: NavItem[]
+}
+
+interface SearchResult extends NavScreen {
+  parentId?: string
+  parentLabel?: string
 }
 
 const NAV: NavSection[] = [
@@ -76,7 +83,13 @@ const NAV: NavSection[] = [
         icon: Activity,
         label: 'sidebar.monitoring',
         children: [
-          { id: 'soil', path: 'soil', label: 'sidebar.soil', icon: Droplets },
+          {
+            id: 'soil',
+            path: 'soil',
+            label: 'sidebar.soil',
+            icon: Droplets,
+            keywords: ['water', 'moisture', 'soil', 'ماء', 'رطوبة', 'تربة'],
+          },
           { id: 'weather', path: 'weather', label: 'sidebar.weather' },
           { id: 'devices', path: 'devices', label: 'sidebar.devices' },
           { id: 'canopy', path: 'canopy', label: 'sidebar.canopy' },
@@ -132,7 +145,13 @@ const NAV: NavSection[] = [
         icon: Wallet,
         label: 'sidebar.financial',
         children: [
-          { id: 'subscriptions', path: 'subscriptions', label: 'sidebar.subscriptions', icon: Repeat },
+          {
+            id: 'subscriptions',
+            path: 'subscriptions',
+            label: 'sidebar.subscriptions',
+            icon: Repeat,
+            keywords: ['invoice', 'billing', 'payment', 'فاتورة', 'فواتير', 'فوترة'],
+          },
           { id: 'finance', path: 'finance', label: 'sidebar.finance' },
         ],
       },
@@ -276,7 +295,13 @@ function highlightMatch(label: string, query: string): ReactNode {
   ))
 }
 
-export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDarkChange: (dark: boolean) => void }) {
+export function PlantGreenSidebar({
+  dark,
+  onDarkChange,
+}: {
+  dark: boolean
+  onDarkChange: (dark: boolean) => void
+}) {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
@@ -287,6 +312,7 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
   const [searchText, setSearchText] = useState('')
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
   const [railPopover, setRailPopover] = useState<RailPopover | null>(null)
+  const [scrollVisible, setScrollVisible] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const asideRef = useRef<HTMLElement>(null)
   const navInRef = useRef<HTMLDivElement>(null)
@@ -294,6 +320,7 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
   const refs = useRef<Record<string, HTMLButtonElement>>({})
   const railPopoverRef = useRef<RailPopover | null>(null)
   const railTimerRef = useRef<number | null>(null)
+  const scrollTimerRef = useRef<number | null>(null)
   const firstMenuItemRef = useRef<HTMLButtonElement>(null)
   const lastLensTarget = useRef<HTMLButtonElement | null>(null)
   const moveAt = useRef(0)
@@ -316,6 +343,15 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
       window.clearTimeout(railTimerRef.current)
       railTimerRef.current = null
     }
+  }
+
+  const revealScrollbar = () => {
+    setScrollVisible(true)
+    if (scrollTimerRef.current !== null) window.clearTimeout(scrollTimerRef.current)
+    scrollTimerRef.current = window.setTimeout(() => {
+      scrollTimerRef.current = null
+      setScrollVisible(false)
+    }, 1000)
   }
 
   const closeRailPopover = () => {
@@ -394,36 +430,40 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
       document.removeEventListener('pointerdown', handleOutsidePointer)
       window.removeEventListener('resize', handleResize)
       clearRailTimer()
+      if (scrollTimerRef.current !== null) window.clearTimeout(scrollTimerRef.current)
     }
   }, [])
 
   const searchTerm = query.toLocaleLowerCase()
-  const matches = (label: string) => bilingualLabel(label).includes(searchTerm)
+  const matches = (label: string, keywords: string[] = []) => (
+    `${bilingualLabel(label)} ${keywords.join(' ').toLocaleLowerCase()}`.includes(searchTerm)
+  )
   const sections = !query ? NAV : NAV.map((section) => ({
       ...section,
       items: section.items.map((item) => {
         if (item.children) {
-          const itemMatches = matches(item.label)
+          const itemMatches = matches(item.label, item.keywords)
           const children = itemMatches
             ? item.children
-            : item.children.filter((screen) => matches(screen.label))
+            : item.children.filter((screen) => matches(screen.label, screen.keywords))
           return children.length ? { ...item, children, forceOpen: true } : null
         }
-        if (matches(item.label) && item.path) {
+        if (matches(item.label, item.keywords) && item.path) {
           return item
         }
         return null
       }).filter((item): item is NavItem & { forceOpen?: boolean } => item !== null),
     })).filter((section) => section.items.length > 0)
 
-  const results = !query ? [] : NAV.flatMap((section) => section.items.flatMap((item) => {
+  const results: SearchResult[] = !query ? [] : NAV.flatMap((section) => section.items.flatMap<SearchResult>((item) => {
       if (item.children) {
-        return matches(item.label)
-          ? item.children
-          : item.children.filter((screen) => matches(screen.label))
+        const parentMatches = matches(item.label, item.keywords)
+        return item.children
+          .filter((screen) => parentMatches || matches(screen.label, screen.keywords))
+          .map((screen) => ({ ...screen, parentId: item.id, parentLabel: item.label }))
       }
-      return matches(item.label) && item.path
-        ? [{ id: item.id, path: item.path, label: item.label, icon: item.icon }]
+      return matches(item.label, item.keywords) && item.path
+        ? [{ id: item.id, path: item.path, label: item.label, icon: item.icon, keywords: item.keywords }]
         : []
     }))
 
@@ -494,6 +534,11 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
     else delete refs.current[id]
   }
   const go = (path: string) => navigate(`/app/${path}`)
+  const openResult = (path: string) => {
+    go(path)
+    setSearchText('')
+    setHighlightedIndex(null)
+  }
   const toggleLanguage = () => {
     const nextLanguage: Language = rtl ? 'en' : 'ar'
     setLanguage(nextLanguage)
@@ -531,7 +576,6 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
     top: railPopover?.top ?? 0,
     insetInlineEnd: 'calc(100% + 10px)',
   }
-
   return (
     <aside
       ref={asideRef}
@@ -609,7 +653,7 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
                 }
                 if (event.key === 'Enter' && results.length > 0) {
                   event.preventDefault()
-                  go(results[highlightedIndex ?? 0].path)
+                  openResult(results[highlightedIndex ?? 0].path)
                 }
               }}
             />
@@ -637,7 +681,14 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
           {query ? t('sidebar.searchResults', { count: results.length }) : ''}
         </span>}
 
-        <nav className="pg-nav" aria-label={t('sidebar.navLabel')}>
+        <nav
+          className="pg-nav"
+          aria-label={t('sidebar.navLabel')}
+          data-scroll-visible={scrollVisible}
+          onMouseEnter={revealScrollbar}
+          onMouseLeave={revealScrollbar}
+          onScroll={revealScrollbar}
+        >
           <div className="pg-nav-in" ref={navInRef}>
             <div className="pg-lens" ref={lensRef} aria-hidden="true" />
             {sections.length === 0 && !collapsed ? (
@@ -701,7 +752,10 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
                             setOpen((state) => ({ ...state, [item.id]: !expanded }))
                             return
                           }
-                          if (item.path) go(item.path)
+                          if (item.path) {
+                            if (query) openResult(item.path)
+                            else go(item.path)
+                          }
                           if (collapsed) itemHandlers.onClick(event)
                         }}
                       />
@@ -720,10 +774,15 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
                                     className="pg-item"
                                     aria-current={activePath === screen.path ? 'page' : undefined}
                                     data-search-selected={highlightedIndex === resultIndex || undefined}
-                                    onClick={() => go(screen.path)}
+                                    onClick={() => {
+                                      if (query) openResult(screen.path)
+                                      else go(screen.path)
+                                    }}
                                   >
                                     {ScreenIcon && <span className="pg-ico"><ScreenIcon size={18} aria-hidden="true" /></span>}
-                                    <span className="pg-label">{highlightMatch(searchDisplayLabel(screen.label), query)}</span>
+                                    <span className="pg-label">
+                                      {highlightMatch(searchDisplayLabel(screen.label), query)}
+                                    </span>
                                   </button>
                                 )
                               })}
