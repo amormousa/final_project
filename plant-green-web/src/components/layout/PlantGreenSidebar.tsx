@@ -283,6 +283,17 @@ const bilingualLabel = (labelKey: string) => {
   return `${en.sidebar[key]} ${ar.sidebar[key]}`.toLocaleLowerCase()
 }
 
+const SIDEBAR_COLLAPSED_KEY = 'plant-green-sidebar-collapsed'
+const isMobileViewport = () => typeof window !== 'undefined'
+  && window.matchMedia('(max-width: 1023px)').matches
+const readStoredCollapsed = () => {
+  if (
+    typeof window === 'undefined'
+    || (window.location.protocol !== 'http:' && window.location.protocol !== 'https:')
+  ) return false
+  return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true'
+}
+
 function highlightMatch(label: string, query: string): ReactNode {
   if (!query) return label
   const parts = label.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'giu'))
@@ -305,9 +316,9 @@ export function PlantGreenSidebar({
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
-  const [collapsed, setCollapsed] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches,
-  )
+  const [isMobile, setIsMobile] = useState(isMobileViewport)
+  const [collapsed, setCollapsed] = useState(() => isMobileViewport() || readStoredCollapsed())
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [searchText, setSearchText] = useState('')
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
@@ -321,6 +332,7 @@ export function PlantGreenSidebar({
   const railPopoverRef = useRef<RailPopover | null>(null)
   const railTimerRef = useRef<number | null>(null)
   const scrollTimerRef = useRef<number | null>(null)
+  const transitionTimerRef = useRef<number | null>(null)
   const firstMenuItemRef = useRef<HTMLButtonElement>(null)
   const lastLensTarget = useRef<HTMLButtonElement | null>(null)
   const moveAt = useRef(0)
@@ -360,6 +372,16 @@ export function PlantGreenSidebar({
     setRailPopover(null)
   }
 
+  const setCollapsedWithTransition = (next: boolean) => {
+    setCollapsed(next)
+    setIsTransitioning(true)
+    if (transitionTimerRef.current !== null) window.clearTimeout(transitionTimerRef.current)
+    transitionTimerRef.current = window.setTimeout(() => {
+      transitionTimerRef.current = null
+      setIsTransitioning(false)
+    }, 300)
+  }
+
   const showRailPopover = (
     itemId: string,
     label: string,
@@ -397,12 +419,18 @@ export function PlantGreenSidebar({
 
   const focusSearch = () => {
     closeRailPopover()
-    setCollapsed(false)
+    setCollapsedWithTransition(false)
     window.setTimeout(() => inputRef.current?.focus(), 0)
   }
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMobile && !collapsed) {
+        event.preventDefault()
+        closeRailPopover()
+        setCollapsedWithTransition(true)
+        return
+      }
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault()
         focusSearch()
@@ -411,7 +439,26 @@ export function PlantGreenSidebar({
 
     window.addEventListener('keydown', handleShortcut)
     return () => window.removeEventListener('keydown', handleShortcut)
+  }, [collapsed, isMobile])
+
+  useEffect(() => {
+    const breakpoint = window.matchMedia('(max-width: 1023px)')
+    const handleViewportChange = () => {
+      setIsMobile(breakpoint.matches)
+      setCollapsed(breakpoint.matches || readStoredCollapsed())
+      closeRailPopover()
+    }
+
+    breakpoint.addEventListener('change', handleViewportChange)
+    return () => breakpoint.removeEventListener('change', handleViewportChange)
   }, [])
+
+  useEffect(() => {
+    if (isMobile) return
+    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+      window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(collapsed))
+    }
+  }, [collapsed, isMobile])
 
   useEffect(() => {
     const handleOutsidePointer = (event: PointerEvent) => {
@@ -431,6 +478,7 @@ export function PlantGreenSidebar({
       window.removeEventListener('resize', handleResize)
       clearRailTimer()
       if (scrollTimerRef.current !== null) window.clearTimeout(scrollTimerRef.current)
+      if (transitionTimerRef.current !== null) window.clearTimeout(transitionTimerRef.current)
     }
   }, [])
 
@@ -496,6 +544,9 @@ export function PlantGreenSidebar({
       }
       const hostRect = host.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
+      const iconRect = collapsed
+        ? target.querySelector<HTMLElement>('.pg-ico')?.getBoundingClientRect()
+        : undefined
       const changed = lastLensTarget.current !== target
       const first = lastLensTarget.current === null
       const now = performance.now()
@@ -506,11 +557,15 @@ export function PlantGreenSidebar({
       const sliding = !first && (changed || now - moveAt.current < 520)
       lens.dataset.follow = sliding ? 'false' : 'true'
       lens.style.opacity = '1'
-      lens.style.width = `${targetRect.width}px`
+      lens.style.width = `${iconRect ? targetRect.height : targetRect.width}px`
       lens.style.height = `${targetRect.height}px`
-      lens.style.left = `${targetRect.left - hostRect.left}px`
-      lens.style.top = `${targetRect.top - hostRect.top}px`
-      lens.style.borderRadius = collapsed ? '999px' : '14px'
+      lens.style.left = `${(iconRect
+        ? iconRect.left + (iconRect.width - targetRect.height) / 2
+        : targetRect.left) - hostRect.left}px`
+      lens.style.top = `${(iconRect
+        ? iconRect.top + (iconRect.height - targetRect.height) / 2
+        : targetRect.top) - hostRect.top}px`
+      lens.style.borderRadius = collapsed ? '50%' : '14px'
       lastLensTarget.current = target
     }
     let animationFrame = 0
@@ -577,22 +632,33 @@ export function PlantGreenSidebar({
     insetInlineEnd: 'calc(100% + 10px)',
   }
   return (
-    <aside
-      ref={asideRef}
-      className="pg-side"
-      dir={rtl ? 'rtl' : 'ltr'}
-      data-collapsed={collapsed}
-      data-dark={dark}
-    >
+    <>
+      {isMobile && !collapsed && (
+        <button
+          type="button"
+          className="pg-backdrop"
+          aria-label={t('sidebar.collapse')}
+          onClick={() => setCollapsedWithTransition(true)}
+        />
+      )}
+      <aside
+        ref={asideRef}
+        className="pg-side"
+        dir={rtl ? 'rtl' : 'ltr'}
+        data-collapsed={collapsed}
+        data-dark={dark}
+        data-transitioning={isTransitioning}
+      >
       <div className="pg-glass" aria-hidden="true" />
       <button
         type="button"
         className="pg-toggle"
         aria-expanded={!collapsed}
+        aria-controls="plant-green-sidebar-nav"
         aria-label={collapsed ? t('sidebar.expand') : t('sidebar.collapse')}
         onClick={() => {
           closeRailPopover()
-          setCollapsed((value) => !value)
+          setCollapsedWithTransition(!collapsed)
         }}
       >
         <BackIcon size={16} aria-hidden="true" />
@@ -682,6 +748,7 @@ export function PlantGreenSidebar({
         </span>}
 
         <nav
+          id="plant-green-sidebar-nav"
           className="pg-nav"
           aria-label={t('sidebar.navLabel')}
           data-scroll-visible={scrollVisible}
@@ -889,6 +956,7 @@ export function PlantGreenSidebar({
           )
         )}
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }
