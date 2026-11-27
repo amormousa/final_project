@@ -91,6 +91,9 @@ export default {
     },
     status: {
       title: 'System status',
+      loadingDevices: 'Loading device status',
+      deviceError: 'Could not load device status',
+      noDevices: 'No devices found for this farm',
       allOnline: 'All devices online',
       partial: 'Some devices offline',
       allOffline: 'All devices offline',

@@ -91,6 +91,9 @@ export default {
     },
     status: {
       title: 'حالة النظام',
+      loadingDevices: 'جار تحميل حالة الأجهزة',
+      deviceError: 'تعذر تحميل حالة الأجهزة',
+      noDevices: 'لا توجد أجهزة لهذه المزرعة',
       allOnline: 'جميع الأجهزة متصلة',
       partial: 'بعض الأجهزة غير متصلة',
       allOffline: 'جميع الأجهزة غير متصلة',

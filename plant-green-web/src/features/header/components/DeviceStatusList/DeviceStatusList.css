@@ -1,0 +1,87 @@
+.device-status-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.device-status-list__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-block-end: 1px solid var(--header-border);
+}
+
+.device-status-list__row:last-child {
+  border-block-end: 0;
+}
+
+.device-status-list__details {
+  display: grid;
+  min-inline-size: 0;
+  gap: var(--space-1);
+}
+
+.device-status-list__details strong,
+.device-status-list__zone,
+.device-status-list__controls,
+.device-status-list__last-seen {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.device-status-list__details strong {
+  color: var(--header-text);
+  font-size: 0.9rem;
+}
+
+.device-status-list__zone,
+.device-status-list__controls,
+.device-status-list__last-seen,
+.device-status-list__message,
+.device-status-list__error p {
+  margin: 0;
+  color: var(--header-muted);
+  font-size: 0.8rem;
+}
+
+.device-status-list__state {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.device-status-list__state[data-state="online"] {
+  color: var(--header-success);
+}
+
+.device-status-list__state[data-state="offline"] {
+  color: var(--header-danger);
+}
+
+.device-status-list__state[data-state="unknown"] {
+  color: var(--header-muted);
+}
+
+.device-status-list__message,
+.device-status-list__error {
+  padding: var(--space-3);
+}
+
+.device-status-list__error button {
+  min-block-size: 40px;
+  margin-block-start: var(--space-2);
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--header-hover);
+  color: var(--header-text);
+  cursor: pointer;
+  font: inherit;
+}
