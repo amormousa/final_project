@@ -155,6 +155,7 @@ export default {
       retry: 'إعادة تحميل الحساب',
     },
     breadcrumb: {
+      label: 'مسار التنقل',
       home: 'لوحة التحكم',
       farms: 'المزارع',
       details: 'التفاصيل',

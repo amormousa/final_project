@@ -155,6 +155,7 @@ export default {
       retry: 'Retry account',
     },
     breadcrumb: {
+      label: 'Breadcrumb',
       home: 'Dashboard',
       farms: 'Farms',
       details: 'Details',
