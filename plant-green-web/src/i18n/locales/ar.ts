@@ -55,6 +55,9 @@ export default {
   header: {
     openNavigation: 'فتح القائمة',
     farmSelector: 'اختيار المزرعة',
+    farmLoading: 'جار تحميل المزارع',
+    farmLoadError: 'تعذر تحميل المزارع',
+    retryFarms: 'إعادة تحميل المزارع',
     addFarm: 'إضافة مزرعة',
     farms: {
       north: 'مزرعة الوادي الشمالي',

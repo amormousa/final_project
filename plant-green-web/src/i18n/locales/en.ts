@@ -55,6 +55,9 @@ export default {
   header: {
     openNavigation: 'Open navigation',
     farmSelector: 'Select farm',
+    farmLoading: 'Loading farms',
+    farmLoadError: 'Could not load farms',
+    retryFarms: 'Retry farms',
     addFarm: 'Add farm',
     farms: {
       north: 'North Valley Farm',

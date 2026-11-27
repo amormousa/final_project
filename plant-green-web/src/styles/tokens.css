@@ -7,6 +7,12 @@
   --font-arabic: "IBM Plex Sans Arabic";
   --color-black: #000;
   --color-white: #fff;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 14px;
