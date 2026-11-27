@@ -1,0 +1,47 @@
+.notification-bell__trigger {
+  position: relative;
+  border: 1px solid var(--header-border);
+  background: var(--header-control);
+  color: var(--header-text);
+}
+
+.notification-bell__badge {
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-end: 2px;
+  display: grid;
+  min-inline-size: 17px;
+  block-size: 17px;
+  place-items: center;
+  padding-inline: 3px;
+  border: 1px solid var(--header-popover);
+  border-radius: 999px;
+  background: var(--header-danger);
+  color: var(--header-on-danger);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.notification-bell__loading {
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-end: 5px;
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: var(--header-muted);
+}
+
+.notification-bell__sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.notification-bell__panel {
+  inline-size: min(25rem, calc(100vw - var(--space-4) - var(--space-4)));
+}
