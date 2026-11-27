@@ -1,0 +1,53 @@
+.pg-sub .pg-item[aria-current='page'] {
+  color: var(--color-olive);
+}
+
+.pg-sub-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.34s;
+}
+
+.pg-sub-wrap[data-open='true'] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+}
+
+.pg-sub-in {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pg-sub {
+  margin-block: 2px 4px;
+  margin-inline: 0;
+  margin-inline-start: 22px;
+  padding-inline-start: 10px;
+  border-inline-start: 1px solid var(--border);
+}
+
+.pg-sub .pg-item {
+  height: 38px;
+  gap: 10px;
+  padding-block: 0;
+  padding-inline: 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  opacity: 0;
+  translate: 0 -4px;
+  transition: opacity 0.25s, translate 0.32s, background 0.2s, color 0.25s, transform 0.15s;
+}
+
+.pg-sub-wrap[data-open='true'] .pg-sub .pg-item {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-sub-wrap,
+  .pg-sub .pg-item {
+    transition: none !important;
+  }
+}

@@ -4,7 +4,13 @@
   --color-gray: #8b9183;
   --color-background: #f3f4ef;
   --font-sans: "IBM Plex Sans Arabic", "Inter", sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic";
+  --color-black: #000;
+  --color-white: #fff;
+  --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-panel: 28px;
   --state-error: #b42318;
   --state-success: #3f6212;
   --state-warning: #b54708;

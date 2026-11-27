@@ -1,0 +1,89 @@
+.pg-search {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding-block: 0;
+  padding-inline: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--field);
+  color: var(--muted);
+}
+
+.pg-search:focus-within {
+  border-color: transparent;
+  outline: 2px solid var(--focus);
+  outline-offset: 0;
+  box-shadow: 0 0 10px var(--focus-glow);
+  color: var(--text);
+}
+
+.pg-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text);
+  font: inherit;
+}
+
+.pg-search input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.pg-search input::placeholder {
+  color: var(--muted);
+}
+
+.pg-search-clear {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.pg-search-clear:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.pg-search-clear:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.pg-kbd {
+  padding-block: 2px;
+  padding-inline: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.pg-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.pg-side[data-collapsed='true'] .pg-kbd {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}

@@ -1,0 +1,22 @@
+.pg-backdrop {
+  position: fixed;
+  z-index: 49;
+  inset-block: 0;
+  inset-inline: 0;
+  display: block;
+  border: 0;
+  background: var(--backdrop);
+  cursor: pointer;
+  animation: pg-backdrop-in 180ms ease-out;
+}
+
+@keyframes pg-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-backdrop {
+    animation: none !important;
+  }
+}

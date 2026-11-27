@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { PlantGreenSidebar } from '../../components/layout/PlantGreenSidebar'
+import { PlantGreenSidebar } from '../../features/sidebar'
 import { PrivateRoute } from '../../routes/PrivateRoute'
+import './AppLayout.css'
 
 export default function AppLayout() {
   const [dark, setDark] = useState(false)

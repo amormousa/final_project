@@ -1,0 +1,36 @@
+.app-shell {
+  --app-shell-gradient-start: #e9fbc2;
+  --app-shell-gradient-end: #d8eee3;
+  --app-shell-dark-base: #192010;
+  --app-shell-dark-lime: rgb(207 255 116 / 20%);
+  --app-shell-dark-green: rgb(120 200 160 / 14%);
+  display: flex;
+  gap: 24px;
+  min-height: 100vh;
+  padding: 16px;
+  background:
+    radial-gradient(55% 45% at 20% 18%, var(--app-shell-gradient-start) 0, transparent 70%),
+    radial-gradient(45% 40% at 85% 85%, var(--app-shell-gradient-end) 0, transparent 70%),
+    var(--color-background);
+  transition: background 0.25s;
+}
+
+.app-shell[data-dark='true'] {
+  background:
+    radial-gradient(55% 45% at 20% 18%, var(--app-shell-dark-lime) 0, transparent 70%),
+    radial-gradient(45% 40% at 85% 85%, var(--app-shell-dark-green) 0, transparent 70%),
+    var(--app-shell-dark-base);
+}
+
+.app-shell .layout--app {
+  flex: 1;
+  min-width: 0;
+  min-height: calc(100vh - 32px);
+}
+
+@media (max-width: 1023px) {
+  .app-shell {
+    gap: 12px;
+    padding: 12px;
+  }
+}

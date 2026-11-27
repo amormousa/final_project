@@ -1,0 +1,35 @@
+.pg-toggle {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 58px;
+  inset-inline-end: -12px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--toggle-background);
+  box-shadow: 0 4px 12px -4px var(--shadow);
+  color: var(--toggle-foreground);
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+}
+
+.pg-toggle:hover {
+  border-color: var(--toggle-hover-border);
+  transform: scale(1.1);
+  background: var(--active);
+}
+
+.pg-toggle:active {
+  transform: scale(0.94);
+}
+
+.pg-toggle svg {
+  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pg-side[data-collapsed='true'] .pg-toggle svg {
+  transform: rotate(180deg);
+}

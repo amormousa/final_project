@@ -1,0 +1,25 @@
+.pg-sec-title {
+  max-height: 36px;
+  overflow: hidden;
+  padding-block: 10px 4px;
+  padding-inline: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: max-height 0.3s, padding 0.3s, margin 0.3s, opacity 0.2s;
+}
+
+.pg-side[data-collapsed='true'] .pg-sec-title {
+  max-height: 1px;
+  margin-block: 8px;
+  margin-inline: 10px;
+  padding: 0;
+  background: var(--border);
+  font-size: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-sec-title {
+    transition: none !important;
+  }
+}

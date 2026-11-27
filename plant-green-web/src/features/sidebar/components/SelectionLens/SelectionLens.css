@@ -1,0 +1,30 @@
+.pg-lens {
+  position: absolute;
+  z-index: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  border: 1px solid var(--lens-border);
+  border-radius: var(--radius-lg);
+  background: var(--lens-background);
+  box-shadow: var(--lens-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    inset-block-start 0.5s cubic-bezier(0.3, 1.35, 0.4, 1),
+    inset-inline-start 0.32s ease,
+    width 0.32s ease,
+    height 0.32s ease,
+    border-radius 0.32s ease,
+    opacity 0.2s;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.pg-lens[data-follow='true'] {
+  transition: border-radius 0.32s ease, opacity 0.2s;
+}
+
+.pg-side[data-collapsed='true'] .pg-lens {
+  border: 0;
+  box-shadow: none;
+}

@@ -1,0 +1,34 @@
+.pg-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 4px 14px;
+  padding-inline: 4px;
+}
+
+.pg-logo {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--logo-background);
+  color: var(--logo-foreground);
+}
+
+.pg-title,
+.pg-sub-title {
+  display: block;
+}
+
+.pg-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pg-sub-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
