@@ -7,7 +7,7 @@ export default function AppLayout() {
   const [dark, setDark] = useState(false)
 
   return (
-    <PrivateRoute>
+    <PrivateRoute allowDevelopmentPreview>
       <div className="app-shell" data-dark={dark}>
         <PlantGreenSidebar dark={dark} onDarkChange={setDark} />
         <main className="layout layout--app">

@@ -34,7 +34,9 @@ export function AppRoutes() {
           <Route path="irrigation" element={<RoutePlaceholder />} />
           <Route path="marketplace" element={<RoutePlaceholder />} />
           <Route path="orders" element={<RoutePlaceholder />} />
+          <Route path="returns" element={<RoutePlaceholder />} />
           <Route path="finance" element={<RoutePlaceholder />} />
+          <Route path="subscriptions" element={<RoutePlaceholder />} />
           <Route path="services" element={<RoutePlaceholder />} />
           <Route path="academy" element={<RoutePlaceholder />} />
           <Route path="account" element={<RoutePlaceholder />} />
