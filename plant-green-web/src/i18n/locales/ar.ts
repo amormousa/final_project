@@ -113,6 +113,7 @@ export default {
       empty: 'لا توجد إشعارات جديدة',
       loading: 'جار تحميل الإشعارات',
       error: 'تعذر تحميل الإشعارات',
+      retry: 'إعادة تحميل الإشعارات',
     },
     notificationTypes: {
       devices: 'الأجهزة',

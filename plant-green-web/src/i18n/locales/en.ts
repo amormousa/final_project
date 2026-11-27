@@ -113,6 +113,7 @@ export default {
       empty: 'You are all caught up',
       loading: 'Loading notifications',
       error: 'Could not load notifications',
+      retry: 'Retry notifications',
     },
     notificationTypes: {
       devices: 'Devices',
