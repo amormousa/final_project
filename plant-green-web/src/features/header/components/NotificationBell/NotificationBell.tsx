@@ -1,4 +1,5 @@
 import { Bell } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown } from '../Dropdown'
 import './NotificationBell.css'
@@ -7,7 +8,7 @@ interface NotificationBellProps {
   unreadCount: number
   loading: boolean
   error: unknown
-  children: (close: () => void) => React.ReactNode
+  children: (close: () => void) => ReactNode
 }
 
 export function NotificationBell({

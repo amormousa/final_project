@@ -20,4 +20,25 @@
   --state-error: #b42318;
   --state-success: #3f6212;
   --state-warning: #b54708;
+  --color-header-surface-light: rgb(255 255 255 / 76%);
+  --color-header-control-light: rgb(255 255 255 / 58%);
+  --color-header-popover-light: rgb(255 255 255 / 96%);
+  --color-header-text-light: var(--color-olive);
+  --color-header-muted-light: #6b7358;
+  --color-header-border-light: rgb(47 58 29 / 14%);
+  --color-header-hover-light: rgb(47 58 29 / 7%);
+  --color-header-unread-light: rgb(207 255 116 / 18%);
+  --color-header-surface-dark: #1c2411;
+  --color-header-control-dark: rgb(255 255 255 / 7%);
+  --color-header-popover-dark: rgb(35 43 23 / 96%);
+  --color-header-text-dark: #f1f5e4;
+  --color-header-muted-dark: #aeb79a;
+  --color-header-border-dark: rgb(255 255 255 / 13%);
+  --color-header-hover-dark: rgb(207 255 116 / 15%);
+  --color-header-unread-dark: rgb(207 255 116 / 10%);
+  --color-header-avatar: var(--color-lime);
+  --color-header-avatar-text: var(--color-olive);
+  --color-header-on-danger: var(--color-white);
+  --shadow-header-light: 0 12px 32px rgb(47 58 29 / 10%);
+  --shadow-header-dark: 0 12px 32px rgb(0 0 0 / 28%);
 }
