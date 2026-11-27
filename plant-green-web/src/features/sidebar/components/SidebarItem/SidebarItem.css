@@ -2,7 +2,7 @@
   position: relative;
   z-index: 1;
   display: flex;
-  width: 100%;
+  inline-size: 100%;
   height: 44px;
   align-items: center;
   gap: 12px;
@@ -28,14 +28,14 @@
 
 .pg-item[aria-current='page'],
 .pg-item[data-has-active='true']:not([aria-expanded='true']) {
-  background: var(--hover);
+  background: transparent;
   color: var(--color-olive);
   font-weight: 600;
 }
 
 .pg-side[data-dark='true'] .pg-item[aria-current='page'],
 .pg-side[data-dark='true'] .pg-item[data-has-active='true']:not([aria-expanded='true']) {
-  color: var(--active);
+  color: var(--color-olive);
 }
 
 .pg-side[data-dark='true'] .pg-item[aria-current='page'] .pg-label,

@@ -72,16 +72,17 @@ export function useActiveRoute({ collapsed, open, query, rtl, dark }: ActiveRout
       const sliding = !first && (changed || now - moveAt.current < 520)
       lens.dataset.follow = sliding ? 'false' : 'true'
       lens.style.opacity = '1'
-      lens.style.width = `${iconRect ? targetRect.height : targetRect.width}px`
-      lens.style.height = `${targetRect.height}px`
+      const lensInlineSize = iconRect ? targetRect.height : targetRect.width
+      const lensBlockSize = targetRect.height
       const lensLeft = iconRect
-        ? iconRect.left + (iconRect.width - targetRect.height) / 2
+        ? iconRect.left + (iconRect.width - lensInlineSize) / 2
         : targetRect.left
-      lens.style.insetInlineStart = `${rtl
-        ? hostRect.right - (lensLeft + targetRect.height)
-        : lensLeft - hostRect.left}px`
+      const lensRight = iconRect ? lensLeft + lensInlineSize : targetRect.right
+      lens.style.inlineSize = `${lensInlineSize}px`
+      lens.style.blockSize = `${lensBlockSize}px`
+      lens.style.insetInlineStart = `${rtl ? hostRect.right - lensRight : lensLeft - hostRect.left}px`
       lens.style.insetBlockStart = `${(iconRect
-        ? iconRect.top + (iconRect.height - targetRect.height) / 2
+        ? iconRect.top + (iconRect.height - lensBlockSize) / 2
         : targetRect.top) - hostRect.top}px`
       lens.style.borderRadius = collapsed ? '50%' : '14px'
       lastLensTarget.current = target
@@ -93,9 +94,19 @@ export function useActiveRoute({ collapsed, open, query, rtl, dark }: ActiveRout
       if (performance.now() - started < 700) animationFrame = requestAnimationFrame(tick)
     }
     tick()
+    let disposed = false
+    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(place)
+    if (nav) resizeObserver?.observe(nav)
+    const target = findTarget()
+    if (target) resizeObserver?.observe(target)
+    document.fonts?.ready.then(() => {
+      if (!disposed) place()
+    })
     window.addEventListener('resize', place)
     nav?.addEventListener('scroll', place)
     return () => {
+      disposed = true
+      resizeObserver?.disconnect()
       cancelAnimationFrame(animationFrame)
       window.removeEventListener('resize', place)
       nav?.removeEventListener('scroll', place)
