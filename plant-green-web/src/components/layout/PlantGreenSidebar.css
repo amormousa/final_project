@@ -436,6 +436,15 @@
   font-weight: 600;
 }
 
+.pg-side[data-dark='true'] .pg-item[aria-current='page'] .pg-ico,
+.pg-side[data-dark='true'] .pg-item[data-has-active='true']:not([aria-expanded='true']) .pg-ico {
+  color: #000;
+}
+
+.pg-side[data-dark='true'] .pg-item:hover .pg-ico {
+  color: var(--active);
+}
+
 .pg-side[data-collapsed='true'] .pg-item[aria-current='page'],
 .pg-side[data-collapsed='true'] .pg-item[data-has-active='true']:not([aria-expanded='true']),
 .pg-side[data-collapsed='true'] .pg-item[aria-current='page']:hover,
