@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CSSProperties, FocusEventHandler, MouseEventHandler, ReactNode, Ref } from 'react'
 import {
   Activity,
@@ -250,8 +250,6 @@ interface RailPopover {
   kind: 'tooltip' | 'menu'
   trigger: 'hover' | 'focus' | 'click'
   top: number
-  left?: number
-  right?: number
   screens?: NavScreen[]
 }
 
@@ -336,8 +334,9 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
     if (!collapsed) return
     clearRailTimer()
     const rect = element.getBoundingClientRect()
+    const sideRect = asideRef.current?.getBoundingClientRect()
     const kind = screens ? 'menu' : 'tooltip'
-    const top = kind === 'menu'
+    const viewportTop = kind === 'menu'
       ? Math.max(8, Math.min(rect.top, window.innerHeight - 300))
       : Math.max(28, Math.min(rect.top + rect.height / 2, window.innerHeight - 28))
     const next: RailPopover = {
@@ -345,9 +344,7 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
       label,
       kind,
       trigger,
-      top,
-      left: rect.right + 10,
-      right: window.innerWidth - rect.left + 10,
+      top: viewportTop - (sideRect?.top ?? 0),
       ...(screens ? { screens } : {}),
     }
     railPopoverRef.current = next
@@ -400,10 +397,9 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
     }
   }, [])
 
-  const sections = useMemo(() => {
-    if (!query) return NAV
-    const matches = (label: string) => bilingualLabel(label).includes(query.toLocaleLowerCase())
-    return NAV.map((section) => ({
+  const searchTerm = query.toLocaleLowerCase()
+  const matches = (label: string) => bilingualLabel(label).includes(searchTerm)
+  const sections = !query ? NAV : NAV.map((section) => ({
       ...section,
       items: section.items.map((item) => {
         if (item.children) {
@@ -419,12 +415,8 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
         return null
       }).filter((item): item is NavItem & { forceOpen?: boolean } => item !== null),
     })).filter((section) => section.items.length > 0)
-  }, [query])
 
-  const results = useMemo(() => {
-    if (!query) return [] as NavScreen[]
-    const matches = (label: string) => bilingualLabel(label).includes(query.toLocaleLowerCase())
-    return NAV.flatMap((section) => section.items.flatMap((item) => {
+  const results = !query ? [] : NAV.flatMap((section) => section.items.flatMap((item) => {
       if (item.children) {
         return matches(item.label)
           ? item.children
@@ -434,7 +426,6 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
         ? [{ id: item.id, path: item.path, label: item.label, icon: item.icon }]
         : []
     }))
-  }, [query])
 
   useLayoutEffect(() => {
     const findTarget = () => {
@@ -472,7 +463,8 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
         moveAt.current = now
         if (!first && !reduceMotion) lens.animate(SQUISH, { duration: 480, easing: 'ease-out' })
       }
-      lens.dataset.follow = String(!first && (changed || now - moveAt.current < 520))
+      const sliding = !first && (changed || now - moveAt.current < 520)
+      lens.dataset.follow = sliding ? 'false' : 'true'
       lens.style.opacity = '1'
       lens.style.width = `${targetRect.width}px`
       lens.style.height = `${targetRect.height}px`
@@ -495,7 +487,7 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
       window.removeEventListener('resize', place)
       nav?.removeEventListener('scroll', place)
     }
-  }, [activePath, collapsed, open, query, rtl, dark, sections])
+  }, [activePath, collapsed, open, query, rtl, dark])
 
   const register = (id: string) => (element: HTMLButtonElement | null) => {
     if (element) refs.current[id] = element
@@ -508,7 +500,9 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
   }
   const getRailHandlers = (id: string, label: string, screens?: NavScreen[]) => ({
     onMouseEnter: (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (collapsed) showRailPopover(id, label, event.currentTarget, 'hover')
+      const current = railPopoverRef.current
+      const menuForThisItem = current?.itemId === id && current.kind === 'menu' && current.trigger === 'click'
+      if (collapsed && !menuForThisItem) showRailPopover(id, label, event.currentTarget, 'hover')
     },
     onMouseLeave: () => {
       if (railPopoverRef.current?.trigger === 'hover') closeRailPopover()
@@ -533,12 +527,10 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
   })
 
   const BackIcon = rtl ? ChevronRight : ChevronLeft
-  const menuPopoverStyle: CSSProperties = railPopover
-    ? {
-        top: railPopover.top,
-        ...(rtl ? { right: railPopover.right } : { left: railPopover.left }),
-      }
-    : {}
+  const menuPopoverStyle: CSSProperties = {
+    top: railPopover?.top ?? 0,
+    insetInlineEnd: 'calc(100% + 10px)',
+  }
 
   return (
     <aside
@@ -608,10 +600,10 @@ export function PlantGreenSidebar({ dark, onDarkChange }: { dark: boolean; onDar
                 }
                 if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length > 0) {
                   event.preventDefault()
+                  const direction = event.key === 'ArrowDown' ? 1 : -1
                   setHighlightedIndex((current) => {
-                    if (current === null) return event.key === 'ArrowDown' ? 0 : results.length - 1
-                    const delta = event.key === 'ArrowDown' ? 1 : -1
-                    return (current + delta + results.length) % results.length
+                    if (current === null) return direction > 0 ? 0 : results.length - 1
+                    return (current + direction + results.length) % results.length
                   })
                   return
                 }

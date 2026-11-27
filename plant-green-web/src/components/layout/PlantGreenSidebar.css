@@ -199,10 +199,10 @@
 }
 
 .pg-search:focus-within {
-  border-color: var(--focus);
+  border-color: transparent;
   outline: 2px solid var(--focus);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 5px var(--focus-glow);
+  outline-offset: 0;
+  box-shadow: 0 0 10px var(--focus-glow);
   color: var(--text);
 }
 
@@ -486,8 +486,9 @@
 
 .pg-rail-popover {
   --popover-offset: -8px;
-  position: fixed;
+  position: absolute;
   z-index: 80;
+  inset-inline-start: calc(100% + 10px);
   display: flex;
   min-width: max-content;
   flex-direction: column;
