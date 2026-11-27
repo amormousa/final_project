@@ -49,6 +49,7 @@ interface NavItem {
   path?: string
   children?: NavScreen[]
   keywords?: string[]
+  forceOpen?: boolean
 }
 
 interface NavSection {
@@ -278,9 +279,11 @@ const SQUISH = [
   { transform: 'scale(1,1)' },
 ]
 
+const normalizeSearchText = (value: string) => value.trim().toLocaleLowerCase()
+
 const bilingualLabel = (labelKey: string) => {
   const key = labelKey.replace(/^sidebar\./, '') as keyof typeof en.sidebar
-  return `${en.sidebar[key]} ${ar.sidebar[key]}`.toLocaleLowerCase()
+  return normalizeSearchText(`${en.sidebar[key]} ${ar.sidebar[key]}`)
 }
 
 const SIDEBAR_COLLAPSED_KEY = 'plant-green-sidebar-collapsed'
@@ -296,12 +299,12 @@ const readStoredCollapsed = () => {
 
 function highlightMatch(label: string, query: string): ReactNode {
   if (!query) return label
-  const parts = label.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'giu'))
-  const normalizedQuery = query.toLocaleLowerCase()
+  const normalizedQuery = normalizeSearchText(query)
+  const parts = label.split(new RegExp(`(${normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'giu'))
 
   return parts.map((part, index) => (
     part.toLocaleLowerCase() === normalizedQuery
-      ? <mark key={`${part}-${index}`}>{part}</mark>
+      ? <mark key={`${part}-${index}`} dir="auto" style={{ unicodeBidi: 'isolate' }}>{part}</mark>
       : part
   ))
 }
@@ -326,6 +329,7 @@ export function PlantGreenSidebar({
   const [scrollVisible, setScrollVisible] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const asideRef = useRef<HTMLElement>(null)
+  const navRef = useRef<HTMLElement>(null)
   const navInRef = useRef<HTMLDivElement>(null)
   const lensRef = useRef<HTMLDivElement>(null)
   const refs = useRef<Record<string, HTMLButtonElement>>({})
@@ -338,17 +342,12 @@ export function PlantGreenSidebar({
   const moveAt = useRef(0)
   const rtl = i18n.resolvedLanguage?.startsWith('ar') ?? i18n.language.startsWith('ar')
   const activePath = location.pathname.replace(/^\/app\/?/, '').replace(/\/$/, '')
-  const query = searchText.trim()
+  const query = normalizeSearchText(searchText)
   const shortcutLabel = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
     ? '⌘ K'
     : 'Ctrl K'
-  const searchDisplayLabel = (labelKey: string) => {
-    const currentLabel = t(labelKey)
-    if (!query || currentLabel.toLocaleLowerCase().includes(query.toLocaleLowerCase())) return currentLabel
-    const key = labelKey.replace(/^sidebar\./, '') as keyof typeof en.sidebar
-    if (en.sidebar[key].toLocaleLowerCase().includes(query.toLocaleLowerCase())) return en.sidebar[key]
-    return ar.sidebar[key]
-  }
+  const searchDisplayLabel = (labelKey: string) => t(labelKey)
+  const languageLabelKey = rtl ? 'sidebar.english' : 'sidebar.arabic'
 
   const clearRailTimer = () => {
     if (railTimerRef.current !== null) {
@@ -482,35 +481,33 @@ export function PlantGreenSidebar({
     }
   }, [])
 
-  const searchTerm = query.toLocaleLowerCase()
-  const matches = (label: string, keywords: string[] = []) => (
-    `${bilingualLabel(label)} ${keywords.join(' ').toLocaleLowerCase()}`.includes(searchTerm)
-  )
+  const matches = (label: string) => bilingualLabel(label).includes(query)
+  useLayoutEffect(() => {
+    if (navRef.current) navRef.current.scrollTop = 0
+  }, [query])
+
   const sections = !query ? NAV : NAV.map((section) => ({
       ...section,
       items: section.items.map((item) => {
         if (item.children) {
-          const itemMatches = matches(item.label, item.keywords)
-          const children = itemMatches
-            ? item.children
-            : item.children.filter((screen) => matches(screen.label, screen.keywords))
-          return children.length ? { ...item, children, forceOpen: true } : null
+          const children = item.children.filter((screen) => matches(screen.label))
+          if (!matches(item.label) && children.length === 0) return null
+          return { ...item, children, forceOpen: children.length > 0 }
         }
-        if (matches(item.label, item.keywords) && item.path) {
+        if (matches(item.label) && item.path) {
           return item
         }
         return null
-      }).filter((item): item is NavItem & { forceOpen?: boolean } => item !== null),
+      }).filter((item): item is NavItem => item !== null),
     })).filter((section) => section.items.length > 0)
 
   const results: SearchResult[] = !query ? [] : NAV.flatMap((section) => section.items.flatMap<SearchResult>((item) => {
       if (item.children) {
-        const parentMatches = matches(item.label, item.keywords)
         return item.children
-          .filter((screen) => parentMatches || matches(screen.label, screen.keywords))
+          .filter((screen) => matches(screen.label))
           .map((screen) => ({ ...screen, parentId: item.id, parentLabel: item.label }))
       }
-      return matches(item.label, item.keywords) && item.path
+      return matches(item.label) && item.path
         ? [{ id: item.id, path: item.path, label: item.label, icon: item.icon, keywords: item.keywords }]
         : []
     }))
@@ -750,6 +747,7 @@ export function PlantGreenSidebar({
         <nav
           id="plant-green-sidebar-nav"
           className="pg-nav"
+          ref={navRef}
           aria-label={t('sidebar.navLabel')}
           data-scroll-visible={scrollVisible}
           onMouseEnter={revealScrollbar}
@@ -779,7 +777,7 @@ export function PlantGreenSidebar({
                   {highlightMatch(searchDisplayLabel(section.label), query)}
                 </div>
                 {section.items.map((item) => {
-                  const children = item.children
+                  const children = item.children?.length ? item.children : undefined
                   const hasActive = children?.some((child) => activePath === child.path) ?? false
                   const expandedByState = item.id in open ? open[item.id] : hasActive || item.id === 'overview'
                   const forceOpen = 'forceOpen' in item && item.forceOpen
@@ -866,7 +864,7 @@ export function PlantGreenSidebar({
         </nav>
 
         <div className="pg-foot">
-          {(() => {
+          {(!query || matches('sidebar.night')) && (() => {
             const label = t('sidebar.night')
             const handlers = getRailHandlers('night', label)
             const NightIcon = dark ? Sun : Moon
@@ -889,13 +887,13 @@ export function PlantGreenSidebar({
                 }}
               >
                 <span className="pg-ico"><NightIcon size={20} strokeWidth={1.9} aria-hidden="true" /></span>
-                <span className="pg-label">{label}</span>
+                <span className="pg-label">{highlightMatch(searchDisplayLabel('sidebar.night'), query)}</span>
                 <span className="pg-switch" data-on={dark}><i /></span>
               </button>
             )
           })()}
-          {(() => {
-            const label = t(rtl ? 'sidebar.english' : 'sidebar.arabic')
+          {(!query || matches(languageLabelKey)) && (() => {
+            const label = t(languageLabelKey)
             const handlers = getRailHandlers('language', label)
             return (
               <button
@@ -914,7 +912,7 @@ export function PlantGreenSidebar({
                 }}
               >
                 <span className="pg-ico"><Languages size={20} strokeWidth={1.9} aria-hidden="true" /></span>
-                <span className="pg-label">{label}</span>
+                <span className="pg-label">{highlightMatch(searchDisplayLabel(languageLabelKey), query)}</span>
               </button>
             )
           })()}
