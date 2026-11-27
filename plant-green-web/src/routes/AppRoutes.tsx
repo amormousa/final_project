@@ -21,7 +21,26 @@ export function AppRoutes() {
           <Route index element={<RoutePlaceholder />} />
         </Route>
         <Route path="/app" element={<AppLayout />}>
-          <Route index element={<Navigate to="/welcome" replace />} />
+          <Route index element={<Navigate to="/app/dashboard" replace />} />
+          <Route path="dashboard" element={<RoutePlaceholder />} />
+          <Route path="farms" element={<RoutePlaceholder />} />
+          <Route path="farms/details" element={<RoutePlaceholder />} />
+          <Route path="farms/zones" element={<RoutePlaceholder />} />
+          <Route path="soil" element={<RoutePlaceholder />} />
+          <Route path="weather" element={<RoutePlaceholder />} />
+          <Route path="devices" element={<RoutePlaceholder />} />
+          <Route path="canopy" element={<RoutePlaceholder />} />
+          <Route path="ai" element={<RoutePlaceholder />} />
+          <Route path="irrigation" element={<RoutePlaceholder />} />
+          <Route path="marketplace" element={<RoutePlaceholder />} />
+          <Route path="orders" element={<RoutePlaceholder />} />
+          <Route path="finance" element={<RoutePlaceholder />} />
+          <Route path="services" element={<RoutePlaceholder />} />
+          <Route path="academy" element={<RoutePlaceholder />} />
+          <Route path="account" element={<RoutePlaceholder />} />
+          <Route path="account/team" element={<RoutePlaceholder />} />
+          <Route path="account/policies" element={<RoutePlaceholder />} />
+          <Route path="settings" element={<RoutePlaceholder />} />
           <Route path="support" element={<RoutePlaceholder />} />
           <Route path="*" element={<NotFound />} />
         </Route>
