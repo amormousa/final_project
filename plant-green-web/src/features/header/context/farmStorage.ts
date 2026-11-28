@@ -17,6 +17,11 @@ export function persistFarmId(storage: FarmStorage, farmId: string | null): void
   else storage.removeItem(FARM_STORAGE_KEY)
 }
 
+export function persistDefaultFarmId(storage: FarmStorage, farmId: string): string {
+  persistFarmId(storage, farmId)
+  return farmId
+}
+
 export function resolveSelectedFarmId(farms: Farm[], storedId: string | null): string | null {
   return farms.find((farm) => farm.id === storedId)?.id ?? farms[0]?.id ?? null
 }

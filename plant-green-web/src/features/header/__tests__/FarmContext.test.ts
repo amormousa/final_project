@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Farm } from '../types'
-import { persistFarmId, readPersistedFarmId, resolveSelectedFarmId } from '../context/farmStorage'
+import { persistDefaultFarmId, persistFarmId, readPersistedFarmId, resolveSelectedFarmId } from '../context/farmStorage'
 
 describe('FarmContext persistence helpers', () => {
   const farms: Farm[] = [
@@ -9,7 +9,18 @@ describe('FarmContext persistence helpers', () => {
   ]
 
   it('falls back to the first farm when storage has no selection', () => {
-    expect(resolveSelectedFarmId(farms, null)).toBe('farm-one')
+    const storedId = null
+    const selectedId = resolveSelectedFarmId(farms, storedId)
+    expect(selectedId).toBe('farm-one')
+    const values = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    }
+    const updatedStoredId = persistDefaultFarmId(storage, selectedId!)
+    expect(updatedStoredId).toBe('farm-one')
+    expect(readPersistedFarmId(storage)).toBe(updatedStoredId)
   })
 
   it('keeps a valid persisted selection and replaces stale ids', () => {

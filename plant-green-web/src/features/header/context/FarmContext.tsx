@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useFarms } from '../hooks/useFarms'
 import { FarmContext } from './FarmContextValue'
-import { persistFarmId, readPersistedFarmId, resolveSelectedFarmId } from './farmStorage'
+import { persistDefaultFarmId, persistFarmId, readPersistedFarmId, resolveSelectedFarmId } from './farmStorage'
 
 function getBrowserStorage(): Storage | null {
   if (typeof window === 'undefined') return null
@@ -35,7 +35,7 @@ export function FarmProvider({ children }: PropsWithChildren) {
     persistedDefault.current = true
     if (!storage) return
     try {
-      persistFarmId(storage, selectedFarmId)
+      setStoredFarmId(persistDefaultFarmId(storage, selectedFarmId))
     } catch (cause: unknown) {
       console.error('Could not persist the selected farm', cause)
     }
