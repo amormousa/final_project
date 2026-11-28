@@ -7,6 +7,7 @@ const SupplierLayout = lazy(() => import('../app/layouts/SupplierLayout'))
 const AdminLayout = lazy(() => import('../app/layouts/AdminLayout'))
 const RoutePlaceholder = lazy(() => import('../components/layout/RoutePlaceholder'))
 const NotFound = lazy(() => import('../components/feedback/NotFound'))
+const AcademyPage = lazy(() => import('../features/academy/AcademyPage'))
 
 export function AppRoutes() {
   return (
@@ -38,7 +39,7 @@ export function AppRoutes() {
           <Route path="finance" element={<RoutePlaceholder />} />
           <Route path="subscriptions" element={<RoutePlaceholder />} />
           <Route path="services" element={<RoutePlaceholder />} />
-          <Route path="academy" element={<RoutePlaceholder />} />
+          <Route path="academy/*" element={<AcademyPage />} />
           <Route path="account" element={<RoutePlaceholder />} />
           <Route path="account/profile" element={<RoutePlaceholder />} />
           <Route path="account/team" element={<RoutePlaceholder />} />

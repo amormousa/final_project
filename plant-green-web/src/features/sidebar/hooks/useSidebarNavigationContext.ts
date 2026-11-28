@@ -19,7 +19,7 @@ interface SidebarNavigationOptions {
 export function useSidebarNavigationContext(options: SidebarNavigationOptions): SidebarNavigationContext {
   const { activePath, collapsed, isGroupExpanded, toggleGroupState } = options
   const isExpanded = useCallback((item: NavItem) => {
-    const hasActive = item.children?.some((child) => activePath === child.path) ?? false
+    const hasActive = item.children?.some((child) => activePath === child.path || activePath.startsWith(`${child.path}/`)) ?? false
     return !!item.children?.length && !collapsed
       && isGroupExpanded(item.id, hasActive, item.forceOpen)
   }, [activePath, collapsed, isGroupExpanded])

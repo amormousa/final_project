@@ -17,7 +17,7 @@ export const SidebarGroup = memo(function SidebarGroup({ item, context }: Sideba
     register, getRailHandlers, isExpanded, toggleGroup, onNavigate, onOpenResult,
   } = context
   const children = item.children?.length ? item.children : undefined
-  const hasActive = children?.some((child) => activePath === child.path) ?? false
+  const hasActive = children?.some((child) => activePath === child.path || activePath.startsWith(`${child.path}/`)) ?? false
   const expanded = isExpanded(item)
   const itemSelected = railPopover?.itemId === item.id && collapsed
   const itemMenuOpen = itemSelected && railPopover?.kind === 'menu'
@@ -46,7 +46,7 @@ export const SidebarGroup = memo(function SidebarGroup({ item, context }: Sideba
         label={<HighlightedText label={t(item.label)} query={query} />}
         labelText={t(item.label)}
         collapsed={collapsed}
-        current={!children && activePath === item.path}
+        current={!children && !!item.path && (activePath === item.path || activePath.startsWith(`${item.path}/`))}
         hasActive={hasActive}
         expanded={children ? (collapsed ? itemMenuOpen : expanded) : undefined}
         selected={itemSelected}
@@ -75,7 +75,7 @@ export const SidebarGroup = memo(function SidebarGroup({ item, context }: Sideba
                     label={<HighlightedText label={t(screen.label)} query={query} />}
                     labelText={t(screen.label)}
                     collapsed={collapsed}
-                    current={activePath === screen.path}
+                    current={activePath === screen.path || activePath.startsWith(`${screen.path}/`)}
                     searchSelected={highlightedIndex === screenResultIndex}
                     onClick={() => query ? onOpenResult(screen.path) : onNavigate(screen.path)}
                   />

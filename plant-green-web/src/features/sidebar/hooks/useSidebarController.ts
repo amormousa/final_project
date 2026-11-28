@@ -11,9 +11,8 @@ import { useSidebarResponsive } from './useSidebarResponsive'
 import { useSidebarSearch } from './useSidebarSearch'
 import { useSidebarScroll } from './useSidebarScroll'
 import { useSidebarShortcuts } from './useSidebarShortcuts'
-type SidebarControllerOptions = { dark: boolean; mobileOpen: boolean; onMobileOpenChange: (open: boolean) => void }
+type SidebarControllerOptions = { mobileOpen: boolean; onMobileOpenChange: (open: boolean) => void }
 export function useSidebarController({
-  dark,
   mobileOpen,
   onMobileOpenChange,
 }: SidebarControllerOptions) {
@@ -47,7 +46,6 @@ export function useSidebarController({
     open,
     query: search.query,
     rtl,
-    dark,
   })
   const go = useCallback((path: string) => navigate(`/app/${path}`), [navigate])
   const focusSearch = useCallback(() => {

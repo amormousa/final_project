@@ -13,10 +13,9 @@ interface ActiveRouteOptions {
   open: Record<string, boolean>
   query: string
   rtl: boolean
-  dark: boolean
 }
 
-export function useActiveRoute({ collapsed, open, query, rtl, dark }: ActiveRouteOptions) {
+export function useActiveRoute({ collapsed, open, query, rtl }: ActiveRouteOptions) {
   const location = useLocation()
   const activePath = location.pathname.replace(/^\/app\/?/, '').replace(/\/$/, '')
   const navInRef = useRef<HTMLDivElement>(null)
@@ -34,11 +33,11 @@ export function useActiveRoute({ collapsed, open, query, rtl, dark }: ActiveRout
     const findTarget = () => {
       const screen = NAV.flatMap((section) => section.items).flatMap((item) =>
         item.children ?? (item.path ? [{ id: item.id, path: item.path, label: item.label }] : []),
-      ).find((entry) => entry.path === activePath)
+      ).find((entry) => activePath === entry.path || activePath.startsWith(`${entry.path}/`))
       if (!screen) return null
       const direct = refs.current[screen.id]
       const group = NAV.flatMap((section) => section.items)
-        .find((item) => item.children?.some((child) => child.path === activePath))
+        .find((item) => item.children?.some((child) => activePath === child.path || activePath.startsWith(`${child.path}/`)))
       if (collapsed || (direct && direct.closest('.pg-sub-wrap[data-open="false"]'))) {
         return group ? refs.current[group.id] ?? direct ?? null : direct ?? null
       }
@@ -88,30 +87,32 @@ export function useActiveRoute({ collapsed, open, query, rtl, dark }: ActiveRout
       lastLensTarget.current = target
     }
     let animationFrame = 0
-    const started = performance.now()
-    const tick = () => {
-      place()
-      if (performance.now() - started < 700) animationFrame = requestAnimationFrame(tick)
+    const schedulePlace = () => {
+      if (animationFrame) return
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = 0
+        place()
+      })
     }
-    tick()
+    place()
     let disposed = false
-    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(place)
+    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(schedulePlace)
     if (nav) resizeObserver?.observe(nav)
     const target = findTarget()
     if (target) resizeObserver?.observe(target)
     document.fonts?.ready.then(() => {
-      if (!disposed) place()
+      if (!disposed) schedulePlace()
     })
-    window.addEventListener('resize', place)
-    nav?.addEventListener('scroll', place)
+    window.addEventListener('resize', schedulePlace)
+    nav?.addEventListener('scroll', schedulePlace)
     return () => {
       disposed = true
       resizeObserver?.disconnect()
       cancelAnimationFrame(animationFrame)
-      window.removeEventListener('resize', place)
-      nav?.removeEventListener('scroll', place)
+      window.removeEventListener('resize', schedulePlace)
+      nav?.removeEventListener('scroll', schedulePlace)
     }
-  }, [activePath, collapsed, dark, open, query, rtl])
+  }, [activePath, collapsed, open, query, rtl])
 
   return { activePath, navInRef, lensRef, register }
 }
