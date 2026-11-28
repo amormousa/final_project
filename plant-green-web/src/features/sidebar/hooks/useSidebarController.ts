@@ -11,13 +11,7 @@ import { useSidebarResponsive } from './useSidebarResponsive'
 import { useSidebarSearch } from './useSidebarSearch'
 import { useSidebarScroll } from './useSidebarScroll'
 import { useSidebarShortcuts } from './useSidebarShortcuts'
-
-interface SidebarControllerOptions {
-  dark: boolean
-  mobileOpen: boolean
-  onMobileOpenChange: (open: boolean) => void
-}
-
+type SidebarControllerOptions = { dark: boolean; mobileOpen: boolean; onMobileOpenChange: (open: boolean) => void }
 export function useSidebarController({
   dark,
   mobileOpen,
