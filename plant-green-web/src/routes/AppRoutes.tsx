@@ -40,6 +40,7 @@ export function AppRoutes() {
           <Route path="services" element={<RoutePlaceholder />} />
           <Route path="academy" element={<RoutePlaceholder />} />
           <Route path="account" element={<RoutePlaceholder />} />
+          <Route path="account/profile" element={<RoutePlaceholder />} />
           <Route path="account/team" element={<RoutePlaceholder />} />
           <Route path="account/policies" element={<RoutePlaceholder />} />
           <Route path="settings" element={<RoutePlaceholder />} />

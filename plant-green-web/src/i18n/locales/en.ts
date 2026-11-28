@@ -104,6 +104,7 @@ export default {
       connected: '{{connected}} of {{total}} connected',
       lastSeen: 'Last seen {{time}}',
       neverSeen: 'Not seen yet',
+      updatedAt: 'Last successful update {{time}}',
       retry: 'Retry status',
     },
     notifications: {
@@ -174,6 +175,7 @@ export default {
       services: 'Services',
       academy: 'Academy',
       account: 'Account',
+      myAccount: 'My account',
       team: 'Team',
       policies: 'Policies',
       settings: 'Settings',

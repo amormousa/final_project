@@ -1,9 +1,7 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { setLanguage } from '../../../i18n'
-import type { Language } from '../../../i18n'
 import { useActiveRoute } from './useActiveRoute'
 import { useRailPopover } from './useRailPopover'
 import { useSidebarCollapse } from './useSidebarCollapse'
@@ -16,10 +14,15 @@ import { useSidebarShortcuts } from './useSidebarShortcuts'
 
 interface SidebarControllerOptions {
   dark: boolean
-  onDarkChange: (dark: boolean) => void
+  mobileOpen: boolean
+  onMobileOpenChange: (open: boolean) => void
 }
 
-export function useSidebarController({ dark, onDarkChange }: SidebarControllerOptions) {
+export function useSidebarController({
+  dark,
+  mobileOpen,
+  onMobileOpenChange,
+}: SidebarControllerOptions) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const rtl = i18n.resolvedLanguage?.startsWith('ar') ?? i18n.language.startsWith('ar')
@@ -37,6 +40,13 @@ export function useSidebarController({ dark, onDarkChange }: SidebarControllerOp
     closeRailPopover()
   }, [closeRailPopover, setCollapsedForViewport])
   const { isMobile } = useSidebarResponsive(handleViewportChange)
+  useEffect(() => {
+    if (!isMobile) {
+      if (mobileOpen) onMobileOpenChange(false)
+      return
+    }
+    setCollapsedWithTransition(!mobileOpen)
+  }, [isMobile, mobileOpen, onMobileOpenChange, setCollapsedWithTransition])
   const scroll = useSidebarScroll()
   const active = useActiveRoute({
     collapsed: collapse.collapsed,
@@ -48,10 +58,14 @@ export function useSidebarController({ dark, onDarkChange }: SidebarControllerOp
   const go = useCallback((path: string) => navigate(`/app/${path}`), [navigate])
   const focusSearch = useCallback(() => {
     closeRailPopover()
+    if (isMobile) onMobileOpenChange(true)
     setCollapsedWithTransition(false)
     window.setTimeout(() => inputRef.current?.focus(), 0)
-  }, [closeRailPopover, inputRef, setCollapsedWithTransition])
-  const collapseForEscape = useCallback(() => setCollapsedWithTransition(true), [setCollapsedWithTransition])
+  }, [closeRailPopover, inputRef, isMobile, onMobileOpenChange, setCollapsedWithTransition])
+  const collapseForEscape = useCallback(() => {
+    if (isMobile) onMobileOpenChange(false)
+    setCollapsedWithTransition(true)
+  }, [isMobile, onMobileOpenChange, setCollapsedWithTransition])
   useSidebarShortcuts({
     isMobile,
     collapsed: collapse.collapsed,
@@ -78,10 +92,6 @@ export function useSidebarController({ dark, onDarkChange }: SidebarControllerOp
     onNavigate: go,
     onOpenResult: openResult,
   })
-  const toggleLanguage = useCallback(() => {
-    const nextLanguage: Language = rtl ? 'en' : 'ar'
-    setLanguage(nextLanguage)
-  }, [rtl])
   const BackIcon = rtl ? ChevronRight : ChevronLeft
   return {
     asideRef,
@@ -90,12 +100,17 @@ export function useSidebarController({ dark, onDarkChange }: SidebarControllerOp
     collapsed: collapse.collapsed,
     transitioning: collapse.isTransitioning,
     showBackdrop: isMobile && !collapse.collapsed,
-    onBackdropClick: () => collapse.setCollapsedWithTransition(true),
+    onBackdropClick: () => {
+      onMobileOpenChange(false)
+      collapse.setCollapsedWithTransition(true)
+    },
     BackIcon,
     collapseLabel: t(collapse.collapsed ? 'sidebar.expand' : 'sidebar.collapse'),
     onToggleCollapse: () => {
       rail.closeRailPopover()
-      collapse.setCollapsedWithTransition(!collapse.collapsed)
+      const nextCollapsed = !collapse.collapsed
+      if (isMobile) onMobileOpenChange(!nextCollapsed)
+      collapse.setCollapsedWithTransition(nextCollapsed)
     },
     searchProps: {
       collapsed: collapse.collapsed,
@@ -124,16 +139,6 @@ export function useSidebarController({ dark, onDarkChange }: SidebarControllerOp
         search.setHighlightedIndex(null)
         search.inputRef.current?.focus()
       },
-    },
-    footerProps: {
-      query: search.query,
-      collapsed: collapse.collapsed,
-      dark,
-      rtl,
-      railPopover: rail.railPopover,
-      getRailHandlers: rail.getRailHandlers,
-      onDarkChange,
-      onLanguageToggle: toggleLanguage,
     },
     popoverProps: {
       popover: rail.railPopover,

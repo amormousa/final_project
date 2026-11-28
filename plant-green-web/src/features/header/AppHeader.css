@@ -18,6 +18,8 @@
   --header-switch-knob: var(--color-white);
   --header-switch-on: var(--color-olive);
   display: flex;
+  position: relative;
+  z-index: 49;
   min-block-size: 64px;
   align-items: center;
   gap: var(--space-3);

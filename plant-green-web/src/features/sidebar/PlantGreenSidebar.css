@@ -159,4 +159,8 @@
     inset-inline-start: 12px;
     height: calc(100dvh - 24px);
   }
+
+  .pg-side[data-collapsed='true'] {
+    z-index: 48;
+  }
 }

@@ -1,6 +1,5 @@
 import { SidebarBackdrop } from './components/SidebarBackdrop'
 import { CollapseButton } from './components/CollapseButton'
-import { SidebarFooter } from './components/SidebarFooter'
 import { SidebarHeader } from './components/SidebarHeader'
 import { SidebarNav } from './components/SidebarNav'
 import { SidebarPopover } from './components/SidebarPopover'
@@ -10,7 +9,8 @@ import './PlantGreenSidebar.css'
 
 interface PlantGreenSidebarProps {
   dark: boolean
-  onDarkChange: (dark: boolean) => void
+  mobileOpen: boolean
+  onMobileOpenChange: (open: boolean) => void
 }
 
 export function PlantGreenSidebar(props: PlantGreenSidebarProps) {
@@ -40,7 +40,6 @@ export function PlantGreenSidebar(props: PlantGreenSidebarProps) {
           <SidebarHeader />
           <SidebarSearch {...sidebar.searchProps} />
           <SidebarNav {...sidebar.navProps} />
-          <SidebarFooter {...sidebar.footerProps} />
         </div>
         <SidebarPopover {...sidebar.popoverProps} />
       </aside>

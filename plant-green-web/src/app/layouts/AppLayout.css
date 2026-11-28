@@ -22,6 +22,14 @@
     var(--app-shell-dark-base);
 }
 
+.app-shell .app-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .app-shell .layout--app {
   flex: 1;
   min-width: 0;

@@ -104,6 +104,7 @@ export default {
       connected: '{{connected}} من {{total}} متصل',
       lastSeen: 'آخر ظهور {{time}}',
       neverSeen: 'لم يظهر بعد',
+      updatedAt: 'آخر تحديث ناجح {{time}}',
       retry: 'إعادة فحص الحالة',
     },
     notifications: {
@@ -174,6 +175,7 @@ export default {
       services: 'الخدمات',
       academy: 'الأكاديمية',
       account: 'الحساب',
+      myAccount: 'حسابي',
       team: 'الفريق',
       policies: 'الوثائق',
       settings: 'الإعدادات',

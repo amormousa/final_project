@@ -1,0 +1,22 @@
+.guest-language-button {
+  position: fixed;
+  z-index: 20;
+  inset-block-start: var(--space-4);
+  inset-inline-end: var(--space-4);
+  display: inline-flex;
+  min-block-size: 40px;
+  align-items: center;
+  gap: var(--space-2);
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-header-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-header-surface-light);
+  color: var(--color-olive);
+  cursor: pointer;
+  font: inherit;
+}
+
+.guest-language-button:focus-visible {
+  outline: 2px solid var(--color-olive);
+  outline-offset: 2px;
+}

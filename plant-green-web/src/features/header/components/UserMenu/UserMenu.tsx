@@ -85,7 +85,7 @@ export function UserMenu({
               </>
             )}
           </div>
-          <Link className="user-menu__link" role="menuitem" to="/app/account" onClick={close}>
+          <Link className="user-menu__link" role="menuitem" to="/app/account/profile" onClick={close}>
             <UserRound size={18} aria-hidden="true" />
             {t('header.user.myAccount')}
           </Link>

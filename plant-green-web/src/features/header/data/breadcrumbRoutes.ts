@@ -22,6 +22,7 @@ export const BREADCRUMB_ROUTES: BreadcrumbRoute[] = [
   { path: 'services', labelKey: 'header.breadcrumb.services' },
   { path: 'academy', labelKey: 'header.breadcrumb.academy' },
   { path: 'account', labelKey: 'header.breadcrumb.account' },
+  { path: 'account/profile', labelKey: 'header.breadcrumb.myAccount' },
   { path: 'account/team', labelKey: 'header.breadcrumb.team' },
   { path: 'account/policies', labelKey: 'header.breadcrumb.policies' },
   { path: 'settings', labelKey: 'header.breadcrumb.settings' },
