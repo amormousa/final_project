@@ -1,20 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getDevicesForFarm } from '../../../services/devices'
-import type { Device } from '../types'
 import { summarizeDeviceStatus } from '../utils/summarizeDeviceStatus'
+import { createFailedStatusResult, getCurrentDevices } from '../utils/systemStatusState'
+import type { SystemStatusResult } from '../utils/systemStatusState'
 
 const REFRESH_INTERVAL = 30_000
-const EMPTY_DEVICES: Device[] = []
-
 export function useSystemStatus(farmId: string | null) {
-  const [result, setResult] = useState<{
-    farmId: string
-    refreshCount: number
-    devices: Device[]
-    error: unknown
-  } | null>(null)
+  const [result, setResult] = useState<SystemStatusResult | null>(null)
   const [refreshCount, setRefreshCount] = useState(0)
-  const devices = result?.farmId === farmId ? result.devices : EMPTY_DEVICES
+  const devices = getCurrentDevices(result, farmId, refreshCount)
+  const updatedAt = result?.farmId === farmId ? result.updatedAt : null
   const currentResult = result?.farmId === farmId && result.refreshCount === refreshCount
     ? result
     : null
@@ -29,16 +24,11 @@ export function useSystemStatus(farmId: string | null) {
     if (!farmId) return () => { active = false }
     getDevicesForFarm(farmId)
       .then((loadedDevices) => {
-        if (active) setResult({ farmId, refreshCount, devices: loadedDevices, error: null })
+        if (active) setResult({ farmId, refreshCount, devices: loadedDevices, error: null, updatedAt: new Date().toISOString() })
       })
       .catch((cause: unknown) => {
         if (active) {
-          setResult((previous) => ({
-            farmId,
-            refreshCount,
-            devices: previous?.farmId === farmId ? previous.devices : [],
-            error: cause,
-          }))
+          setResult((previous) => createFailedStatusResult(previous, farmId, refreshCount, cause))
         }
       })
     return () => {
@@ -52,5 +42,5 @@ export function useSystemStatus(farmId: string | null) {
     return () => window.clearInterval(timer)
   }, [farmId])
 
-  return { devices, summary, loading, error, retry }
+  return { devices, summary, loading, error, retry, updatedAt }
 }

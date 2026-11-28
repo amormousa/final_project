@@ -1,3 +1,4 @@
+import { CircleHelp, Wifi, WifiOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown } from '../Dropdown'
 import { DeviceStatusList } from '../DeviceStatusList'
@@ -16,8 +17,9 @@ const STATUS_LABEL_KEYS: Record<SystemStatusState, string> = {
 export function SystemStatus() {
   const { t } = useTranslation()
   const { selectedFarm } = useFarmContext()
-  const { devices, summary, loading, error, retry } = useSystemStatus(selectedFarm?.id ?? null)
-  const state = error !== null ? 'offline' : loading ? 'unknown' : summary.state
+  const { devices, summary, loading, error, retry, updatedAt } = useSystemStatus(selectedFarm?.id ?? null)
+  const state = error !== null ? 'unknown' : loading ? 'unknown' : summary.state
+  const StatusIcon = error !== null ? WifiOff : state === 'unknown' ? CircleHelp : state === 'offline' ? WifiOff : Wifi
   const statusLabel = error !== null
     ? t('header.status.deviceError')
     : loading
@@ -38,8 +40,8 @@ export function SystemStatus() {
       triggerLabel={`${t('header.status.title')}: ${accessibleLabel}`}
       triggerContent={(
         <>
-          <span className="system-status__dot" data-state={state} aria-hidden="true" />
-          <span className="system-status__count">{count}</span>
+          <StatusIcon className="system-status__icon" size={16} aria-hidden="true" />
+          <span className="system-status__count">{error !== null ? statusLabel : count}</span>
         </>
       )}
       triggerClassName="system-status__trigger"
@@ -54,6 +56,7 @@ export function SystemStatus() {
             devices={devices}
             loading={loading}
             error={error}
+            updatedAt={updatedAt}
             onRetry={retry}
           />
         </>

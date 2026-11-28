@@ -6,24 +6,9 @@
   font-variant-numeric: tabular-nums;
 }
 
-.system-status__dot {
-  inline-size: 0.65rem;
-  block-size: 0.65rem;
+.system-status__icon {
   flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--header-muted);
-}
-
-.system-status__dot[data-state="online"] {
-  background: var(--header-success);
-}
-
-.system-status__dot[data-state="partial"] {
-  background: var(--header-warning);
-}
-
-.system-status__dot[data-state="offline"] {
-  background: var(--header-danger);
+  color: var(--header-muted);
 }
 
 .system-status__count {

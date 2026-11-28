@@ -6,6 +6,13 @@
   list-style: none;
 }
 
+.device-status-list__updated {
+  margin: 0;
+  padding: 0 var(--space-2) var(--space-2);
+  color: var(--header-muted);
+  font-size: 0.8rem;
+}
+
 .device-status-list__row {
   display: flex;
   align-items: flex-start;
