@@ -7,7 +7,7 @@ import './FarmSelector.css'
 
 export function FarmSelector() {
   const { t } = useTranslation()
-  const { farms, selectedFarm, loading, error, selectFarm, retry } = useFarmContext()
+  const { farms, selectedFarm, cachedFarmNameKey, loading, error, selectFarm, retry } = useFarmContext()
   const hasError = error !== null
   const disabled = !hasError && (loading || farms.length <= 1)
 
@@ -17,7 +17,7 @@ export function FarmSelector() {
       triggerContent={(
         <>
           <span className="farm-selector__name">
-            {selectedFarm ? t(selectedFarm.nameKey) : t(loading ? 'header.farmLoading' : 'header.farmSelector')}
+            {selectedFarm ? t(selectedFarm.nameKey) : cachedFarmNameKey ? t(cachedFarmNameKey) : t(loading ? 'header.farmLoading' : 'header.farmSelector')}
           </span>
           <ChevronDown size={16} aria-hidden="true" />
         </>

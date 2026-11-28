@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react'
+import { memo, type MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HighlightedText } from '../HighlightedText'
 import { SidebarItem } from '../SidebarItem'
@@ -10,7 +10,7 @@ interface SidebarGroupProps {
   context: SidebarNavigationContext
 }
 
-export function SidebarGroup({ item, context }: SidebarGroupProps) {
+export const SidebarGroup = memo(function SidebarGroup({ item, context }: SidebarGroupProps) {
   const { t } = useTranslation()
   const {
     collapsed, activePath, query, highlightedIndex, results, railPopover,
@@ -87,4 +87,4 @@ export function SidebarGroup({ item, context }: SidebarGroupProps) {
       )}
     </div>
   )
-}
+})

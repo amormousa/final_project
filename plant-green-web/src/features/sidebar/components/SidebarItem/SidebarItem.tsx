@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { ChevronDown } from 'lucide-react'
 import type { SidebarItemProps } from '../../types'
 import './SidebarItem.css'
 
-export function SidebarItem({
+export const SidebarItem = memo(function SidebarItem({
   id,
   icon: Icon,
   iconSize = 20,
@@ -48,4 +49,4 @@ export function SidebarItem({
       {expanded !== undefined && <ChevronDown className="pg-chev" size={16} aria-hidden="true" />}
     </button>
   )
-}
+})

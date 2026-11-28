@@ -1,3 +1,3 @@
 export default function RoutePlaceholder() {
-  return <div className="route-placeholder" aria-label="Route placeholder" />
+  return <div className="route-placeholder" />
 }

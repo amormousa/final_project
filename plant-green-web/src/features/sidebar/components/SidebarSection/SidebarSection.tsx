@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { NavSection, SidebarNavigationContext } from '../../types'
 import { HighlightedText } from '../HighlightedText'
@@ -9,7 +10,7 @@ interface SidebarSectionProps {
   context: SidebarNavigationContext
 }
 
-export function SidebarSection({ section, context }: SidebarSectionProps) {
+export const SidebarSection = memo(function SidebarSection({ section, context }: SidebarSectionProps) {
   const { t } = useTranslation()
 
   return (
@@ -22,4 +23,4 @@ export function SidebarSection({ section, context }: SidebarSectionProps) {
       ))}
     </div>
   )
-}
+})

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useFarms } from '../hooks/useFarms'
 import { FarmContext } from './FarmContextValue'
-import { persistDefaultFarmId, persistFarmId, readPersistedFarmId, resolveSelectedFarmId } from './farmStorage'
+import { persistFarm, persistFarmId, readPersistedFarmId, readPersistedFarmName, resolveSelectedFarmId } from './farmStorage'
 
 function getBrowserStorage(): Storage | null {
   if (typeof window === 'undefined') return null
@@ -27,27 +27,42 @@ export function FarmProvider({ children }: PropsWithChildren) {
       return null
     }
   })
+  const [cachedFarmNameKey, setCachedFarmNameKey] = useState(() => {
+    if (!storage) return null
+    try {
+      return readPersistedFarmName(storage)
+    } catch (cause: unknown) {
+      console.error('Could not read the cached farm name', cause)
+      return null
+    }
+  })
   const selectedFarmId = resolveSelectedFarmId(farmsState.farms, storedFarmId)
   const selectedFarm = farmsState.farms.find((farm) => farm.id === selectedFarmId) ?? null
 
   useEffect(() => {
     if (farmsState.loading || !selectedFarmId || selectedFarmId === storedFarmId || persistedDefault.current) return
     persistedDefault.current = true
+    const defaultFarm = farmsState.farms.find((farm) => farm.id === selectedFarmId)
+    if (defaultFarm) setCachedFarmNameKey(defaultFarm.nameKey)
     if (!storage) return
     try {
-      setStoredFarmId(persistDefaultFarmId(storage, selectedFarmId))
+      if (defaultFarm) persistFarm(storage, selectedFarmId, defaultFarm.nameKey)
+      else persistFarmId(storage, selectedFarmId)
+      setStoredFarmId(selectedFarmId)
     } catch (cause: unknown) {
       console.error('Could not persist the selected farm', cause)
     }
   }, [farmsState.loading, selectedFarmId, storage, storedFarmId])
 
   const selectFarm = useCallback((farmId: string) => {
-    if (!farmsState.farms.some((farm) => farm.id === farmId)) return
+    const farm = farmsState.farms.find((candidate) => candidate.id === farmId)
+    if (!farm) return
     setStoredFarmId(farmId)
+    setCachedFarmNameKey(farm.nameKey)
     persistedDefault.current = true
     if (!storage) return
     try {
-      persistFarmId(storage, farmId)
+      persistFarm(storage, farmId, farm.nameKey)
     } catch (cause: unknown) {
       console.error('Could not persist the selected farm', cause)
     }
@@ -56,11 +71,12 @@ export function FarmProvider({ children }: PropsWithChildren) {
   const value = useMemo(() => ({
     farms: farmsState.farms,
     selectedFarm,
+    cachedFarmNameKey: selectedFarm?.nameKey ?? cachedFarmNameKey,
     loading: farmsState.loading,
     error: farmsState.error,
     selectFarm,
     retry: farmsState.retry,
-  }), [farmsState.error, farmsState.farms, farmsState.loading, farmsState.retry, selectFarm, selectedFarm])
+  }), [cachedFarmNameKey, farmsState.error, farmsState.farms, farmsState.loading, farmsState.retry, selectFarm, selectedFarm])
 
   return <FarmContext.Provider value={value}>{children}</FarmContext.Provider>
 }

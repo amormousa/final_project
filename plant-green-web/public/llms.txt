@@ -1,0 +1,8 @@
+# Plant Green
+
+> Smart agriculture platform for Egyptian farms, covering farm monitoring, irrigation, equipment, agricultural services, and AI recommendations.
+
+## Application
+
+- [Home](/): Plant Green web application
+- [Academy](/app/academy): Agricultural learning resources

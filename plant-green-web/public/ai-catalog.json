@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "identifier": "urn:air:localhost:plant-green-web",
+      "displayName": "Plant Green",
+      "type": "text/html",
+      "url": "/",
+      "description": "Smart agriculture platform for Egyptian farms, covering farm monitoring, irrigation, equipment, agricultural services, and AI recommendations.",
+      "representativeQueries": [
+        "Help me monitor my farm and agricultural devices",
+        "Show me irrigation and farm management resources"
+      ],
+      "tags": ["agriculture", "farm management", "Egypt"]
+    }
+  ]
+}
